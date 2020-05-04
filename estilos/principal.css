@@ -123,7 +123,7 @@ top:1em;
 
 }
 
-header span#escritorio{
+header div#escritorio{
     display:none;
 }
 main{
@@ -197,7 +197,7 @@ margin:0.5em;
         display:none;
     }
 
-    header span#escritorio{
+    header div#escritorio{
         margin-left: auto;
         margin-top: 0em;
         display:flex;
@@ -205,17 +205,17 @@ margin:0.5em;
         flex-wrap: wrap;
     }
 
-    header span#escritorio p{
+    header div#escritorio p{
         align-self: center;
         color:white;
         margin-right: 1em;
     }
     
-    header span#escritorio a{
+    header div#escritorio a{
         height: 100%;
     }
 
-    header span#escritorio a img{
+    header div#escritorio a img{
         height: 100%;
         width:auto;
     }
@@ -257,8 +257,8 @@ margin:0.5em;
         font-size: 1.5em;
         overflow: hidden;
     }
-    main section p:nth-child(1){
-        font-size: 2em;
+    main section h1:nth-child(1){
+        font-size: 3em;
     }
     main section article{
         margin:1.5em;
