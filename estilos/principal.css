@@ -1,0 +1,185 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+}
+body{
+
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+}
+
+header{
+    background-color: #6983AA;
+    width:100vw;
+    height: 7em;
+    padding:1.5em;
+    display:flex;
+}
+a{
+    align-self: center;
+}
+
+header a img{
+        width: 8em;
+        height: 3em;
+        margin-right: 16em;
+        margin-bottom: -0.6em;
+        z-index: 1;
+        margin-right: auto;   
+}
+
+
+header label#hamburguesa{
+ 
+    position:relative;
+    margin-left: auto;
+    cursor:pointer;
+    align-self: center;
+    width:3em;
+    height: 2.5em;
+}
+header label#hamburguesa span{
+    position:absolute;
+    left:0;
+    display:block;
+    width:3em;
+    height: 0.5em;
+    background-color: white;
+    transition: 1s;
+}
+header label#hamburguesa span:nth-child(1){
+top:0;
+
+}
+header label#hamburguesa span:nth-child(2){
+    top:1em;
+    
+}
+header label#hamburguesa span:nth-child(3){
+        top:2em;
+        
+ }
+
+ #ham{
+     display:none;
+ }
+
+ #ham:checked + #hamburguesa span:nth-child(1){
+transform: rotate(45deg);
+top:1em;
+ }
+
+ #ham:checked + #hamburguesa span:nth-child(2){
+     transform:rotate(180deg);
+    opacity:0;
+    
+     }
+
+     
+ #ham:checked + #hamburguesa span:nth-child(3){
+    transform:rotate(-45deg);
+    top:1em;
+   
+    }
+
+    header ul#menu{
+        position:fixed;
+        top:7em;
+        right:0;
+        width:0;
+        height: 40em;
+        background-color: rgba(105, 131, 170, 0.8);
+        list-style: none;
+        color:white;
+        transition:1s;
+        border-radius: 0 0 0 0.4em;
+      
+    }
+
+    header ul#menu li{
+        cursor:pointer;
+        margin-top: 3em;
+        text-align: center;
+        font-size: 1.5em;
+    }
+    
+    header ul#menu li a{
+        text-decoration:none;
+        color:white;
+
+    }
+
+#ham:checked + #hamburguesa + ul#menu{
+        width:10em;
+
+}
+
+header span#escritorio{
+    display:none;
+}
+
+
+footer{
+    display:flex;
+    padding:1.5em;
+    height:7em;
+    margin-top: auto;
+    background-color:rgba(133, 102, 170, 0.7);
+    color:white;
+    text-align:left;
+}
+footer p{
+margin:0.5em;
+}
+
+@media (min-width: 900px){
+
+    header label#hamburguesa{
+        display:none;
+    }
+  
+    header ul#menu{
+        width: 100vw !important;
+        height: 7vh;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+      
+    }
+
+    header ul#menu li{
+    margin-top:0.5em;
+    }
+    .oculto{
+        display:none;
+    }
+
+    header span#escritorio{
+        margin-left: auto;
+        margin-top: 0em;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    header span#escritorio p{
+        align-self: center;
+        color:white;
+        margin-right: 1em;
+    }
+    
+    header span#escritorio a{
+        height: 100%;
+    }
+
+    header span#escritorio a img{
+        height: 100%;
+        width:auto;
+    }
+}
