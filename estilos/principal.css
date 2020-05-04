@@ -126,7 +126,14 @@ top:1em;
 header span#escritorio{
     display:none;
 }
-
+main{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+main section{
+    display:none;
+}
 main aside{
 background-color: rgba(142, 198, 197, 0.52);
 margin-top: 2em;
@@ -157,6 +164,7 @@ footer{
     display:flex;
     padding:1.5em;
     height:7em;
+    width: auto;
     margin-top: auto;
     background-color:rgba(133, 102, 170, 0.7);
     color:white;
@@ -166,7 +174,7 @@ footer p{
 margin:0.5em;
 }
 
-@media (min-width: 900px){
+@media (min-width: 1000px){
 
     header label#hamburguesa{
         display:none;
@@ -211,8 +219,49 @@ margin:0.5em;
         height: 100%;
         width:auto;
     }
+    main{
+    align-content: space-between;
+    }
+  
     main aside{
+        margin:0;
+        margin-left: 2em;
         height: 60vh;
+        width: 25vw;
         margin-top: 6em;
+        
+    }
+    main section{
+        margin-top: 6em;
+        margin-left: 4em;
+        margin-right: 4em;
+        margin-bottom:2em;
+        background-color: rgba(142, 198, 197, 0.52);
+        border-radius: 0.3em;
+        display:block;
+        color:white;
+        padding:2em;
+        display:flex;
+        flex-direction: column;
+
+    
+    }
+
+    main section article img{
+        width:445px;
+        height: 300px;
+
+    }
+    main section article p{
+        margin-left: 1em;
+        font-size: 1.5em;
+        overflow: hidden;
+    }
+    main section article{
+        margin:1.5em;
+        display:flex;
+        background-color: rgba(142, 198, 197, 0.52);
+        height:33vh;
+        overflow:scroll;
     }
 }
