@@ -14,11 +14,15 @@ body{
 }
 
 header{
+    position:sticky;
+    top:0;
+
     background-color: #6983AA;
     width:100vw;
     height: 7em;
     padding:1.5em;
     display:flex;
+
 }
 a{
     align-self: center;
@@ -123,6 +127,31 @@ header span#escritorio{
     display:none;
 }
 
+main aside{
+background-color: rgba(142, 198, 197, 0.52);
+margin-top: 2em;
+margin-left:auto;
+margin-right: auto;
+margin-bottom:2em;
+width: 80vw;
+height: 68vh;
+border-radius: 0.3em;
+color:white;
+padding:1.5em;
+}
+
+main aside p{
+    text-decoration: none;
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    background-color: rgba(142, 198, 197, 0.52);
+    border-radius: 0.3em;
+    padding:0.1em;
+}
+main aside p a{
+    text-decoration: none;
+    color:white;
+}
 
 footer{
     display:flex;
@@ -181,5 +210,9 @@ margin:0.5em;
     header span#escritorio a img{
         height: 100%;
         width:auto;
+    }
+    main aside{
+        height: 60vh;
+        margin-top: 6em;
     }
 }
