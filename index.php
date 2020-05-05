@@ -1,3 +1,9 @@
+
+<?php 
+session_name("who");
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +17,7 @@
     <main>
         <img src="img/logo.png" alt="logotipo"/>
         <section>
-            <form action="principal.html" method="post">
+            <form action="principal.php" method="post">
                 <p>
                     <label for="email">Introduzca su email:</label>
                 </p>
@@ -26,7 +32,7 @@
                 </p>
     
                 <p>
-                    <button type="submit" name="registro" formaction="registro.html">Registro</button>
+                    <button type="submit" name="registro" formaction="registro.php">Registro</button>
                     <input type="submit" name="acceder" value="Acceder"/>
                 </p>
             </form>

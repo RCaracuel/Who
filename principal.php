@@ -1,3 +1,8 @@
+<?php 
+session_name("who");
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,10 +26,10 @@
                <li><a href="buscar.html">Buscar</a></li>
                <li><a href="propiedades.html">Propiedades</a></li>
                <li><a href="suscripcion.html">Suscripción</a></li>
-               <li><a href="index.html">Salir</a></li>
+               <li><a href="index.php">Salir</a></li>
            </ul>
            <div id="escritorio">
-               <p>Juanito Pérez</p>
+               <p><?php echo $_SESSION["nombre"]; ?></p>
                <a href="perfil.html"><img src="img/perfil.png" alt="foto-perfil"/></a>
            </div>
     </header>
