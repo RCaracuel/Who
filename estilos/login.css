@@ -54,7 +54,7 @@ form p{
     font-size:1.2em;
     color:white;
 }
-form p input[type=text], form p input[type=password]{
+form p input[type=text], form p input[type=password], form p input[type=email]{
 
     width:20em;
     background: #C4C4C4;

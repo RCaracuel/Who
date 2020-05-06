@@ -14,7 +14,7 @@ session_start();
 </head>
 <body>
     <header>
-       <a href="principal.html"> <img id="logo" src="img/logo.png" alt="logotipo"/></a>
+       <a href="principal.php"> <img id="logo" src="img/logo.png" alt="logotipo"/></a>
        <input type="checkbox" id="ham"/>
        <label for="ham" id="hamburguesa">
                <span></span>

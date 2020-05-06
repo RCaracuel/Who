@@ -1,24 +1,8 @@
 <?php 
 session_name("who");
 session_start();
-define("URL", "http://localhost/Proyectos/Curso_19_20/Who/REST");
-function consumir_servicio_REST($url, $metodo, $datos = null)
-{
 
-    $llamada = curl_init();
-    curl_setopt($llamada, CURLOPT_URL, $url);
-    curl_setopt($llamada, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($llamada, CURLOPT_CUSTOMREQUEST, $metodo);
-    if (isset($datos))
-        curl_setopt($llamada, CURLOPT_POSTFIELDS, http_build_query($datos));
-
-    $response = curl_exec($llamada);
-    curl_close($llamada);
-    if (!$response)
-        die("Error consumiendo el servicio Web: " . $url);
-    $decodeText = substr($response, 3, strlen($response) - 1);
-    return json_decode($decodeText);
-}
+require "funcion.php";
 
 $error_nombre=true;
 $error_apellido=true;
@@ -26,6 +10,8 @@ $error_email=true;
 $error_clave=true;
 $error_clave2=true;
 $error_iguales=false;
+$error_existe=false;
+
 if(isset($_POST["entrar"])){
     
 $error_nombre=$_POST["nombre"]=="";
@@ -40,7 +26,13 @@ if($_POST["clave"]!="" && $_POST["clave2"]!=""){
     $error_iguales=true;
 }
 
-$error_todo=$error_nombre||$error_apellido||$error_email||$error_clave||$error_clave2||$error_iguales;
+if($_POST["email"]!=""){
+    $obj=consumir_servicio_REST(URL."/buscar_email/".$_POST["email"],"GET");
+    if(isset($obj->existe)){
+        $error_existe=true;
+    }
+}
+$error_todo=$error_nombre||$error_apellido||$error_email||$error_clave||$error_clave2||$error_iguales||$error_existe;
 
 if(!$error_todo){
     $datos=array(
@@ -80,43 +72,41 @@ if(!$error_todo){
                 <p>REGISTRO</p>
                 <p>
                     <label for="nombre">Nombre</label>
-                    <?php if(isset($_POST["entrar"]) && $error_nombre) echo " ** Campo vacío **" ?>
                 </p>
                 <p>
-                    <input type="text" name="nombre" id="nombre"/>
+                    <input type="text" name="nombre" id="nombre" value="<?php if(isset($_POST["entrar"])) echo $_POST["nombre"]; ?>" placeholder="<?php if(isset($_POST["entrar"]) && $error_nombre) echo "Campo vacío"; ?>"/>
                    
                 </p>
                 <p>
                     <label for="apellidos">Apellidos</label>
-                    <?php if(isset($_POST["entrar"]) && $error_apellido) echo " ** Campo vacío **" ?>
+           
                 </p>
                 <p>
-                    <input type="text" name="apellidos" id="apellidos"/>
+                    <input type="text" name="apellidos" id="apellidos" value="<?php if(isset($_POST["entrar"])) echo $_POST["apellidos"]; ?>" placeholder="<?php if(isset($_POST["entrar"]) && $error_apellido) echo "Campo vacío"; ?>"/>
                     
                 </p>
                 <p>
                     <label for="email">Email</label>
-                    <?php if(isset($_POST["entrar"]) && $error_email) echo " ** Campo vacío **" ?>
+                   <?php  if(isset($error_existe) && $error_existe) echo "**Email ya en uso**"; ?>
+                    
                 </p>
                 <p>
-                    <input type="text" name="email" id="email"/>
+                    <input type="email" name="email" id="email" value="<?php if(isset($_POST["entrar"])) echo $_POST["email"]; ?>" placeholder="<?php if(isset($_POST["entrar"]) && $error_email) echo "Campo vacío"; ?>"/>
                     
                 </p>
                 <p>
                     <label for="clave">Contraseña</label>
-                    <?php if(isset($_POST["entrar"]) && $error_clave) echo " ** Campo vacío **";
-                        elseif( isset($_POST["clave"]) && isset($_POST["clave2"]) && $_POST["clave"]!=$_POST["clave2"]) echo " **Contraseñas distintas**";?>
+                 
                 </p>
                 <p>
-                    <input type="password" name="clave" id="clave"/>
+                    <input type="password" name="clave" id="clave" placeholder="<?php if(isset($_POST["entrar"]) && $error_clave) echo "Campo vacío"; elseif( isset($_POST["clave"]) && isset($_POST["clave2"]) && $_POST["clave"]!=$_POST["clave2"]) echo "Las contraseñas no coinciden"; ?>"/>
                     
                 </p>
                 <p>
                     <label for="clave2">Repita contraseña</label>
-                    <?php if(isset($_POST["entrar"]) && $error_clave2) echo " ** Campo vacío **" ?>
                 </p>
                 <p>
-                    <input type="password" name="clave2" id="clave2"/>
+                    <input type="password" name="clave2" id="clave2" placeholder="<?php if(isset($_POST["entrar"]) && $error_clave2) echo "Campo vacío"; ?>"/>
                 </p>
                 <p>
                     <button type="submit" name="atras" formaction="index.php">Atrás</button>

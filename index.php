@@ -2,6 +2,22 @@
 <?php 
 session_name("who");
 session_start();
+require "funcion.php";
+
+$error_email=true;
+$error_clave=true;
+
+if(isset($_POST["acceder"])){
+    $error_email=$_POST["email"]=="";
+    $error_clave=$_POST["clave"]=="";
+
+    $error=$error_email||$error_clave;
+
+    if(!$error){
+
+    }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -17,18 +33,18 @@ session_start();
     <main>
         <img src="img/logo.png" alt="logotipo"/>
         <section>
-            <form action="principal.php" method="post">
+            <form action="index.php" method="post">
                 <p>
                     <label for="email">Introduzca su email:</label>
                 </p>
                 <p>
-                    <input type="text" name="email" id="email"/>
+                    <input type="email" name="email" id="email" value="<?php if(isset($_POST["acceder"])) echo $_POST["email"]; ?>" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["email"]=="") echo "Campo vacío"; ?>"/>
                 </p>
                 <p>
                     <label for="clave">Introduzca contraseña:</label>
                 </p>
                 <p>
-                    <input type="password" name="clave" id="clave"/>
+                    <input type="password" name="clave" id="clave" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["clave"]=="") echo "Campo vacío"; ?>"/>
                 </p>
     
                 <p>
