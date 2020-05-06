@@ -2,7 +2,7 @@
 require "conexion_bd.php";
 
 
-function login($usuario,$clave){
+function login($email,$clave){
 $con=conectar();
 if(!$con){
     return array("mensaje"=>"No se ha podido conectar");
@@ -10,7 +10,7 @@ if(!$con){
     mysqli_set_charset($con,"utf8");
 
     $cla=md5($clave);
-    $consulta="select * from usuarios where lector='$usuario' and clave='".$cla."'";
+    $consulta="select * from usuarios where email='$email' and pass='$cla'";
     $resultado=mysqli_query($con,$consulta);
 
     if(!$resultado){
@@ -20,7 +20,6 @@ if(!$con){
     }else{
 
         $fila=mysqli_fetch_assoc($resultado);
-        mysqli_free_result($resultado);
         return array("usuario"=>$fila);
 
     }

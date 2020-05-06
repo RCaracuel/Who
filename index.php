@@ -15,6 +15,16 @@ if(isset($_POST["acceder"])){
 
     if(!$error){
 
+        $datos=array(
+            "email"=>$_POST["email"],
+            "clave"=>$_POST["clave"]
+        );
+        var_dump($datos);
+
+        $obj = consumir_servicio_REST(URL . "/login", "POST", $datos);
+        //var_dump($obj);
+        echo $obj->usuario->nombre;
+    
     }
 }
 

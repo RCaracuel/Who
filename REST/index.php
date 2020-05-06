@@ -13,7 +13,7 @@ $app->contentType('application/json; charset=utf-8');
 
 
 $app->post('/login', function(){
-    echo json_encode(login($_POST["usuario"],$_POST["clave"]), JSON_FORCE_OBJECT);
+    echo json_encode(login($_POST["email"],$_POST["clave"]), JSON_FORCE_OBJECT);
 });
 
 $app->get("/buscar_email/:email", function($email){
