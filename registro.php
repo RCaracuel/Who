@@ -47,6 +47,8 @@ if(!$error_todo){
     $obj = consumir_servicio_REST(URL . "/registro", "POST", $datos);
     if($obj->mensaje_exito){
         $_SESSION["nombre"]=$_POST["nombre"]." ".$_POST["apellidos"];
+        $_SESSION["clave"]=md5($_POST["clave"]);
+        $_SESSION["ultimo_acceso"] = time();
         header("Location:principal.php");
         exit;
     }

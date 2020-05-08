@@ -23,10 +23,17 @@ if(isset($_POST["acceder"])){
 
         $obj = consumir_servicio_REST(URL . "/login", "POST", $datos);
         //var_dump($obj);
-        echo $obj->usuario->nombre;
+       // echo $obj->usuario->nombre;
+        $_SESSION["nombre"]=$obj->usuario->nombre." ".$obj->usuario->apellidos;
+       // echo $_SESSION["nombre"];
+       $_SESSION["clave"]=$obj->usuario->pass;
+       $_SESSION["ultimo_acceso"] = time();
+        header("location: principal.php");
+        exit;
     
     }
 }
+
 
 
 ?>

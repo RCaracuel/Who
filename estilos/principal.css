@@ -18,7 +18,7 @@ header{
     top:0;
 
     background-color: #6983AA;
-    width:100vw;
+
     height: 7em;
     padding:1.5em;
     display:flex;
@@ -91,7 +91,7 @@ top:1em;
    
     }
 
-    header ul#menu{
+    header form ul#menu{
         position:fixed;
         top:7em;
         right:0;
@@ -102,23 +102,32 @@ top:1em;
         color:white;
         transition:1s;
         border-radius: 0 0 0 0.4em;
+        
       
     }
 
     header ul#menu li{
         cursor:pointer;
-        margin-top: 3em;
         text-align: center;
-        font-size: 1.5em;
+        font-size: 1.2em;
+        padding:0.5em;
     }
+header form ul#menu li button{
+    background-color:transparent;
+    border:none;
+    cursor:pointer;
+    text-align: center;
+    font-size: 1.2em;
+
+}
     
-    header ul#menu li a{
+    header ul#menu li button{
         text-decoration:none;
         color:white;
 
     }
 
-#ham:checked + #hamburguesa + ul#menu{
+#ham:checked + #hamburguesa + form ul#menu{
         width:10em;
 
 }
@@ -141,23 +150,43 @@ margin-left:auto;
 margin-right: auto;
 margin-bottom:2em;
 width: 80vw;
-height: 68vh;
+min-height: 68vh;
 border-radius: 0.3em;
 color:white;
 padding:1.5em;
 }
 
+.oculta{
+    display:none;
+}
 main aside p{
     text-decoration: none;
-    font-size: 2.5em;
+    font-size: 1.5em;
     margin-bottom: 0.5em;
     background-color: rgba(142, 198, 197, 0.52);
     border-radius: 0.3em;
     padding:0.1em;
+    text-align: justify;
 }
 main aside p a{
     text-decoration: none;
     color:white;
+}
+
+main aside div article img{
+    width:100%;
+    height:auto;
+
+}
+
+main aside div article{
+    margin:1.5em;
+    display:flex;
+    background-color: rgba(142, 198, 197, 0.52);
+    min-height:33vh;
+    flex-direction: column;
+    padding:0.5em;
+  
 }
 
 footer{
@@ -180,7 +209,7 @@ margin:0.5em;
         display:none;
     }
   
-    header ul#menu{
+    header form ul#menu{
         width: 100vw !important;
         height: 7vh;
         display:flex;
@@ -190,12 +219,14 @@ margin:0.5em;
       
     }
 
-    header ul#menu li{
-    margin-top:0.5em;
+    header form ul#menu li{
+        margin-bottom: 0.5em;
     }
+
     .oculto{
         display:none;
     }
+   
 
     header div#escritorio{
         margin-left: auto;
@@ -220,22 +251,23 @@ margin:0.5em;
         width:auto;
     }
     main{
-    align-content: space-between;
+        justify-content: space-around;
+
     }
   
     main aside{
         margin:0;
         margin-left: 2em;
-        height: 90vh;
-        width: 40vw;
+        height: 70vh;
+        flex: 0 30%;
         margin-top: 6em;
         
     }
     main section{
+        
+        flex:0 60%;
         margin-top: 6em;
-        margin-left: 4em;
-        margin-right: 4em;
-        margin-bottom:2em;
+        margin-bottom: 6em;
         background-color: rgba(142, 198, 197, 0.52);
         border-radius: 0.3em;
         display:block;
@@ -248,14 +280,18 @@ margin:0.5em;
     }
 
     main section article img{
-        width:445px;
-        height: 300px;
+        width:40%;
+        height: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+   
 
     }
     main section article p{
         margin-left: 1em;
         font-size: 1.5em;
-        overflow: hidden;
+        height: min-content;
+       
     }
     main section h1:nth-child(1){
         font-size: 3em;
@@ -264,7 +300,7 @@ margin:0.5em;
         margin:1.5em;
         display:flex;
         background-color: rgba(142, 198, 197, 0.52);
-        height:33vh;
-        overflow:scroll;
+        padding:1.5em;        
+
     }
 }
