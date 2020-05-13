@@ -20,6 +20,10 @@ $app->get("/buscar_email/:email", function($email){
     echo json_encode(buscar_email($email), JSON_FORCE_OBJECT);
 });
 
+$app->post('/top10', function(){
+    echo json_encode(top10(),JSON_FORCE_OBJECT);
+});
+
 $app->get("/libro/:cod", function($cod){
     echo json_encode(buscar_libro($cod), JSON_FORCE_OBJECT);
 });

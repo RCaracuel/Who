@@ -24,7 +24,7 @@ main{
 }
 
 main section{
-    width: 25em;
+    width: 23em;
     height: 15em;
     background: rgba(105, 131, 170, 0.52);
     border-radius: 0.3em;
@@ -33,7 +33,7 @@ main section{
 img{
     width: 8em;
     height: 3em;
-    margin-right: 16em;
+    margin-right: 14em;
     margin-bottom: -0.6em;
     z-index: 1;
     

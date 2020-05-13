@@ -140,17 +140,17 @@ main{
     flex-direction: row;
     flex-wrap: nowrap;
 }
-main section{
+main section#grande{
     display:none;
 }
-main aside{
+main section#titulares{
 background-color: rgba(142, 198, 197, 0.52);
 margin-top: 2em;
 margin-left:auto;
 margin-right: auto;
 margin-bottom:2em;
 width: 80vw;
-min-height: 68vh;
+min-height: 50vh;
 border-radius: 0.3em;
 color:white;
 padding:1.5em;
@@ -159,7 +159,7 @@ padding:1.5em;
 .oculta{
     display:none;
 }
-main aside p{
+main section#titulares p{
     text-decoration: none;
     font-size: 1.5em;
     margin-bottom: 0.5em;
@@ -168,18 +168,18 @@ main aside p{
     padding:0.1em;
     text-align: justify;
 }
-main aside p a{
+main section#titulares p a{
     text-decoration: none;
     color:white;
 }
 
-main aside div article img{
+main section#titulares div article img{
     width:100%;
     height:auto;
 
 }
 
-main aside div article{
+main section#titulares div article{
     margin:1.5em;
     display:flex;
     background-color: rgba(142, 198, 197, 0.52);
@@ -255,15 +255,19 @@ margin:0.5em;
 
     }
   
-    main aside{
+    main section#titulares{
         margin:0;
         margin-left: 2em;
-        height: 70vh;
+        height: 100%;
         flex: 0 30%;
         margin-top: 6em;
+        margin-bottom: 6em;
+      
+
+      
         
     }
-    main section{
+    main section#grande{
         
         flex:0 60%;
         margin-top: 6em;
@@ -279,7 +283,7 @@ margin:0.5em;
     
     }
 
-    main section article img{
+    main section#grande article img{
         width:40%;
         height: auto;
         margin-top: auto;
@@ -287,16 +291,16 @@ margin:0.5em;
    
 
     }
-    main section article p{
+    main section#grande article p{
         margin-left: 1em;
         font-size: 1.5em;
         height: min-content;
        
     }
-    main section h1:nth-child(1){
+    main section#grande h1:nth-child(1){
         font-size: 3em;
     }
-    main section article{
+    main section#grande article{
         margin:1.5em;
         display:flex;
         background-color: rgba(142, 198, 197, 0.52);

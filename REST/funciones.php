@@ -27,6 +27,35 @@ if(!$con){
 }
 }
 
+function top10(){
+
+    $con=conectar();
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar");
+    }else{
+        mysqli_set_charset($con,"utf8");
+
+        $consulta="select * from inmueble where estrellas=5 limit 5";
+        $resultado=mysqli_query($con,$consulta);
+    
+        if(!$resultado){
+            mysqli_free_result($resultado);
+            mysqli_close($con);
+            return array("mensaje"=>"No se ha podido realizar la consulta".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+            $top=array();
+ 
+            while($fila=mysqli_fetch_assoc($resultado)){
+                $top[]=$fila;
+            }
+            return array("top"=>$top);
+    
+        }
+    
+    }
+
+}
+
 function obtener_libros(){
 
     $con=conectar();
