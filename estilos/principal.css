@@ -291,7 +291,7 @@ margin:0.5em;
     }
 
     main section article img{
-        width:40%;
+        width:50%;
         height: auto;
         margin-top: auto;
         margin-bottom: auto;
@@ -299,7 +299,7 @@ margin:0.5em;
 
     }
     main section#grande article p{
-        width:60%;
+        width:50%;
         margin-left: 1em;
         font-size: 1.5em;
         height: min-content;
@@ -317,5 +317,8 @@ margin:0.5em;
     }
     main section#grande span.destino{
         font-size: 1.5em;
+    }
+    main section#grande article.robo p{
+        width:80%;
     }
 }

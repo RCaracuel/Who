@@ -121,13 +121,62 @@ foreach ($obj->top as $inmueble) {
                 Los + económicos
             </p>
             <div class="oculta">
-                3 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id alias deserunt maxime iusto atque, laudantium quod accusantium sequi vero minima error nemo nam vitae magnam voluptatem, nulla, minus molestiae aut!
+            <article>
+                   <img src="https://content.skyscnr.com/m/055ab35306c6c272/original/GettyImages-474347378.jpg?resize=1800px:1800px&quality=100" alt="camboya"/>
+                   <p><span class="destino">Camboya</span>
+                       <br/>
+                       En Camboya podrás encontrar alojamiento a partir de 7 euros la noche. Y si quieres el lujo de disponer de aire acondicionado, unos 10 euros. Un buen plato de pescado en Khmer Amok te costará entorno a los 4 euros. Pero si comida buena y barata es lo que buscas dirígete a los mercados de venda ambulante de la capital, Nom Pen. Un bol de sopa de fideos con carne te costará menos de 2 euros. Sal de los caros y manidos circuitos turísticos de Camboya y descubre este país del sudeste asiático por menos de 20 euros al día. Nuestras recomendaciones y las más baratas atracciones: la zona norte del Mekong y el templo en Preah Vihear.
+                   </p>
+               </article>
+               <article>
+                   <img src="https://content.skyscnr.com/m/72e1e49275db7466/original/GettyImages-480173148.jpg?resize=1800px:1800px&quality=100" alt="malasia"/>
+                   <p><span class="destino">Malasia</span>
+                       <br/>
+                       Si te apasiona probar platos nuevos, pero siempre aparece el fantasma del dinero arruinando cada plan que haces, tu destino es Malasia. Acércate a George Town, una colorida ciudad del Estado de Penang y patrimonio de la Humanidad por la Unesco, y prueba la comida ambulante con especialidades indias, chinas y malayas por solo dos euros el plato. Ah y no dejes de visitar los templos budistas repartidos por la ciudad y asombrarte con su maravillosa arquitectura colonial en uno de los países más baratos.
+                   </p>
+               </article>
+               <article>
+                   <img src="https://content.skyscnr.com/m/1b5dc12e5372c2a7/original/GettyImages-178820829_doc.jpg?resize=1800px:1800px&quality=100" alt="paraguay"/>
+                   <p><span class="destino">Paraguay</span>
+                       <br/>
+                       Con la capital, Asunción, considerada la ciudad más barata del mundo, este país escala posiciones en el top de los países más baratos del mundo a los que ir a pasar unas vacaciones de lujo. Excelente vino importado de Chile por menos de 2 euros la botella, el hotel más caro de la ciudad con habitaciones por menos de 65 euros y deliciosas empanadas de carne por unos cuantos céntimos convierten a este país de América Latina en un destino barato ineludible.
+                   </p>
+               </article>
+               <article>
+                   <img src="https://content.skyscnr.com/m/0309f59d3544aa9f/original/GettyImages-99446039.jpg?resize=1800px:1800px&quality=100" alt="bolivia"/>
+                   <p><span class="destino">Bolivia</span>
+                       <br/>
+                       Bolivia es uno de los países más baratos por excelencia y más teniendo en cuenta que puedes sobrevivir, moverte y conocer el país por menos de 19 euros al día. No dejes de recorrer el sobrecogedor desierto de sal de Uyuni. Un tour de 3 días por la zona te puede costar entorno a los 100 euros con comida y alojamiento incluido, una auténtica ganga considerando los impresionantes paisajes y la inolvidable experiencia que vivirás allí.
+                   </p>
+                   
+               </article>
+               <a href="https://www.skyscanner.es/noticias/inspiracion/los-20-paises-mas-baratos-a-los-que-ir-de-vacaciones">Artículo de skyscanner.es</a>
             </div>
             <p>
                 Tu casa protegida
             </p>
             <div class="oculta">
-                4 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id alias deserunt maxime iusto atque, laudantium quod accusantium sequi vero minima error nemo nam vitae magnam voluptatem, nulla, minus molestiae aut!
+                <article class="robo">
+            <p>
+            <span class="destino">Cómo proteger tu casa</span>
+            <br/>
+            <br/>
+            ⚪ Que se vea que tu hogar está protegido.
+            <br/> Está demostrado que una casa con un sistema de seguridad visible, con cámaras de vigilancia o carteles de la compañía que nos proporciona el servicio puede llegar a disuadir a los ladrones de intentar robar en ella. Hoy en día existen alarmas que se pueden conectar o desconectar desde un smartphone y te permiten ver imágenes en tiempo real del interior de la vivienda.
+            <br/>
+            ⚪ La discreción es muy importante. <br/>
+No comentes, excepto a tus más allegados y personas de confianza, cuándo y durante cuánto tiempo vas a estar fuera de casa. Tampoco publiques en las redes sociales nada relativo a tus próximas vacaciones o escapadas ya que estarás dando pistas a los cacos para saber cuándo es el mejor momento para hacer de las suyas.
+<br/>
+⚪ Que no parezca que tu casa está vacía.<br/>
+ No dejes las persianas bajadas y asegúrate de que no se va acumulando el correo en tu buzón. Éstos son signos inequívocos de que no hay nadie en casa. Pídele a un amigo o un familiar, incluso un vecino de confianza que recoja tus cartas y abra y cierre las ventanas para que se vea movimiento. Si te vas por pocos días, podrías dejar ropa tendida. Si cuentas con alumbrado exterior, déjalo encendido, y si es posible deja alguna luz prendida en el interior para dar la impresión de que la casa no está sola.
+<br/>
+⚪ Asegúrate de que no existen accesos fáciles a tu vivienda.<br/>
+ Otro de los consejos para proteger tu casa cuando no estás es revisar las posibles entradas a través de balcones, árboles o estructuras de la propia vivienda como canalones. No escondas la llave en una maceta, en la caja de contadores o en los alrededores de la vivienda ya que se pueden encontrar con relativa facilidad.
+<br/>
+⚪ Ve un paso por delante de los ladrones.<br/>
+ Hoy en día uno de los métodos más usados para evitar el correcto funcionamiento de dispositivos electrónicos es el uso de inhibidores. Afortunadamente existen en el mercado soluciones de seguridad que permiten conectarse con la Central Receptora de Alarmas de forma inalámbrica o por cable incluso si el sistema está siendo boicoteado.
+            </p>
+            </article>
             </div>
         </section>
         <section id="grande">
