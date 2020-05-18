@@ -193,6 +193,9 @@ main section#titulares div article p{
     padding:1em;
 }
 
+main section#titulares div article p span.destino{
+    font-size: 1.5em;
+}
 footer{
     display:flex;
     padding:1.2em;
@@ -215,7 +218,7 @@ margin:0.5em;
   
     header form ul#menu{
         width: 100vw !important;
-        height: 7vh;
+        height: min-content;
         display:flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -287,7 +290,7 @@ margin:0.5em;
     
     }
 
-    main section#grande article img{
+    main section article img{
         width:40%;
         height: auto;
         margin-top: auto;
@@ -296,6 +299,7 @@ margin:0.5em;
 
     }
     main section#grande article p{
+        width:60%;
         margin-left: 1em;
         font-size: 1.5em;
         height: min-content;
@@ -310,5 +314,8 @@ margin:0.5em;
         background-color: rgba(142, 198, 197, 0.52);
         padding:1.5em;        
 
+    }
+    main section#grande span.destino{
+        font-size: 1.5em;
     }
 }
