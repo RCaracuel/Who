@@ -75,7 +75,23 @@
                         </div>
                     </section>
                     <section id="grande">
-    
+
+                        <article>
+                            <img src="img/casa1.jpg" alt="casa1" />
+                            <p>CASA MÁLAGA
+                                <br />
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos recusandae nesciunt a. Deleniti, obcaecati, eos aperiam officia esse consectetur quaerat maxime suscipit nam dolor voluptates ea molestiae illo eum fugit.</p>
+                        </article>
+                        <article>
+                            <img src="img/casa2.jpg" alt="casa2" />
+                            <p>Casa Sevilla
+                                <br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos recusandae nesciunt a. Deleniti, obcaecati, eos aperiam officia esse consectetur quaerat maxime suscipit nam dolor voluptates ea molestiae illo eum fugit.</p>
+                        </article>
+                        <article>
+                            <img src="img/casa3.jpg" alt="casa3" />
+                            <p>Casa Cádiz
+                                <br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos recusandae nesciunt a. Deleniti, obcaecati, eos aperiam officia esse consectetur quaerat maxime suscipit nam dolor voluptates ea molestiae illo eum fugit.</p>
+
                     </section>
                 </main>
                 <footer>

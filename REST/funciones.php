@@ -27,7 +27,7 @@ if(!$con){
 }
 }
 
-function top10(){
+function top5(){
 
     $con=conectar();
     if(!$con){
@@ -35,7 +35,7 @@ function top10(){
     }else{
         mysqli_set_charset($con,"utf8");
 
-        $consulta="select * from inmueble where estrellas=5 limit 5";
+        $consulta="select * from inmueble order by estrellas desc limit 5";
         $resultado=mysqli_query($con,$consulta);
     
         if(!$resultado){
