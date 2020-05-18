@@ -186,13 +186,17 @@ main section#titulares div article{
     min-height:33vh;
     flex-direction: column;
     padding:0.5em;
+    font-size: 0.7em;
   
+}
+main section#titulares div article p{
+    padding:1em;
 }
 
 footer{
     display:flex;
-    padding:1.5em;
-    height:7em;
+    padding:1.2em;
+    height:4.2em;
     width: auto;
     margin-top: auto;
     background-color:rgba(133, 102, 170, 0.7);

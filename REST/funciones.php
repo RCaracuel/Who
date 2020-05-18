@@ -35,7 +35,7 @@ function top5(){
     }else{
         mysqli_set_charset($con,"utf8");
 
-        $consulta="select * from inmueble order by estrellas desc limit 5";
+        $consulta="select * from inmueble join fotos where inmueble.cod_inmueble=fotos.cod_inmueble group by inmueble.cod_inmueble order by estrellas desc  limit 5";
         $resultado=mysqli_query($con,$consulta);
     
         if(!$resultado){

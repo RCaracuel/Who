@@ -23,12 +23,7 @@ if (isset($_SESSION["nombre"])) {
         } else {
             $_SESSION["ultimo_acceso"] = time();
 
-            $obj = consumir_servicio_REST(URL . "/top5", "POST");
-            //var_dump($obj);
-            foreach ($obj->top as $inmueble) {
-
-                echo $inmueble->garaje;
-            }
+           
                 include "prueba.php";
           }
     } else {
