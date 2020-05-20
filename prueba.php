@@ -1,13 +1,3 @@
-<?php
-$obj = consumir_servicio_REST(URL . "/top5", "POST");
-//var_dump($obj);
-foreach ($obj->top as $inmueble) {
-
-    //  echo $inmueble->estrellas;
-}
-?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -65,7 +55,7 @@ foreach ($obj->top as $inmueble) {
                     echo "<br/>";
                     echo "Distancia centro: " . $inmueble->distancia_centro . "km";
                     echo "<br/>";
-                    echo "M2: " . ($inmueble->m2 == 0 ? "No" : "Si");
+                    echo "M2: " . ($inmueble->m2);
                     echo "<br/>";
                     echo "Nº Habitaciones: " . $inmueble->num_hab;
                     echo "<br/>";
@@ -198,7 +188,7 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
                 echo "<br/>";
                 echo "Distancia centro: " . $inmueble->distancia_centro . "km";
                 echo "<br/>";
-                echo "M2: " . ($inmueble->m2 == 0 ? "No" : "Si");
+                echo "M2: " . ($inmueble->m2);
                 echo "<br/>";
                 echo "Nº Habitaciones: " . $inmueble->num_hab;
                 echo "<br/>";

@@ -3,7 +3,7 @@ session_name("who");
 session_start();
 require "funcion.php";
 
-if (isset($_POST["salir"])) {
+if (isset($_GET["salir"])) {
     session_destroy();
     header("location:index.php");
     exit;

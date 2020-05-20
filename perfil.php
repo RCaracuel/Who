@@ -42,9 +42,25 @@
     <main>
         <section id="titulares">
             <p>
-                TOP 5
+                Datos personales
             </p>
             <div class="oculta">
+
+                <?php
+                $datos=array(
+                    "email"=>$_SESSION["email"]
+                );
+               // var_dump($datos);
+        
+                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                echo "<article>";
+                echo "<p>Nombre: ".$obj->usuario->nombre."</br>";
+                echo "Apellidos: ".$obj->usuario->apellidos."<br/>";
+                echo "Email: ".$obj->usuario->email."</br>";
+                echo "</p>";
+                echo "</article>";
+                ?>
+
             </div>
             <p>
                 Los + buscados

@@ -27,6 +27,32 @@ if(!$con){
 }
 }
 
+function usuario($email){
+    $con=conectar();
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar");
+    }else{
+        mysqli_set_charset($con,"utf8");
+    
+
+        $consulta="select * from usuarios where email='$email'";
+        $resultado=mysqli_query($con,$consulta);
+    
+        if(!$resultado){
+            mysqli_free_result($resultado);
+            mysqli_close($con);
+            return array("mensaje"=>"No se ha podido realizar la consulta".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+    
+            $fila=mysqli_fetch_assoc($resultado);
+            return array("usuario"=>$fila);
+    
+        }
+    
+    }
+    }
+
+
 function top5(){
 
     $con=conectar();

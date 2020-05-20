@@ -23,6 +23,9 @@ $app->get("/buscar_email/:email", function($email){
 $app->post('/top5', function(){
     echo json_encode(top5(),JSON_FORCE_OBJECT);
 });
+$app->post('/usuario', function(){
+    echo json_encode(usuario($_POST["email"]),JSON_FORCE_OBJECT);
+});
 
 $app->get("/libro/:cod", function($cod){
     echo json_encode(buscar_libro($cod), JSON_FORCE_OBJECT);
