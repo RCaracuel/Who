@@ -21,9 +21,12 @@ if (isset($_SESSION["nombre"])) {
             header("Location:index.php");
             exit;
         } else {
+
             $_SESSION["ultimo_acceso"] = time();
 
-           
+           if(isset($_GET["perfil"]))
+                include "perfil.php";
+                else
                 include "prueba.php";
           }
     } else {

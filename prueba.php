@@ -29,7 +29,7 @@ foreach ($obj->top as $inmueble) {
             <span></span>
             <span></span>
         </label>
-        <form action="principal.php" method="post">
+        <form action="principal.php" method="get">
             <ul id="menu">
                 <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
                 <li><button type="input" name="buscar">Buscar</button></li>
@@ -40,7 +40,7 @@ foreach ($obj->top as $inmueble) {
         </form>
         <div id="escritorio">
             <p><?php echo $_SESSION["nombre"]; ?></p>
-            <a href="perfil.html"><img src="img/perfil.png" alt="foto-perfil" /></a>
+            <a href="principal.php?perfil"><img src="img/perfil.png" alt="foto-perfil" /></a>
         </div>
     </header>
     <main>
