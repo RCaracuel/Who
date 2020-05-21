@@ -29,8 +29,16 @@
             </ul>
         </form>
         <div id="escritorio">
-            <p><?php echo $_SESSION["nombre"]; ?></p>
-            <a href="principal.php?perfil"><img src="img/perfil.png" alt="foto-perfil" /></a>
+        <p><?php echo $_SESSION["nombre"]; ?></p>
+            <?php
+             $datos=array(
+                "email"=>$_SESSION["email"]
+            );
+           // var_dump($datos);
+    
+            $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+            echo "<a href='principal.php?perfil'><img src='img/".$obj->usuario->foto_perfil."' alt='foto-perfil'/></a>"
+            ?>
         </div>
     </header>
     <main>

@@ -1,6 +1,6 @@
 <?php
 
-    //echo $_SESSION["ultimo_acceso"];
+//echo $_SESSION["ultimo_acceso"];
 
 ?>
 
@@ -36,7 +36,16 @@
         </form>
         <div id="escritorio">
             <p><?php echo $_SESSION["nombre"]; ?></p>
-            <a href="principal.php?perfil"><img src="img/perfil.png" alt="foto-perfil" /></a>
+            <?php
+            $datos = array(
+                "email" => $_SESSION["email"]
+            );
+            // var_dump($datos);
+
+            $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+            echo "<a href='principal.php?perfil'><img src='img/" . $obj->usuario->foto_perfil . "' alt='foto-perfil'/></a>"
+            ?>
+
         </div>
     </header>
     <main>
@@ -47,26 +56,37 @@
             <div class="oculta">
 
                 <?php
-                $datos=array(
-                    "email"=>$_SESSION["email"]
+                $datos = array(
+                    "email" => $_SESSION["email"]
                 );
-               // var_dump($datos);
-        
+                // var_dump($datos);
+
                 $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
                 echo "<article>";
-                echo "<p>Nombre: ".$obj->usuario->nombre."</br>";
-                echo "Apellidos: ".$obj->usuario->apellidos."<br/>";
-                echo "Email: ".$obj->usuario->email."</br>";
+                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
+                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
+                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
+                echo "Email: " . $obj->usuario->email . "</br>";
+                if ($obj->usuario->dni == null)
+                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
+                    else
+                echo "DNI: ".$obj->usuario->dni."</br>";
                 echo "</p>";
+                echo "<span class='foto'>";
+                echo "<input type='file'  id='foto' name='foto'value='Cambiar imagen'/>";
+                echo "</span>";
+                echo "<label for='foto'>";
+                echo "<span>Cambiar foto de perfil</span>";
+                echo "</label>";
                 echo "</article>";
                 ?>
 
             </div>
             <p>
-                Los + buscados
+                Editar perfil
             </p>
             <div class="oculta">
-            
+
             </div>
             <p>
                 Los + económicos
@@ -81,7 +101,31 @@
             </div>
         </section>
         <section id="grande">
+        <?php
+                $datos = array(
+                    "email" => $_SESSION["email"]
+                );
+                // var_dump($datos);
 
+                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                echo "<article>";
+                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
+                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
+                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
+                echo "Email: " . $obj->usuario->email . "</br>";
+                if ($obj->usuario->dni == null)
+                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
+                    else
+                echo "DNI: ".$obj->usuario->dni."</br>";
+                echo "</p>";
+                echo "<span class='foto'>";
+                echo "<input type='file'  id='foto' name='foto'value='Cambiar imagen'/>";
+                echo "</span>";
+                echo "<label for='foto'>";
+                echo "<span>Cambiar foto de perfil</span>";
+                echo "</label>";
+                echo "</article>";
+                ?>
 
         </section>
     </main>
@@ -117,6 +161,15 @@
             })
 
         })
+
+        jQuery('input[type=file]').change(function() {
+            var filename = jQuery(this).val().split('\\').pop();
+            var idname = jQuery(this).attr('id');
+            console.log(jQuery(this));
+            console.log(filename);
+            console.log(idname);
+            jQuery('span.' + idname).next().find('span').html(filename);
+        });
     </script>
 </body>
 
