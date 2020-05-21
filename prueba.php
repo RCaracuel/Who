@@ -19,7 +19,7 @@
             <span></span>
             <span></span>
         </label>
-        <form action="principal.php" method="get">
+        <form action="principal.php" method="post">
             <ul id="menu">
                 <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
                 <li><button type="input" name="buscar">Buscar</button></li>

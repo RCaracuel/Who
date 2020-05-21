@@ -28,6 +28,7 @@ if(isset($_POST["acceder"])){
        // echo $_SESSION["nombre"];
        $_SESSION["clave"]=$obj->usuario->pass;
        $_SESSION["email"]=$obj->usuario->email;
+       $_SESSION["id_usu"]=$obj->usuario->cod_usuario;
        $_SESSION["ultimo_acceso"] = time();
         header("location: principal.php");
         exit;

@@ -1,8 +1,26 @@
 <?php
 
-//echo $_SESSION["ultimo_acceso"];
+$error_foto=true;
+  if(isset($_POST["subir"])){
+    var_dump($_FILES["foto2"]);
+    $error_foto=($_FILES["foto2"]["name"]=="" || $_FILES['foto2']['error'] || !getimagesize($_FILES['foto2']['tmp_name']));
+    
+    $arr=explode(".",$_FILES['foto2']['name']);//separador por el punto
+    $extension=end($arr);// del array obtenido antes quiero la última posición, la extensión
+    echo "<br/>";
+    echo $extension;
+    $nombre_unico=$_SESSION["id_usu"];
+    $foto_bd=$nombre_unico.".".$extension;
+    //echo $nombre_unico;
+
+    //TO DO
+
+
+    @$var=move_uploaded_file($_FILES['foto2']['tmp_name'],"img/".$foto_bd);
+  }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -25,7 +43,7 @@
             <span></span>
             <span></span>
         </label>
-        <form action="principal.php" method="get">
+        <form action="principal.php" method="post">
             <ul id="menu">
                 <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
                 <li><button type="input" name="buscar">Buscar</button></li>
@@ -55,7 +73,7 @@
             </p>
             <div class="oculta">
 
-                <?php
+            <?php
                 $datos = array(
                     "email" => $_SESSION["email"]
                 );
@@ -72,12 +90,10 @@
                     else
                 echo "DNI: ".$obj->usuario->dni."</br>";
                 echo "</p>";
-                echo "<span class='foto'>";
-                echo "<input type='file'  id='foto' name='foto'value='Cambiar imagen'/>";
-                echo "</span>";
-                echo "<label for='foto'>";
-                echo "<span>Cambiar foto de perfil</span>";
-                echo "</label>";
+                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
+                echo "<input type='file' name='foto2'/>";
+                echo "<input type='submit' name='subir' value='Subir'/>";
+                echo "</form>";
                 echo "</article>";
                 ?>
 
@@ -86,12 +102,13 @@
                 Editar perfil
             </p>
             <div class="oculta">
-
+              
             </div>
             <p>
                 Los + económicos
             </p>
             <div class="oculta">
+              
             </div>
             <p>
                 Tu casa protegida
@@ -118,12 +135,10 @@
                     else
                 echo "DNI: ".$obj->usuario->dni."</br>";
                 echo "</p>";
-                echo "<span class='foto'>";
-                echo "<input type='file'  id='foto' name='foto'value='Cambiar imagen'/>";
-                echo "</span>";
-                echo "<label for='foto'>";
-                echo "<span>Cambiar foto de perfil</span>";
-                echo "</label>";
+                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
+                echo "<input type='file' name='foto2'/>";
+                echo "<input type='submit' name='subir' value='Subir'/>";
+                echo "</form>";
                 echo "</article>";
                 ?>
 
@@ -146,9 +161,10 @@
             $("#titulares").on("click", "p:not(.oculta)", function() {
                 //console.log("hola");
                 if ($(window).width() < 1000)
-                    $(this).next().fadeToggle(800);
+                    $(this).next().slideToggle(800);
 
                 $("#grande").html($(this).next().html());
+
 
 
             });

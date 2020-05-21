@@ -3,7 +3,7 @@ session_name("who");
 session_start();
 require "funcion.php";
 
-if (isset($_GET["salir"])) {
+if (isset($_POST["salir"])) {
     session_destroy();
     header("location:index.php");
     exit;
@@ -24,7 +24,7 @@ if (isset($_SESSION["nombre"])) {
 
             $_SESSION["ultimo_acceso"] = time();
 
-           if(isset($_GET["perfil"]))
+           if(isset($_GET["perfil"])|| isset($_POST["perfil"])||isset($_POST["subir"]))
                 include "perfil.php";
                 else
                 include "prueba.php";

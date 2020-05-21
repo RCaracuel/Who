@@ -207,6 +207,46 @@ main section#titulares div article p{
 main section#titulares div article p span.destino{
     font-size: 1.5em;
 }
+input[type="file"]#foto {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    }
+
+    label[for="foto"] {
+        margin-top: 2em;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background-color:rgba(133, 102, 170, 0.7);
+        align-self: center;
+        display: inline-block;
+        transition: all .5s;
+        cursor: pointer;
+        padding: 15px 40px !important;
+        text-transform: uppercase;
+        width: fit-content;
+        text-align: center;
+        }
+        main section#grande article input{
+            flex-basis: 25%;
+            margin-top: 2em;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 1em;
+            border:none;
+            color: #fff;
+            background-color:rgba(133, 102, 170, 0.7);
+            align-self: center;
+            cursor: pointer;
+            padding: 15px 40px !important;
+            text-transform: uppercase;
+            width: fit-content;
+            text-align: center;
+        }
 footer{
     display:flex;
     padding:1.2em;
@@ -326,7 +366,20 @@ margin:0.5em;
        
     }
     main section#grande article input{
-        flex-basis: 100%;
+        flex-basis: 25%;
+        margin-top: 2em;
+        font-size: 14px;
+        font-weight: 600;
+        margin-left: 1em;
+        border:none;
+        color: #fff;
+        background-color:rgba(133, 102, 170, 0.7);
+        align-self: center;
+        cursor: pointer;
+        padding: 15px 40px !important;
+        text-transform: uppercase;
+        width: fit-content;
+        text-align: center;
     }
     main section#grande article p{
         width:50%;
@@ -354,28 +407,5 @@ margin:0.5em;
         width:80%;
     }
 
-    input[type="file"]#foto {
-        width: 0.1px;
-        height: 0.1px;
-        opacity: 0;
-        overflow: hidden;
-        position: absolute;
-        z-index: -1;
-        }
 
-        label[for="foto"] {
-            margin-top: 2em;
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            background-color:rgba(133, 102, 170, 0.7);
-            align-self: center;
-            display: inline-block;
-            transition: all .5s;
-            cursor: pointer;
-            padding: 15px 40px !important;
-            text-transform: uppercase;
-            width: fit-content;
-            text-align: center;
-            }
 }
