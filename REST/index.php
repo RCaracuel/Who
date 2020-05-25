@@ -20,6 +20,10 @@ $app->get("/buscar_email/:email", function($email){
     echo json_encode(buscar_email($email), JSON_FORCE_OBJECT);
 });
 
+$app->get("/buscar_propiedades/:cod", function($cod){
+    echo json_encode(buscar_propiedades($cod), JSON_FORCE_OBJECT);
+});
+
 $app->get("/buscar_dni/:dni", function($dni){
     echo json_encode(buscar_dni($dni), JSON_FORCE_OBJECT);
 });

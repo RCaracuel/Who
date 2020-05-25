@@ -23,8 +23,8 @@
             <ul id="menu">
                 <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
                 <li><button type="input" name="buscar">Buscar</button></li>
+                <li><button type="input" name="contratos">Contratos</button></li>
                 <li><button type="input" name="propiedades">Propiedades</button></li>
-                <li><button type="input" name="suscripcion">Suscripción</button></li>
                 <li><button type="input" name="salir">Salir</button></li>
             </ul>
         </form>
@@ -76,6 +76,12 @@
                     echo "<br/>";
                     echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
                     echo "<br/>";
+                    echo "Puntuación: ";
+                    $estrellas=(int)$inmueble->estrellas;
+                    
+                    for ($i=0; $i <$estrellas; $i++) { 
+                        echo "⭐";
+                    }
                     echo "</p>";
                     echo "</article>";
                 }
@@ -124,28 +130,28 @@
                    <img src="https://content.skyscnr.com/m/055ab35306c6c272/original/GettyImages-474347378.jpg?resize=1800px:1800px&quality=100" alt="camboya"/>
                    <p><span class="destino">Camboya</span>
                        <br/>
-                       En Camboya podrás encontrar alojamiento a partir de 7 euros la noche. Y si quieres el lujo de disponer de aire acondicionado, unos 10 euros. Un buen plato de pescado en Khmer Amok te costará entorno a los 4 euros. Pero si comida buena y barata es lo que buscas dirígete a los mercados de venda ambulante de la capital, Nom Pen. Un bol de sopa de fideos con carne te costará menos de 2 euros. Sal de los caros y manidos circuitos turísticos de Camboya y descubre este país del sudeste asiático por menos de 20 euros al día. Nuestras recomendaciones y las más baratas atracciones: la zona norte del Mekong y el templo en Preah Vihear.
+                       En Camboya podrás encontrar alojamiento a partir de 7 euros la noche. Y si quieres el lujo de disponer de aire acondicionado, unos 10 euros. Un buen plato de pescado en Khmer Amok te costará entorno a los 4 euros.
                    </p>
                </article>
                <article>
                    <img src="https://content.skyscnr.com/m/72e1e49275db7466/original/GettyImages-480173148.jpg?resize=1800px:1800px&quality=100" alt="malasia"/>
                    <p><span class="destino">Malasia</span>
                        <br/>
-                       Si te apasiona probar platos nuevos, pero siempre aparece el fantasma del dinero arruinando cada plan que haces, tu destino es Malasia. Acércate a George Town, una colorida ciudad del Estado de Penang y patrimonio de la Humanidad por la Unesco, y prueba la comida ambulante con especialidades indias, chinas y malayas por solo dos euros el plato. Ah y no dejes de visitar los templos budistas repartidos por la ciudad y asombrarte con su maravillosa arquitectura colonial en uno de los países más baratos.
+                       Si te apasiona probar platos nuevos, pero siempre aparece el fantasma del dinero arruinando cada plan que haces, tu destino es Malasia.
                    </p>
                </article>
                <article>
                    <img src="https://content.skyscnr.com/m/1b5dc12e5372c2a7/original/GettyImages-178820829_doc.jpg?resize=1800px:1800px&quality=100" alt="paraguay"/>
                    <p><span class="destino">Paraguay</span>
                        <br/>
-                       Con la capital, Asunción, considerada la ciudad más barata del mundo, este país escala posiciones en el top de los países más baratos del mundo a los que ir a pasar unas vacaciones de lujo. Excelente vino importado de Chile por menos de 2 euros la botella, el hotel más caro de la ciudad con habitaciones por menos de 65 euros y deliciosas empanadas de carne por unos cuantos céntimos convierten a este país de América Latina en un destino barato ineludible.
+                       Con la capital, Asunción, considerada la ciudad más barata del mundo, este país escala posiciones en el top de los países más baratos del mundo a los que ir a pasar unas vacaciones de lujo.
                    </p>
                </article>
                <article>
                    <img src="https://content.skyscnr.com/m/0309f59d3544aa9f/original/GettyImages-99446039.jpg?resize=1800px:1800px&quality=100" alt="bolivia"/>
                    <p><span class="destino">Bolivia</span>
                        <br/>
-                       Bolivia es uno de los países más baratos por excelencia y más teniendo en cuenta que puedes sobrevivir, moverte y conocer el país por menos de 19 euros al día. No dejes de recorrer el sobrecogedor desierto de sal de Uyuni. Un tour de 3 días por la zona te puede costar entorno a los 100 euros con comida y alojamiento incluido, una auténtica ganga considerando los impresionantes paisajes y la inolvidable experiencia que vivirás allí.
+                       Bolivia es uno de los países más baratos por excelencia y más teniendo en cuenta que puedes sobrevivir, moverte y conocer el país por menos de 19 euros al día.
                    </p>
                    
                </article>
@@ -209,6 +215,12 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
                 echo "<br/>";
                 echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
                 echo "<br/>";
+                echo "Puntuación: ";
+                $estrellas=(int)$inmueble->estrellas;
+                
+                for ($i=0; $i <$estrellas; $i++) { 
+                    echo "⭐";
+                }
                 echo "</p>";
                 echo "</article>";
             }

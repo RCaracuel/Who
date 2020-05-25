@@ -24,9 +24,9 @@ if (isset($_POST["subir"])) {
 }
 
 $error_prueba = isset($_POST["modificar"]);
-$error_nombre = true;
-$error_apellidos = true;
-$error_dni = true;
+$error_nombre = false;
+$error_apellidos = false;
+$error_dni = false;
 $dni_de_otro = false;
 if (isset($_POST["modificar"])) {
     $error_nombre = $_POST["nombre"] == "";
@@ -106,8 +106,8 @@ if (isset($_POST["modificar"])) {
             <ul id="menu">
                 <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
                 <li><button type="input" name="buscar">Buscar</button></li>
+                <li><button type="input" name="contratos">Contratos</button></li>
                 <li><button type="input" name="propiedades">Propiedades</button></li>
-                <li><button type="input" name="suscripcion">Suscripción</button></li>
                 <li><button type="input" name="salir">Salir</button></li>
             </ul>
         </form>
@@ -120,6 +120,7 @@ if (isset($_POST["modificar"])) {
             // var_dump($datos);
 
             $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+            $_SESSION["id_usu"]=$obj->usuario->cod_usuario;
             echo "<a href='principal.php?perfil'><img src='img/" . $obj->usuario->foto_perfil . "' alt='foto-perfil'/></a>"
             ?>
 
@@ -170,36 +171,34 @@ if (isset($_POST["modificar"])) {
                         // var_dump($datos);
 
                         $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                        if(!isset($_POST["modificar"])){
-                            $nombre=$obj->usuario->nombre;
-                            $apellidos=$obj->usuario->apellidos;
+                        if (!isset($_POST["modificar"])) {
+                            $nombre = $obj->usuario->nombre;
+                            $apellidos = $obj->usuario->apellidos;
 
-                            if ($obj->usuario->dni != null){
-                            $dni=$obj->usuario->dni;
+                            if ($obj->usuario->dni != null) {
+                                $dni = $obj->usuario->dni;
                             }
-
-                        }else{
-                            $nombre=$_POST["nombre"];
-                            $apellidos=$_POST["apellidos"];
-                            $dni=$_POST["dni"];
-                            
+                        } else {
+                            $nombre = $_POST["nombre"];
+                            $apellidos = $_POST["apellidos"];
+                            $dni = $_POST["dni"];
                         }
 
                         ?>
                         Editar perfil:
-                        <br/>
-                        <hr/>
-                        <br/>
+                        <br />
+                        <hr />
+                        <br />
                         <table>
                             <tr>
                                 <td> <label for="nombre">Nombre:</label></td>
                                 <td><input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" />
-                                <?php if ($error_nombre) echo '<span class="error">*</span>'; ?></td>
+                                    <?php if ($error_nombre) echo '<span class="error">*</span>'; ?></td>
                             </tr>
                             <tr>
                                 <td> <label for="apellidos">Apellidos:</label></td>
                                 <td><input type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" />
-                                <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
+                                    <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
                             </tr>
                             <tr>
                                 <td> <label for="dni">Dni:</label></td>
@@ -220,7 +219,7 @@ if (isset($_POST["modificar"])) {
                         <input type="hidden" class="edita_peque" name="edita_peque" />
                         <?php
 
-                        if ($dni_de_otro)
+                        if ($dni_de_otro || $error_nombre || $error_apellidos)
                             echo "** Campo vacío o incorrecto **";
 
                         ?>
@@ -228,13 +227,19 @@ if (isset($_POST["modificar"])) {
                 </article>
             </div>
             <p>
-                Los + económicos
+                Seguridad
             </p>
             <div class="oculta">
 
             </div>
             <p>
-                Tu casa protegida
+                Eliminar cuenta
+            </p>
+            <div class="oculta">
+
+            </div>
+            <p>
+                Informar problema
             </p>
             <div class="oculta">
 
@@ -276,37 +281,35 @@ if (isset($_POST["modificar"])) {
 
                         $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
 
-                        if(!isset($_POST["modificar"])){
-                            $nombre=$obj->usuario->nombre;
-                            $apellidos=$obj->usuario->apellidos;
+                        if (!isset($_POST["modificar"])) {
+                            $nombre = $obj->usuario->nombre;
+                            $apellidos = $obj->usuario->apellidos;
 
-                            if ($obj->usuario->dni != null){
-                            $dni=$obj->usuario->dni;
+                            if ($obj->usuario->dni != null) {
+                                $dni = $obj->usuario->dni;
                             }
-
-                        }else{
-                            $nombre=$_POST["nombre"];
-                            $apellidos=$_POST["apellidos"];
-                            $dni=$_POST["dni"];
-                            
+                        } else {
+                            $nombre = $_POST["nombre"];
+                            $apellidos = $_POST["apellidos"];
+                            $dni = $_POST["dni"];
                         }
 
                         ?>
                         Editar perfil
-                        <br/>
-                        <hr/>
-                        <br/>
+                        <br />
+                        <hr />
+                        <br />
                         <table>
                             <tr>
                                 <td> <label for="nombre2">Nombre:</label></td>
                                 <td><input type="text" id="nombre2" name="nombre" value="<?php echo $nombre ?>" />
-                                <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
-                            </td>
+                                    <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td> <label for="apellidos2">Apellidos:</label></td>
                                 <td><input type="text" id="apellidos2" name="apellidos" value="<?php echo $apellidos; ?>" />
-                                <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
+                                    <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
                             </tr>
                             <tr>
                                 <td> <label for="dni2">Dni:</label></td>

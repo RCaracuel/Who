@@ -178,6 +178,36 @@ function buscar_dni($dni){
     }
 }
 
+function buscar_propiedades($cod){
+
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select * from inmueble join fotos where inmueble.cod_inmueble=fotos.cod_inmueble and  inmueble.cod_propietario='$cod'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+            if(mysqli_num_rows($resultado)>0){
+                $propiedades=array();
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $propiedades[]=$fila;
+                }
+                $total=mysqli_num_rows($resultado);
+                mysqli_free_result($resultado);
+                return array("propiedades"=>$propiedades,"total"=>$total);
+            }else{
+            return array("sin_propiedades"=>"No existen propiedades registradas de este usuario");
+            }
+        }
+    }
+}
+
 function insertar_usuario($nombre,$apellido,$email,$clave){
 
     $con=conectar();
