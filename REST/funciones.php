@@ -152,5 +152,24 @@ function insertar_usuario($nombre,$apellido,$email,$clave){
 
 }
 
+function cambiar_foto($email,$foto){
+
+    $con=conectar();
+      if(!$con){
+          return array("mensaje"=>"No se ha podido conectar con la BD");
+      }else{
+          mysqli_set_charset($con,"utf8");
+  
+          $consulta="update usuarios set foto_perfil='$foto' where email='$email'";
+          $resultado=mysqli_query($con,$consulta);
+  
+          if(!$resultado){
+              return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+          }else{
+              return array("mensaje_exito"=>"Se ha cambiado la foto con éxito");
+          }
+      }
+
+}
 
 ?>

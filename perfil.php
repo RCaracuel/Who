@@ -1,23 +1,26 @@
 <?php
 
-$error_foto=true;
-  if(isset($_POST["subir"])){
-    var_dump($_FILES["foto2"]);
-    $error_foto=($_FILES["foto2"]["name"]=="" || $_FILES['foto2']['error'] || !getimagesize($_FILES['foto2']['tmp_name']));
-    
-    $arr=explode(".",$_FILES['foto2']['name']);//separador por el punto
-    $extension=end($arr);// del array obtenido antes quiero la última posición, la extensión
-    echo "<br/>";
-    echo $extension;
-    $nombre_unico=$_SESSION["id_usu"];
-    $foto_bd=$nombre_unico.".".$extension;
-    //echo $nombre_unico;
+$error_foto = true;
+if (isset($_POST["subir"])) {
 
-    //TO DO
+    $error_foto = ($_FILES["foto2"]["name"] == "" || $_FILES['foto2']['error'] || !getimagesize($_FILES['foto2']['tmp_name']));
+    $arr = explode(".", $_FILES['foto2']['name']); //separador por el punto
+    $extension = end($arr); // del array obtenido antes quiero la última posición, la extensión
 
+    $nombre_unico = $_SESSION["id_usu"];
+    $foto_bd = $nombre_unico . "." . $extension;
+    $datos = array(
+        "foto" => $foto_bd
+    );
 
-    @$var=move_uploaded_file($_FILES['foto2']['tmp_name'],"img/".$foto_bd);
-  }
+    $obj = consumir_servicio_REST(URL . "/cambiar_foto/" . $_SESSION["email"], "PUT", $datos);
+
+    if (isset($obj->mensaje_exito)) {
+        @$var = move_uploaded_file($_FILES['foto2']['tmp_name'], "img/" . $foto_bd);
+    } else {
+        echo $obj->mensaje;
+    }
+}
 
 ?>
 
@@ -73,7 +76,7 @@ $error_foto=true;
             </p>
             <div class="oculta">
 
-            <?php
+                <?php
                 $datos = array(
                     "email" => $_SESSION["email"]
                 );
@@ -87,8 +90,8 @@ $error_foto=true;
                 echo "Email: " . $obj->usuario->email . "</br>";
                 if ($obj->usuario->dni == null)
                     echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                    else
-                echo "DNI: ".$obj->usuario->dni."</br>";
+                else
+                    echo "DNI: " . $obj->usuario->dni . "</br>";
                 echo "</p>";
                 echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
                 echo "<input type='file' name='foto2'/>";
@@ -102,13 +105,15 @@ $error_foto=true;
                 Editar perfil
             </p>
             <div class="oculta">
-              
+                <article>
+                    Editando perfil
+                </article>
             </div>
             <p>
                 Los + económicos
             </p>
             <div class="oculta">
-              
+
             </div>
             <p>
                 Tu casa protegida
@@ -118,29 +123,29 @@ $error_foto=true;
             </div>
         </section>
         <section id="grande">
-        <?php
-                $datos = array(
-                    "email" => $_SESSION["email"]
-                );
-                // var_dump($datos);
+            <?php
+            $datos = array(
+                "email" => $_SESSION["email"]
+            );
+            // var_dump($datos);
 
-                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                echo "<article>";
-                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-                echo "Email: " . $obj->usuario->email . "</br>";
-                if ($obj->usuario->dni == null)
-                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                    else
-                echo "DNI: ".$obj->usuario->dni."</br>";
-                echo "</p>";
-                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-                echo "<input type='file' name='foto2'/>";
-                echo "<input type='submit' name='subir' value='Subir'/>";
-                echo "</form>";
-                echo "</article>";
-                ?>
+            $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+            echo "<article>";
+            echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
+            echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
+            echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
+            echo "Email: " . $obj->usuario->email . "</br>";
+            if ($obj->usuario->dni == null)
+                echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
+            else
+                echo "DNI: " . $obj->usuario->dni . "</br>";
+            echo "</p>";
+            echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
+            echo "<input type='file' name='foto2'/>";
+            echo "<input type='submit' name='subir' value='Subir'/>";
+            echo "</form>";
+            echo "</article>";
+            ?>
 
         </section>
     </main>

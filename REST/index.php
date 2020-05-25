@@ -27,9 +27,10 @@ $app->post('/usuario', function(){
     echo json_encode(usuario($_POST["email"]),JSON_FORCE_OBJECT);
 });
 
-$app->get("/libro/:cod", function($cod){
-    echo json_encode(buscar_libro($cod), JSON_FORCE_OBJECT);
-});
+$app->put('/cambiar_foto/:email', function($email) use ($app){
+    $datos=$app->request->put();
+    echo json_encode(cambiar_foto($email,$datos["foto"]),JSON_FORCE_OBJECT);
+  });
 
 $app->post("/registro", function(){
     echo json_encode(insertar_usuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["clave"]), JSON_FORCE_OBJECT);
