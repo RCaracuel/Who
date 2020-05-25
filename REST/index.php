@@ -20,6 +20,14 @@ $app->get("/buscar_email/:email", function($email){
     echo json_encode(buscar_email($email), JSON_FORCE_OBJECT);
 });
 
+$app->get("/buscar_dni/:dni", function($dni){
+    echo json_encode(buscar_dni($dni), JSON_FORCE_OBJECT);
+});
+
+$app->post("/buscar_dni_usuario", function(){
+    echo json_encode(buscar_dni_usuario($_POST["dni"],$_POST["email"]), JSON_FORCE_OBJECT);
+});
+
 $app->post('/top5', function(){
     echo json_encode(top5(),JSON_FORCE_OBJECT);
 });
@@ -30,6 +38,11 @@ $app->post('/usuario', function(){
 $app->put('/cambiar_foto/:email', function($email) use ($app){
     $datos=$app->request->put();
     echo json_encode(cambiar_foto($email,$datos["foto"]),JSON_FORCE_OBJECT);
+  });
+
+  $app->put('/cambiar_datos/:email', function($email) use ($app){
+    $datos=$app->request->put();
+    echo json_encode(cambiar_datos($email,$datos["nombre"],$datos["apellidos"],$datos["dni"]),JSON_FORCE_OBJECT);
   });
 
 $app->post("/registro", function(){

@@ -3,7 +3,7 @@
 $error_foto = true;
 if (isset($_POST["subir"])) {
 
-   // var_dump($_FILES["foto2"]);
+    // var_dump($_FILES["foto2"]);
     $error_foto = ($_FILES["foto2"]["name"] == "" || $_FILES['foto2']['error'] || !getimagesize($_FILES['foto2']['tmp_name']));
     $arr = explode(".", $_FILES['foto2']['name']); //separador por el punto
     $extension = end($arr); // del array obtenido antes quiero la última posición, la extensión
@@ -15,7 +15,7 @@ if (isset($_POST["subir"])) {
     );
 
     $obj = consumir_servicio_REST(URL . "/cambiar_foto/" . $_SESSION["email"], "PUT", $datos);
-  //  var_dump($obj);
+    //  var_dump($obj);
     if (isset($obj->mensaje_exito)) {
         @$var = move_uploaded_file($_FILES['foto2']['tmp_name'], "img/" . $foto_bd);
     } else {
@@ -23,27 +23,59 @@ if (isset($_POST["subir"])) {
     }
 }
 
-$error_prueba=isset($_POST["modificar"]);
-$error_nombre=true;
-$error_apellidos=true;
-$error_dni=true;
-if(isset($_POST["modificar"])){
-    $error_nombre=$_POST["nombre"]=="";
-    $error_apellidos=$_POST["apellidos"]=="";
-    $error_dni=$_POST["dni"]=="";
+$error_prueba = isset($_POST["modificar"]);
+$error_nombre = true;
+$error_apellidos = true;
+$error_dni = true;
+$dni_de_otro = false;
+if (isset($_POST["modificar"])) {
+    $error_nombre = $_POST["nombre"] == "";
+    $error_apellidos = $_POST["apellidos"] == "";
 
-    $error_todo=$error_nombre||$error_apellidos||$error_dni;
+    $error_todo_perfil = $error_nombre || $error_apellidos || $error_dni;
 
-    $datos=array(
-        "nombre"=>$_POST["nombre"],
-        "apellidos"=>$_POST["apellidos"],
-        "dni"=>$_POST["dni"]
-    );
+    if (!$error_todo_perfil) {
 
-    var_dump($datos);
+        $comprobar_dni = array(
+            "dni" => $_POST["dni"],
+            "email" => $_SESSION["email"]
+        );
 
-   // echo $_POST["nombre"];
-     
+        $obj = consumir_servicio_REST(URL . "/buscar_dni/" . $_POST["dni"], "GET");
+        //var_dump($obj);
+        if (isset($obj->existe)) {
+            $obj2 = consumir_servicio_REST(URL . "/buscar_dni_usuario", "POST", $comprobar_dni);
+            // var_dump($obj2);
+            if (isset($obj2->no_pertenece)) {
+                $dni_de_otro = true;
+            } elseif (isset($obj2->pertenece)) {
+                $datos = array(
+                    "nombre" => $_POST["nombre"],
+                    "apellidos" => $_POST["apellidos"],
+                    "dni" => $_POST["dni"]
+                );
+
+                $obj = consumir_servicio_REST(URL . "/cambiar_datos/" . $_SESSION["email"], "PUT", $datos);
+                $_SESSION["nombre"] = $_POST["nombre"] . " " . $_POST["apellidos"];
+
+                //  var_dump($obj);
+
+            }
+        } elseif (isset($obj->no_existe)) {
+
+            $datos = array(
+                "nombre" => $_POST["nombre"],
+                "apellidos" => $_POST["apellidos"],
+                "dni" => $_POST["dni"]
+            );
+
+            $obj = consumir_servicio_REST(URL . "/cambiar_datos/" . $_SESSION["email"], "PUT", $datos);
+            // var_dump($obj);
+            $_SESSION["nombre"] = $_POST["nombre"] . " " . $_POST["apellidos"];
+        }
+    }
+    // echo $_POST["nombre"];
+
 }
 
 ?>
@@ -128,39 +160,70 @@ if(isset($_POST["modificar"])){
             <p>
                 Editar perfil
             </p>
-            <div  class="oculta" style="<?php if($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
-            <article>
+            <div class="oculta" style="<?php if ($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
+                <article>
                     <form action="principal.php" method="post">
-                    <?php
-                      $datos = array(
-                        "email" => $_SESSION["email"]
-                    );
-                    // var_dump($datos);
-    
-                    $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                    
-                    ?>
-                    <table>
-                        <tr>
-                            <td> <label for="nombre">Nombre:</label></td>
-                            <td><input type="text" id="nombre" name="nombre" value="<?php echo $obj->usuario->nombre; ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="apellidos">Apellidos:</label></td>
-                            <td><input type="text" id="apellidos" name="apellidos" value="<?php echo $obj->usuario->apellidos; ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="dni">Dni:</label></td>
-                            <td><input type="text" id="dni" name="dni" value="<?php if($obj->usuario->dni!=null) echo $obj->usuario->dni; ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="copia">Copia DNI:</label></td>
-                            <td><input type="file" name="copia" id="copia"></td>
-                        </tr>
-                    </table>
+                        <?php
+                        $datos = array(
+                            "email" => $_SESSION["email"]
+                        );
+                        // var_dump($datos);
 
-                    <input type="submit" name="modificar" value="Modificar"/>
-                    <input type="hidden" class="edita_peque" name="edita_peque"/>
+                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                        if(!isset($_POST["modificar"])){
+                            $nombre=$obj->usuario->nombre;
+                            $apellidos=$obj->usuario->apellidos;
+
+                            if ($obj->usuario->dni != null){
+                            $dni=$obj->usuario->dni;
+                            }
+
+                        }else{
+                            $nombre=$_POST["nombre"];
+                            $apellidos=$_POST["apellidos"];
+                            $dni=$_POST["dni"];
+                            
+                        }
+
+                        ?>
+                        Editar perfil:
+                        <br/>
+                        <hr/>
+                        <br/>
+                        <table>
+                            <tr>
+                                <td> <label for="nombre">Nombre:</label></td>
+                                <td><input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" />
+                                <?php if ($error_nombre) echo '<span class="error">*</span>'; ?></td>
+                            </tr>
+                            <tr>
+                                <td> <label for="apellidos">Apellidos:</label></td>
+                                <td><input type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" />
+                                <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
+                            </tr>
+                            <tr>
+                                <td> <label for="dni">Dni:</label></td>
+                                <td>
+                                    <input type="text" pattern="[0-9]{8}[A-Za-z]{1}" id="dni" name="dni" placeholder="12345678Y" value="<?php if ($obj->usuario->dni != null) echo $dni; ?>" />
+                                    <?php if ($dni_de_otro) echo '<span class="error">*</span>'; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <label for="copia">Copia DNI:</label></td>
+                                <td><input type="file" name="copia" id="copia"></td>
+                            </tr>
+                        </table>
+
+                        <input type="submit" name="modificar" value="Modificar" />
+                        <br />
+                        <br />
+                        <input type="hidden" class="edita_peque" name="edita_peque" />
+                        <?php
+
+                        if ($dni_de_otro)
+                            echo "** Campo vacío o incorrecto **";
+
+                        ?>
                     </form>
                 </article>
             </div>
@@ -179,67 +242,101 @@ if(isset($_POST["modificar"])){
         </section>
         <section id="grande">
             <?php
-            if(isset($_POST["subir"]) || !(isset($_POST["modificar"]))){
-            $datos = array(
-                "email" => $_SESSION["email"]
-            );
-            // var_dump($datos);
+            if (isset($_POST["subir"]) || !(isset($_POST["modificar"]))) {
+                $datos = array(
+                    "email" => $_SESSION["email"]
+                );
+                // var_dump($datos);
 
-            $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-            echo "<article>";
-            echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-            echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-            echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-            echo "Email: " . $obj->usuario->email . "</br>";
-            if ($obj->usuario->dni == null)
-                echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-            else
-                echo "DNI: " . $obj->usuario->dni . "</br>";
-            echo "</p>";
-            echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-            echo "<input type='file' name='foto2'/>";
-            echo "<input type='submit' name='subir' value='Subir'/>";
-            echo "</form>";
-            echo "</article>";
-        }elseif(isset($_POST["modificar"])){
+                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                echo "<article>";
+                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
+                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
+                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
+                echo "Email: " . $obj->usuario->email . "</br>";
+                if ($obj->usuario->dni == null)
+                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
+                else
+                    echo "DNI: " . $obj->usuario->dni . "</br>";
+                echo "</p>";
+                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
+                echo "<input type='file' name='foto2'/>";
+                echo "<input type='submit' name='subir' value='Subir'/>";
+                echo "</form>";
+                echo "</article>";
+            } elseif (isset($_POST["modificar"])) {
             ?>
-    <article>
+                <article>
                     <form action="principal.php" method="post">
-                    <?php
-                      $datos = array(
-                        "email" => $_SESSION["email"]
-                    );
-                    // var_dump($datos);
-    
-                    $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                    
-                    ?>
-                    <table>
-                        <tr>
-                            <td> <label for="nombre2">Nombre:</label></td>
-                            <td><input type="text" id="nombre2" name="nombre" value="<?php echo $obj->usuario->nombre; ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="apellidos2">Apellidos:</label></td>
-                            <td><input type="text" id="apellidos2" name="apellidos" value="<?php echo $obj->usuario->apellidos; ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="dni2">Dni:</label></td>
-                            <td><input type="text" id="dni2" name="dni" value="<?php if($obj->usuario->dni!=null) echo $obj->usuario->dni; ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="copia2">Copia DNI:</label></td>
-                            <td><input type="file" name="copia" id="copia2"></td>
-                        </tr>
-                    </table>
+                        <?php
+                        $datos = array(
+                            "email" => $_SESSION["email"]
+                        );
+                        // var_dump($datos);
 
-                    <input type="submit" name="modificar" value="Modificar"/>
+                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+
+                        if(!isset($_POST["modificar"])){
+                            $nombre=$obj->usuario->nombre;
+                            $apellidos=$obj->usuario->apellidos;
+
+                            if ($obj->usuario->dni != null){
+                            $dni=$obj->usuario->dni;
+                            }
+
+                        }else{
+                            $nombre=$_POST["nombre"];
+                            $apellidos=$_POST["apellidos"];
+                            $dni=$_POST["dni"];
+                            
+                        }
+
+                        ?>
+                        Editar perfil
+                        <br/>
+                        <hr/>
+                        <br/>
+                        <table>
+                            <tr>
+                                <td> <label for="nombre2">Nombre:</label></td>
+                                <td><input type="text" id="nombre2" name="nombre" value="<?php echo $nombre ?>" />
+                                <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td> <label for="apellidos2">Apellidos:</label></td>
+                                <td><input type="text" id="apellidos2" name="apellidos" value="<?php echo $apellidos; ?>" />
+                                <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
+                            </tr>
+                            <tr>
+                                <td> <label for="dni2">Dni:</label></td>
+                                <td>
+
+                                    <input type="text" id="dni2" pattern="[0-9]{8}[A-Za-z]{1}" placeholder="12345678Y" name="dni" value="<?php if ($obj->usuario->dni != null) echo $dni; ?>" />
+                                    <?php if ($dni_de_otro) echo '<span class="error">*</span>'; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <label for="copia2">Copia DNI:</label></td>
+                                <td><input type="file" name="copia" id="copia2"></td>
+                            </tr>
+                        </table>
+
+                        <input type="submit" name="modificar" value="Modificar" />
+                        <br />
+                        <br />
+                        <?php
+
+                        if ($dni_de_otro || $error_nombre || $error_apellidos)
+                            echo "** Campo vacío o incorrecto **";
+
+                        ?>
                     </form>
                 </article>
 
             <?php
 
-        }
+            }
             ?>
 
         </section>
@@ -266,20 +363,20 @@ if(isset($_POST["modificar"])){
 
                 $("#grande").html($(this).next().html());
 
-               // console.log($("#grande .edita_peque").val());
-            $("#grande .edita_peque").remove();
+                // console.log($("#grande .edita_peque").val());
+                $("#grande .edita_peque").remove();
 
 
             });
 
-    
+
 
 
             $(window).resize(function() {
                 // console.log("hola");
                 if ($(window).width() > 1000)
                     $("#titulares .oculta").hide();
-                    
+
             })
 
         })

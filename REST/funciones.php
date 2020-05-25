@@ -130,6 +130,54 @@ function buscar_email($email){
     }
 }
 
+function buscar_dni_usuario($dni,$email){
+
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select * from usuarios where dni='".$dni."' and email='$email'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+            if(mysqli_num_rows($resultado)>0){
+                return array("pertenece"=>"El dni pertenece al email");
+            }else{
+            return array("no_pertenece"=>"El dni no pertenece al email");
+            }
+        }
+    }
+}
+
+function buscar_dni($dni){
+
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select * from usuarios where dni='".$dni."'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+            if(mysqli_num_rows($resultado)>0){
+                return array("existe"=>"Dni existente");
+            }else{
+            return array("no_existe"=>"El dni no existe");
+            }
+        }
+    }
+}
+
 function insertar_usuario($nombre,$apellido,$email,$clave){
 
     $con=conectar();
@@ -167,6 +215,26 @@ function cambiar_foto($email,$foto){
               return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
           }else{
               return array("mensaje_exito"=>"Se ha cambiado la foto con éxito");
+          }
+      }
+
+}
+
+function cambiar_datos($email,$nombre,$apellidos,$dni){
+
+    $con=conectar();
+      if(!$con){
+          return array("mensaje"=>"No se ha podido conectar con la BD");
+      }else{
+          mysqli_set_charset($con,"utf8");
+  
+          $consulta="update usuarios set nombre='$nombre', apellidos='$apellidos', dni='$dni' where email='$email'";
+          $resultado=mysqli_query($con,$consulta);
+  
+          if(!$resultado){
+              return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+          }else{
+              return array("mensaje_exito"=>"Se han cambiado los datos con éxito");
           }
       }
 
