@@ -3,6 +3,7 @@
 $error_foto = true;
 if (isset($_POST["subir"])) {
 
+   // var_dump($_FILES["foto2"]);
     $error_foto = ($_FILES["foto2"]["name"] == "" || $_FILES['foto2']['error'] || !getimagesize($_FILES['foto2']['tmp_name']));
     $arr = explode(".", $_FILES['foto2']['name']); //separador por el punto
     $extension = end($arr); // del array obtenido antes quiero la última posición, la extensión
@@ -14,12 +15,35 @@ if (isset($_POST["subir"])) {
     );
 
     $obj = consumir_servicio_REST(URL . "/cambiar_foto/" . $_SESSION["email"], "PUT", $datos);
-
+  //  var_dump($obj);
     if (isset($obj->mensaje_exito)) {
         @$var = move_uploaded_file($_FILES['foto2']['tmp_name'], "img/" . $foto_bd);
     } else {
         echo $obj->mensaje;
     }
+}
+
+$error_prueba=isset($_POST["modificar"]);
+$error_nombre=true;
+$error_apellidos=true;
+$error_dni=true;
+if(isset($_POST["modificar"])){
+    $error_nombre=$_POST["nombre"]=="";
+    $error_apellidos=$_POST["apellidos"]=="";
+    $error_dni=$_POST["dni"]=="";
+
+    $error_todo=$error_nombre||$error_apellidos||$error_dni;
+
+    $datos=array(
+        "nombre"=>$_POST["nombre"],
+        "apellidos"=>$_POST["apellidos"],
+        "dni"=>$_POST["dni"]
+    );
+
+    var_dump($datos);
+
+   // echo $_POST["nombre"];
+     
 }
 
 ?>
@@ -104,9 +128,40 @@ if (isset($_POST["subir"])) {
             <p>
                 Editar perfil
             </p>
-            <div class="oculta">
-                <article>
-                    Editando perfil
+            <div  class="oculta" style="<?php if($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
+            <article>
+                    <form action="principal.php" method="post">
+                    <?php
+                      $datos = array(
+                        "email" => $_SESSION["email"]
+                    );
+                    // var_dump($datos);
+    
+                    $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                    
+                    ?>
+                    <table>
+                        <tr>
+                            <td> <label for="nombre">Nombre:</label></td>
+                            <td><input type="text" id="nombre" name="nombre" value="<?php echo $obj->usuario->nombre; ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="apellidos">Apellidos:</label></td>
+                            <td><input type="text" id="apellidos" name="apellidos" value="<?php echo $obj->usuario->apellidos; ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="dni">Dni:</label></td>
+                            <td><input type="text" id="dni" name="dni" value="<?php if($obj->usuario->dni!=null) echo $obj->usuario->dni; ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="copia">Copia DNI:</label></td>
+                            <td><input type="file" name="copia" id="copia"></td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="modificar" value="Modificar"/>
+                    <input type="hidden" class="edita_peque" name="edita_peque"/>
+                    </form>
                 </article>
             </div>
             <p>
@@ -124,6 +179,7 @@ if (isset($_POST["subir"])) {
         </section>
         <section id="grande">
             <?php
+            if(isset($_POST["subir"]) || !(isset($_POST["modificar"]))){
             $datos = array(
                 "email" => $_SESSION["email"]
             );
@@ -145,6 +201,45 @@ if (isset($_POST["subir"])) {
             echo "<input type='submit' name='subir' value='Subir'/>";
             echo "</form>";
             echo "</article>";
+        }elseif(isset($_POST["modificar"])){
+            ?>
+    <article>
+                    <form action="principal.php" method="post">
+                    <?php
+                      $datos = array(
+                        "email" => $_SESSION["email"]
+                    );
+                    // var_dump($datos);
+    
+                    $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                    
+                    ?>
+                    <table>
+                        <tr>
+                            <td> <label for="nombre2">Nombre:</label></td>
+                            <td><input type="text" id="nombre2" name="nombre" value="<?php echo $obj->usuario->nombre; ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="apellidos2">Apellidos:</label></td>
+                            <td><input type="text" id="apellidos2" name="apellidos" value="<?php echo $obj->usuario->apellidos; ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="dni2">Dni:</label></td>
+                            <td><input type="text" id="dni2" name="dni" value="<?php if($obj->usuario->dni!=null) echo $obj->usuario->dni; ?>"/></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="copia2">Copia DNI:</label></td>
+                            <td><input type="file" name="copia" id="copia2"></td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="modificar" value="Modificar"/>
+                    </form>
+                </article>
+
+            <?php
+
+        }
             ?>
 
         </section>
@@ -163,6 +258,7 @@ if (isset($_POST["subir"])) {
         $(document).ready(function() {
 
 
+            //al hacer click a cualquier etiqueta que no tenga la clase oculta dentro de la etiqueta con id titulares
             $("#titulares").on("click", "p:not(.oculta)", function() {
                 //console.log("hola");
                 if ($(window).width() < 1000)
@@ -170,27 +266,23 @@ if (isset($_POST["subir"])) {
 
                 $("#grande").html($(this).next().html());
 
+               // console.log($("#grande .edita_peque").val());
+            $("#grande .edita_peque").remove();
 
 
             });
+
+    
+
 
             $(window).resize(function() {
                 // console.log("hola");
                 if ($(window).width() > 1000)
                     $("#titulares .oculta").hide();
-
+                    
             })
 
         })
-
-        jQuery('input[type=file]').change(function() {
-            var filename = jQuery(this).val().split('\\').pop();
-            var idname = jQuery(this).attr('id');
-            console.log(jQuery(this));
-            console.log(filename);
-            console.log(idname);
-            jQuery('span.' + idname).next().find('span').html(filename);
-        });
     </script>
 </body>
 

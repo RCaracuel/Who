@@ -37,6 +37,7 @@
            // var_dump($datos);
     
             $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+            $_SESSION["id_usu"]=$obj->usuario->cod_usuario;
             echo "<a href='principal.php?perfil'><img src='img/".$obj->usuario->foto_perfil."' alt='foto-perfil'/></a>"
             ?>
         </div>
