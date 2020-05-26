@@ -26,8 +26,10 @@ if (isset($_SESSION["nombre"])) {
 
            if(isset($_GET["perfil"])|| isset($_POST["perfil"])||isset($_POST["subir"])|| isset($_POST["modificar"]))
                 include "perfil.php";
-            elseif(isset($_POST["propiedades"]))
+            elseif(isset($_POST["propiedades"])|| isset($_POST["agregar"]))
                 include "propiedades.php";
+            elseif(isset($_POST["contratos"]))
+            include "contratos.php";
                 else
                 include "prueba.php";
           }

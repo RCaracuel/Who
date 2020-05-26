@@ -129,7 +129,7 @@ if (isset($_POST["modificar"])) {
     <main>
         <section id="titulares">
             <p>
-                Datos personales
+            <span class="titulo"> Datos personales</span>
             </p>
             <div class="oculta">
 
@@ -159,7 +159,7 @@ if (isset($_POST["modificar"])) {
 
             </div>
             <p>
-                Editar perfil
+            <span class="titulo"> Editar perfil</span>
             </p>
             <div class="oculta" style="<?php if ($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
                 <article>
@@ -185,7 +185,7 @@ if (isset($_POST["modificar"])) {
                         }
 
                         ?>
-                        Editar perfil:
+                      <span class="titulo">  Editar perfil:</span>
                         <br />
                         <hr />
                         <br />
@@ -227,19 +227,19 @@ if (isset($_POST["modificar"])) {
                 </article>
             </div>
             <p>
-                Seguridad
+            <span class="titulo">  Seguridad</span>
             </p>
             <div class="oculta">
 
             </div>
             <p>
-                Eliminar cuenta
+            <span class="titulo">  Eliminar cuenta</span>
             </p>
             <div class="oculta">
 
             </div>
             <p>
-                Informar problema
+            <span class="titulo">  Informar problema </span>
             </p>
             <div class="oculta">
 
@@ -295,9 +295,8 @@ if (isset($_POST["modificar"])) {
                         }
 
                         ?>
-                        Editar perfil
+                       <span class="titulo"> Editar perfil</span>
                         <br />
-                        <hr />
                         <br />
                         <table>
                             <tr>

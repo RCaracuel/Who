@@ -45,7 +45,7 @@
     <main>
         <section id="titulares">
             <p>
-                TOP 5
+            <span class="titulo"> TOP 5</span>
             </p>
             <div class="oculta">
                 <?php
@@ -57,9 +57,10 @@
                     echo "<article>";
                     // echo "hola";
                     //echo $inmueble->imagen;
-                    echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
+                    
                     echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble."</span>";
                     echo "<br/>";
+                    echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
                     echo "Localidad: " . $inmueble->localidad;
                     echo "<br/>";
                     echo "Distancia centro: " . $inmueble->distancia_centro . "km";
@@ -88,34 +89,38 @@
                 ?>
             </div>
             <p>
-                Los + buscados
+            <span class="titulo">  Los + buscados </span>
             </p>
             <div class="oculta">
                <article>
-                   <img src="img/londres.jpg" alt="londres"/>
+                   
                    <p><span class="destino">Londres</span>
                        <br/>
+                       <img src="img/londres.jpg" alt="londres"/>
                        Es el destino más buscado en Google, no es de extrañar, debido a que es la mayor ciudad y área urbana de Gran Bretaña y de toda la Unión Europea. Con todas las zonas de interés cultural que Londres tiene es normal que sea uno de los destinos preferidos por los ínter nautas para elegir como destino vacacional.
                    </p>
                </article>
                <article>
-                   <img src="img/tailandia.jpg" alt="tailandia"/>
+                  
                    <p><span class="destino">Tailandia</span>
                        <br/>
+                       <img src="img/tailandia.jpg" alt="tailandia"/>
                        Uno de los destinos favoritas para realizar un viaje de novios, la combinación de zonas culturales con zonas paradisíacas de playas hacen de Tailandia un destino muy solicitado por los recién casados. Un destino bastante económico para pasar una temporada larga allí y empaparte de la cultura milenaria asiática de diferentes zonas de Tailandia.
                    </p>
                </article>
                <article>
-                   <img src="img/paris.jpg" alt="paris"/>
+                  
                    <p><span class="destino">París</span>
                        <br/>
+                       <img src="img/paris.jpg" alt="paris"/>
                        El tercer destino más buscado en Google es París, la ciudad del amor, un destino romántico con un gran interés cultural en territorio Francés. Destacan diferentes lugares para visitar como la Torre Eiffel, Disneyland Paris o la Catedral de Notre Dame.
                    </p>
                </article>
                <article>
-                   <img src="img/roma.jpg" alt="roma"/>
+                  
                    <p><span class="destino">Roma</span>
                        <br/>
+                       <img src="img/roma.jpg" alt="roma"/>
                        Preciosa ciudad llena de lugares culturales que visitar, en cuanto pises Roma notarás que respiras historia en casi cualquier zona. Espectaculares monumentos te esperan para que puedas visitarlos con total tranquilidad y disfrutes de su belleza y cultura italiana.
                    </p>
                    
@@ -123,34 +128,38 @@
                <a href="https://www.felicesvacaciones.es/blog/los-destinos-mas-buscados-en-google">Artículo de felicesvacaciones.es</a>
             </div>
             <p>
-                Los + económicos
+            <span class="titulo">Los + económicos </span>
             </p>
             <div class="oculta">
             <article>
-                   <img src="https://content.skyscnr.com/m/055ab35306c6c272/original/GettyImages-474347378.jpg?resize=1800px:1800px&quality=100" alt="camboya"/>
+                   
                    <p><span class="destino">Camboya</span>
                        <br/>
+                       <img src="https://content.skyscnr.com/m/055ab35306c6c272/original/GettyImages-474347378.jpg?resize=1800px:1800px&quality=100" alt="camboya"/>
                        En Camboya podrás encontrar alojamiento a partir de 7 euros la noche. Y si quieres el lujo de disponer de aire acondicionado, unos 10 euros. Un buen plato de pescado en Khmer Amok te costará entorno a los 4 euros.
                    </p>
                </article>
                <article>
-                   <img src="https://content.skyscnr.com/m/72e1e49275db7466/original/GettyImages-480173148.jpg?resize=1800px:1800px&quality=100" alt="malasia"/>
+                  
                    <p><span class="destino">Malasia</span>
                        <br/>
+                       <img src="https://content.skyscnr.com/m/72e1e49275db7466/original/GettyImages-480173148.jpg?resize=1800px:1800px&quality=100" alt="malasia"/>
                        Si te apasiona probar platos nuevos, pero siempre aparece el fantasma del dinero arruinando cada plan que haces, tu destino es Malasia.
                    </p>
                </article>
                <article>
-                   <img src="https://content.skyscnr.com/m/1b5dc12e5372c2a7/original/GettyImages-178820829_doc.jpg?resize=1800px:1800px&quality=100" alt="paraguay"/>
+                   
                    <p><span class="destino">Paraguay</span>
                        <br/>
+                       <img src="https://content.skyscnr.com/m/1b5dc12e5372c2a7/original/GettyImages-178820829_doc.jpg?resize=1800px:1800px&quality=100" alt="paraguay"/>
                        Con la capital, Asunción, considerada la ciudad más barata del mundo, este país escala posiciones en el top de los países más baratos del mundo a los que ir a pasar unas vacaciones de lujo.
                    </p>
                </article>
                <article>
-                   <img src="https://content.skyscnr.com/m/0309f59d3544aa9f/original/GettyImages-99446039.jpg?resize=1800px:1800px&quality=100" alt="bolivia"/>
+                  
                    <p><span class="destino">Bolivia</span>
                        <br/>
+                       <img src="https://content.skyscnr.com/m/0309f59d3544aa9f/original/GettyImages-99446039.jpg?resize=1800px:1800px&quality=100" alt="bolivia"/>
                        Bolivia es uno de los países más baratos por excelencia y más teniendo en cuenta que puedes sobrevivir, moverte y conocer el país por menos de 19 euros al día.
                    </p>
                    
@@ -158,7 +167,7 @@
                <a href="https://www.skyscanner.es/noticias/inspiracion/los-20-paises-mas-baratos-a-los-que-ir-de-vacaciones">Artículo de skyscanner.es</a>
             </div>
             <p>
-                Tu casa protegida
+            <span class="titulo">  Tu casa protegida </span>
             </p>
             <div class="oculta">
                 <article class="robo">
@@ -195,10 +204,11 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
                 echo "<article>";
                 // echo "hola";
                 //echo $inmueble->imagen;
-                echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
+               
                 echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble."</span>";
                 echo "<br/>";
                 echo "<br/>";
+                echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
                 echo "Localidad: " . $inmueble->localidad;
                 echo "<br/>";
                 echo "Distancia centro: " . $inmueble->distancia_centro . "km";

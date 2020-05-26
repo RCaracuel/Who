@@ -187,7 +187,7 @@ function buscar_propiedades($cod){
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select * from inmueble join fotos where inmueble.cod_inmueble=fotos.cod_inmueble and  inmueble.cod_propietario='$cod'";
+        $consulta="select * from inmueble left join fotos on inmueble.cod_inmueble=fotos.cod_inmueble where inmueble.cod_propietario='$cod'";
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){
@@ -207,6 +207,30 @@ function buscar_propiedades($cod){
         }
     }
 }
+
+
+function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jardin,$distancia,$m2,$idufir,$localidad){
+
+    $con=conectar();
+  //  return array("mensaje"=>"He entrado a la función");
+   
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar con la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+
+        $consulta="insert into inmueble (cod_propietario,num_hab,terraza,jardin,piscina,garaje,distancia_centro,m2,idufir,localidad) values ('$codigo','$habitaciones','$terraza','$jardin', '$piscina', '$garaje','$distancia','$m2','$idufir','$localidad')";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+        }else{
+            return array("mensaje_exito"=>"Se ha insertado la propiedad con éxito");
+        }
+    }
+
+}
+
 
 function insertar_usuario($nombre,$apellido,$email,$clave){
 

@@ -42,7 +42,7 @@ header a img{
 
 header div#escritorio img{
     width: 8em;
-    height: 3em;
+    height: 4em;
     margin-bottom: -0.6em;
     z-index: 1;
     margin-right: auto;   
@@ -174,12 +174,12 @@ padding:1.5em;
 }
 main section#titulares p{
     text-decoration: none;
-    font-size: 1.5em;
+    font-size: 1.2em;
     margin-bottom: 0.5em;
     background-color: rgba(142, 198, 197, 0.52);
     border-radius: 0.3em;
     padding:0.1em;
-    text-align: justify;
+ 
 }
 main section#titulares p a{
     text-decoration: none;
@@ -193,15 +193,24 @@ main section#titulares div article img{
 }
 
 main section#titulares div article{
-    margin:1.5em;
+
     display:flex;
     background-color: rgba(142, 198, 197, 0.52);
     min-height:33vh;
     flex-direction: column;
     padding:0.5em;
-    font-size: 0.7em;
+    font-size: 1.2em;
+    margin-bottom:1em;
   
 }
+.titulo{
+    font-size: 1.5em;
+}
+
+main section#titulares div article form table{
+    width:100%;
+}
+
 main section#titulares div article p{
     padding:1em;
 }
@@ -245,10 +254,13 @@ input[type="file"]#foto {
             align-self: center;
             cursor: pointer;
             padding: 15px 40px !important;
-            text-transform: uppercase;
             width: fit-content;
             text-align: center;
         }
+        main section#grande article input[type="file"]{
+            padding:0 !important;
+        }
+
 footer{
     display:flex;
     padding:1.2em;
@@ -351,6 +363,8 @@ margin:0.5em;
         width:50%;
         height: auto;
         margin-bottom: auto;
+        float: left;
+        margin-right: 1em;
    
 
     }
@@ -369,29 +383,16 @@ margin:0.5em;
         height: min-content;
        
     }
-    main section#grande article input{
-        flex-basis: 25%;
-        margin-top: 2em;
-        font-size: 14px;
-        font-weight: 600;
-        margin-left: 1em;
-        border:none;
-        color: #fff;
-        background-color:rgba(133, 102, 170, 0.7);
-        align-self: center;
-        cursor: pointer;
-        padding: 15px 40px !important;
-        text-transform: uppercase;
-        width: fit-content;
-        text-align: center;
-    }
+
     main section#grande article p{
-        width:50%;
+        width:100%;
         margin-left: 1em;
         font-size: 1.5em;
         height: min-content;
        
     }
+  
+
     main section#grande h1:nth-child(1){
         font-size: 3em;
     }
@@ -399,10 +400,20 @@ margin:0.5em;
         margin:1.5em;
         display:flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         background-color: rgba(142, 198, 197, 0.52);
         padding:1.5em;        
 
+    }
+      main section#grande article form{
+        width:100%;
+        margin-left: 1em;
+        font-size: 1.5em;
+        height: min-content;
+       
+    }
+    main section#grande article form table{
+        width:100%;
     }
     main section#grande span.destino{
         font-size: 1.5em;
@@ -410,6 +421,7 @@ margin:0.5em;
     main section#grande article.robo p{
         width:80%;
     }
+    
 
 
 }
