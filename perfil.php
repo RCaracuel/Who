@@ -78,9 +78,33 @@ if (isset($_POST["modificar"])) {
 
 }
 
-$error_prueba_contrasenia = isset($_POST["contrasenia"]);
-if(isset($_POST["cambiar_contrasenia"])){
-    echo "pulsa";
+$error_prueba_contrasenia = isset($_POST["cambiar_contrasenia"]);
+$error_old = false;
+$error_nueva = false;
+$error_nueva2 = false;
+$error_distintas=false;
+if (isset($_POST["cambiar_contrasenia"])) {
+
+    $error_old = $_POST["old"]=="";
+    $error_nueva = $_POST["nueva"]=="";
+    $error_nueva2 = $_POST["nueva2"]=="";
+    $error_distintas=($_POST["nueva"]!=$_POST["nueva2"]);
+
+    $error_todo_contrasenia = $error_old || $error_nueva || $error_nueva2 ||$error_distintas;
+
+    if (!$error_todo_contrasenia) {
+        $nueva=md5($_POST["nueva"]);
+        $vieja=md5($_POST["old"]);
+        $datos_contrasenia=array(
+            "old"=>$vieja,
+            "nueva"=>$nueva
+        );
+        
+
+    $obj=consumir_servicio_REST(URL."/cambiar_contrasenia/".$_SESSION['email'],"PUT",$datos_contrasenia);
+    var_dump($obj);
+    }
+
 }
 
 ?>
@@ -125,7 +149,7 @@ if(isset($_POST["cambiar_contrasenia"])){
             // var_dump($datos);
 
             $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-            $_SESSION["id_usu"]=$obj->usuario->cod_usuario;
+            $_SESSION["id_usu"] = $obj->usuario->cod_usuario;
             echo "<a href='principal.php?perfil'><img src='img/" . $obj->usuario->foto_perfil . "' alt='foto-perfil'/></a>"
             ?>
 
@@ -134,7 +158,7 @@ if(isset($_POST["cambiar_contrasenia"])){
     <main>
         <section id="titulares">
             <p>
-            <span class="titulo"> Datos personales</span>
+                <span class="titulo"> Datos personales</span>
             </p>
             <div class="oculta">
 
@@ -164,7 +188,7 @@ if(isset($_POST["cambiar_contrasenia"])){
 
             </div>
             <p>
-            <span class="titulo"> Editar perfil</span>
+                <span class="titulo"> Editar perfil</span>
             </p>
             <div class="oculta" style="<?php if ($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
                 <article>
@@ -190,7 +214,7 @@ if(isset($_POST["cambiar_contrasenia"])){
                         }
 
                         ?>
-                      <span class="titulo">  Editar perfil:</span>
+                        <span class="titulo"> Editar perfil:</span>
                         <br />
                         <hr />
                         <br />
@@ -232,38 +256,51 @@ if(isset($_POST["cambiar_contrasenia"])){
                 </article>
             </div>
             <p>
-            <span class="titulo"> Cambiar contraseña</span>
+                <span class="titulo"> Cambiar contraseña</span>
             </p>
             <div class="oculta" style="<?php if ($error_prueba_contrasenia && isset($_POST["edita_peque2"])) echo 'display:block'; ?>">
-                        <article>
-                            <span class="cabecera">Cambiar contraseña</span>
-                            <br/>
-                            <br/>
-                            <form action="principal.php" method="post">
-                            
-                                <input class="formu" type="text" name="old" placeholder="Introduzca contraseña actual"/>
-                    <br/>
-                    <br/>
-                                <input class="formu" type="text" name="nueva" placeholder="Contraseña nueva"/>
-                    <br/>
-                    <br/>
-                                <input  class="formu" type="text" name="nueva2" placeholder=" Confirme contraseña nueva"/>
-                            <br/>
-                            <br/>
-                                <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña"/>
-                                <input type="hidden" class="edita_peque2" name="edita_peque"/>
+                <article>
+                    <span class="cabecera">Cambiar contraseña</span>
+                    <br />
+                    <br />
+                    <form action="principal.php" method="post">
 
-                            </form>
-                        </article>
+                    <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
+                        
+                        <br />
+                        <br />
+                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
+                        
+                        <br />
+                        <br />
+                        <?php if ($error_nueva2) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
+                        
+                        <br />
+                        <br />
+                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
+                        <input type="hidden" class="edita_peque" name="edita_peque2" />
+                        <br />
+                        <?php
+
+                        if ($error_old || $error_nueva || $error_nueva2)
+                            echo "** Campo vacío o incorrecto **";
+                        if($error_distintas)
+                        echo "**La contraseña no coincide**";
+                        ?>
+                    </form>
+                </article>
             </div>
             <p>
-            <span class="titulo">  Eliminar cuenta</span>
+                <span class="titulo"> Eliminar cuenta</span>
             </p>
             <div class="oculta">
 
             </div>
             <p>
-            <span class="titulo">  Informar problema </span>
+                <span class="titulo"> Informar problema </span>
             </p>
             <div class="oculta">
 
@@ -297,7 +334,7 @@ if(isset($_POST["cambiar_contrasenia"])){
                         }
 
                         ?>
-                       <span class="titulo"> Editar perfil</span>
+                        <span class="titulo"> Editar perfil</span>
                         <br />
                         <br />
                         <table>
@@ -340,55 +377,69 @@ if(isset($_POST["cambiar_contrasenia"])){
 
             <?php
 
-            }elseif(isset($_POST["cambiar_contrasenia"])){
-                    ?>
+            } elseif (isset($_POST["cambiar_contrasenia"])) {
+            ?>
                 <article>
-                            <span class="cabecera">Cambiar contraseña</span>
-                            <br/>
-                            <br/>
-                            <form action="principal.php" method="post">
+                <span class="cabecera">Cambiar contraseña</span>
+                    <br />
+                    <br />
+                    <form action="principal.php" method="post">
+
+                    <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
+                       
+                        <br />
+                        <br />
+                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
+                        
+                        <br />
+                        <br />
+                        <?php if ($error_nueva2 || $error_distintas) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
+                        
+                        <br />
+                        <br />
+                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
+                        <input type="hidden" class="edita_peque2" name="edita_peque" />
+                        <br />
+                        <?php
+
+                        if ($error_old || $error_nueva || $error_nueva2)
+                            echo "** Campo vacío o incorrecto **";
+                            if($error_distintas)
                             
-                                <input class="formu" type="text" name="old" placeholder="Introduzca contraseña actual"/>
-                    <br/>
-                    <br/>
-                                <input class="formu" type="text" name="nueva" placeholder="Contraseña nueva"/>
-                    <br/>
-                    <br/>
-                                <input  class="formu" type="text" name="nueva2" placeholder=" Confirme contraseña nueva"/>
-                            <br/>
-                            <br/>
-                                <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña"/>
-                                <input type="hidden" class="edita_peque" name="edita_peque"/>
+                            echo "**La contraseña no coincide**";
+                        ?>
 
-                            </form>
-                        </article>
+                    </form>
+                </article>
 
 
-<?php
-            }else{
-              
-                    $datos = array(
-                        "email" => $_SESSION["email"]
-                    );
-                    // var_dump($datos);
-    
-                    $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                    echo "<article>";
-                    echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-                    echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-                    echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-                    echo "Email: " . $obj->usuario->email . "</br>";
-                    if ($obj->usuario->dni == null)
-                        echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                    else
-                        echo "DNI: " . $obj->usuario->dni . "</br>";
-                    echo "</p>";
-                    echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-                    echo "<input type='file' name='foto2'/>";
-                    echo "<input type='submit' name='subir' value='Subir'/>";
-                    echo "</form>";
-                    echo "</article>";
-                
+            <?php
+            } else {
+
+                $datos = array(
+                    "email" => $_SESSION["email"]
+                );
+                // var_dump($datos);
+
+                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                echo "<article>";
+                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
+                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
+                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
+                echo "Email: " . $obj->usuario->email . "</br>";
+                if ($obj->usuario->dni == null)
+                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
+                else
+                    echo "DNI: " . $obj->usuario->dni . "</br>";
+                echo "</p>";
+                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
+                echo "<input type='file' name='foto2'/>";
+                echo "<input type='submit' name='subir' value='Subir'/>";
+                echo "</form>";
+                echo "</article>";
             }
             ?>
 
@@ -418,12 +469,22 @@ if(isset($_POST["cambiar_contrasenia"])){
 
                 // console.log($("#grande .edita_peque").val());
                 $("#grande .edita_peque").remove();
+                $("#grande .edita_peque2").remove();
 
 
             });
 
 
-
+            $("#titulares > p").on("click",function(){
+               // console.log($(this).attr("style"));
+               //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
+                if(typeof $(this).attr("style")=="undefined"){
+                    $(this).css("background-color","#ed217d");
+                }else{
+                    $(this).removeAttr("style");
+                }
+               
+            });
 
             $(window).resize(function() {
                 // console.log("hola");

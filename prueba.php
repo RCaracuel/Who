@@ -255,7 +255,7 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
             $("#titulares").on("click", "p:not(.oculta)", function() {
                 //console.log("hola");
                 if ($(window).width() < 1000)
-                    $(this).next().fadeToggle(800);
+                    $(this).next().slideToggle(1500);
 
                 $("#grande").html($(this).next().html());
 

@@ -49,6 +49,11 @@ $app->put('/cambiar_foto/:email', function($email) use ($app){
     echo json_encode(cambiar_datos($email,$datos["nombre"],$datos["apellidos"],$datos["dni"]),JSON_FORCE_OBJECT);
   });
 
+  $app->put('/cambiar_contrasenia/:email', function($email) use ($app){
+    $datos=$app->request->put();
+    echo json_encode(cambiar_contrasenia($email,$datos["old"],$datos["nueva"]),JSON_FORCE_OBJECT);
+  });
+
 $app->post("/registro", function(){
     echo json_encode(insertar_usuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["clave"]), JSON_FORCE_OBJECT);
 });

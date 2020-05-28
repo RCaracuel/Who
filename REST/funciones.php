@@ -294,4 +294,23 @@ function cambiar_datos($email,$nombre,$apellidos,$dni){
 
 }
 
+function cambiar_contrasenia($email,$old,$nueva){
+
+    $con=conectar();
+      if(!$con){
+          return array("mensaje"=>"No se ha podido conectar con la BD");
+      }else{
+          mysqli_set_charset($con,"utf8");
+        
+          $consulta="update usuarios set pass='$nueva' where email='$email' and pass='$old'";
+          $resultado=mysqli_query($con,$consulta);
+  
+          if(!$resultado){
+              return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+          }else{
+              return array("mensaje_exito"=>"Se ha cambiado la contraseña con éxito");
+          }
+      }
+
+}
 ?>

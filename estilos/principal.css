@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Quicksand', sans-serif;
-
+    cursor:pointer;
 }
 
 body {
@@ -186,7 +186,7 @@ main section#titulares>p {
     text-decoration: none;
     font-size: 1.2em;
     margin-bottom: 0.5em;
-    background-color: #ed217c;
+    background-color: #ed217da6;
     border-radius: 0.3em;
     padding: 0.1em;
 
@@ -214,9 +214,13 @@ main section#titulares div article {
     margin-bottom: 1em;
 
 }
-
+.cabecera{
+    text-align: center;
+}
 .titulo {
-    font-size: 1.5em;
+    font-size: 1.2em;
+    padding:1em;
+    
 }
 
 main section#titulares div article form table {
