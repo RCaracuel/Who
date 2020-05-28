@@ -254,7 +254,7 @@ main section#titulares article input.formu {
 article input.sub {
     width: 100%;
     background-color: #ed217c;
-    height: 50px;
+    height: 40px;
     border: none;
     color: white;
     margin-left: auto;
@@ -414,7 +414,7 @@ footer p {
     article input.sub {
         width: 100%;
         background-color: #ed217c;
-        height: 50px;
+        height: 40px;
         border: none;
         color: white;
         margin-left: auto;
