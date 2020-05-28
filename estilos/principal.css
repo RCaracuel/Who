@@ -19,7 +19,7 @@ header{
     position:sticky;
     top:0;
 
-    background-color: #6983AA;
+    background-color: #3ba99c;
 
     height: 7em;
     padding:1.5em;
@@ -110,7 +110,7 @@ top:1em;
         right:0;
         width:0;
         height: 40em;
-        background-color: rgba(105, 131, 170, 0.8);
+        background-color:#A3F7B5;
         list-style: none;
         color:white;
         transition:1s;
@@ -136,7 +136,7 @@ header form ul#menu li button{
     
     header ul#menu li button{
         text-decoration:none;
-        color:white;
+        color:#3ba99c;
 
     }
 
@@ -157,7 +157,7 @@ main section#grande{
     display:none;
 }
 main section#titulares{
-background-color: rgba(142, 198, 197, 0.52);
+background-color: #ede6e6;
 margin-top: 2em;
 margin-left:auto;
 margin-right: auto;
@@ -172,11 +172,11 @@ padding:1.5em;
 .oculta{
     display:none;
 }
-main section#titulares p{
+main section#titulares > p{
     text-decoration: none;
     font-size: 1.2em;
     margin-bottom: 0.5em;
-    background-color: rgba(142, 198, 197, 0.52);
+    background-color: #ed217c;
     border-radius: 0.3em;
     padding:0.1em;
  
@@ -195,7 +195,7 @@ main section#titulares div article img{
 main section#titulares div article{
 
     display:flex;
-    background-color: rgba(142, 198, 197, 0.52);
+    background-color: #3ba99c;
     min-height:33vh;
     flex-direction: column;
     padding:0.5em;
@@ -232,7 +232,7 @@ input[type="file"]#foto {
         font-size: 14px;
         font-weight: 600;
         color: #fff;
-        background-color:rgba(133, 102, 170, 0.7);
+        background-color:#ede6e6;
         align-self: center;
         display: inline-block;
         transition: all .5s;
@@ -250,7 +250,7 @@ input[type="file"]#foto {
             margin-left: 1em;
             border:none;
             color: #fff;
-            background-color:rgba(133, 102, 170, 0.7);
+            background-color:#ede6e6;
             align-self: center;
             cursor: pointer;
             padding: 15px 40px !important;
@@ -267,8 +267,8 @@ footer{
     height:4.2em;
     width: auto;
     margin-top: auto;
-    background-color:rgba(133, 102, 170, 0.7);
-    color:white;
+    background-color:#3ba99c;
+    color:WHITE;
     text-align:left;
 }
 footer p{
@@ -345,7 +345,7 @@ margin:0.5em;
         flex:0 60%;
         margin-top: 6em;
         margin-bottom: 6em;
-        background-color: rgba(142, 198, 197, 0.52);
+        background-color: #ede6e6;
         border-radius: 0.3em;
         display:block;
         color:white;
@@ -401,7 +401,7 @@ margin:0.5em;
         display:flex;
         flex-direction: row;
         flex-wrap: wrap;
-        background-color: rgba(142, 198, 197, 0.52);
+        background-color: #3ba99c;
         padding:1.5em;        
 
     }
