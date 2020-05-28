@@ -24,7 +24,7 @@ if (isset($_SESSION["nombre"])) {
 
             $_SESSION["ultimo_acceso"] = time();
 
-           if(isset($_GET["perfil"])|| isset($_POST["perfil"])||isset($_POST["subir"])|| isset($_POST["modificar"]))
+           if(isset($_GET["perfil"])|| isset($_POST["perfil"])||isset($_POST["subir"])|| isset($_POST["modificar"]) || isset($_POST["cambiar_contrasenia"]))
                 include "perfil.php";
             elseif(isset($_POST["propiedades"])|| isset($_POST["agregar"]))
                 include "propiedades.php";

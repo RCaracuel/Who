@@ -78,6 +78,11 @@ if (isset($_POST["modificar"])) {
 
 }
 
+$error_prueba_contrasenia = isset($_POST["contrasenia"]);
+if(isset($_POST["cambiar_contrasenia"])){
+    echo "pulsa";
+}
+
 ?>
 
 
@@ -227,10 +232,29 @@ if (isset($_POST["modificar"])) {
                 </article>
             </div>
             <p>
-            <span class="titulo">  Seguridad</span>
+            <span class="titulo"> Cambiar contraseña</span>
             </p>
-            <div class="oculta">
+            <div class="oculta" style="<?php if ($error_prueba_contrasenia && isset($_POST["edita_peque2"])) echo 'display:block'; ?>">
+                        <article>
+                            <span class="cabecera">Cambiar contraseña</span>
+                            <br/>
+                            <br/>
+                            <form action="principal.php" method="post">
+                            
+                                <input class="formu" type="text" name="old" placeholder="Introduzca contraseña actual"/>
+                    <br/>
+                    <br/>
+                                <input class="formu" type="text" name="nueva" placeholder="Contraseña nueva"/>
+                    <br/>
+                    <br/>
+                                <input  class="formu" type="text" name="nueva2" placeholder=" Confirme contraseña nueva"/>
+                            <br/>
+                            <br/>
+                                <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña"/>
+                                <input type="hidden" class="edita_peque2" name="edita_peque"/>
 
+                            </form>
+                        </article>
             </div>
             <p>
             <span class="titulo">  Eliminar cuenta</span>
@@ -247,29 +271,7 @@ if (isset($_POST["modificar"])) {
         </section>
         <section id="grande">
             <?php
-            if (isset($_POST["subir"]) || !(isset($_POST["modificar"]))) {
-                $datos = array(
-                    "email" => $_SESSION["email"]
-                );
-                // var_dump($datos);
-
-                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                echo "<article>";
-                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-                echo "Email: " . $obj->usuario->email . "</br>";
-                if ($obj->usuario->dni == null)
-                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                else
-                    echo "DNI: " . $obj->usuario->dni . "</br>";
-                echo "</p>";
-                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-                echo "<input type='file' name='foto2'/>";
-                echo "<input type='submit' name='subir' value='Subir'/>";
-                echo "</form>";
-                echo "</article>";
-            } elseif (isset($_POST["modificar"])) {
+            if (isset($_POST["modificar"])) {
             ?>
                 <article>
                     <form action="principal.php" method="post">
@@ -338,6 +340,55 @@ if (isset($_POST["modificar"])) {
 
             <?php
 
+            }elseif(isset($_POST["cambiar_contrasenia"])){
+                    ?>
+                <article>
+                            <span class="cabecera">Cambiar contraseña</span>
+                            <br/>
+                            <br/>
+                            <form action="principal.php" method="post">
+                            
+                                <input class="formu" type="text" name="old" placeholder="Introduzca contraseña actual"/>
+                    <br/>
+                    <br/>
+                                <input class="formu" type="text" name="nueva" placeholder="Contraseña nueva"/>
+                    <br/>
+                    <br/>
+                                <input  class="formu" type="text" name="nueva2" placeholder=" Confirme contraseña nueva"/>
+                            <br/>
+                            <br/>
+                                <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña"/>
+                                <input type="hidden" class="edita_peque" name="edita_peque"/>
+
+                            </form>
+                        </article>
+
+
+<?php
+            }else{
+              
+                    $datos = array(
+                        "email" => $_SESSION["email"]
+                    );
+                    // var_dump($datos);
+    
+                    $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                    echo "<article>";
+                    echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
+                    echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
+                    echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
+                    echo "Email: " . $obj->usuario->email . "</br>";
+                    if ($obj->usuario->dni == null)
+                        echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
+                    else
+                        echo "DNI: " . $obj->usuario->dni . "</br>";
+                    echo "</p>";
+                    echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
+                    echo "<input type='file' name='foto2'/>";
+                    echo "<input type='submit' name='subir' value='Subir'/>";
+                    echo "</form>";
+                    echo "</article>";
+                
             }
             ?>
 
