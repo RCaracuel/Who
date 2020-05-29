@@ -216,33 +216,33 @@ if (isset($_POST["cambiar_contrasenia"])) {
                         ?>
                         <span class="titulo"> Editar perfil:</span>
                         <br />
-                        <hr />
-                        <br />
-                        <table>
-                            <tr>
-                                <td> <label for="nombre">Nombre:</label></td>
-                                <td><input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" />
-                                    <?php if ($error_nombre) echo '<span class="error">*</span>'; ?></td>
-                            </tr>
-                            <tr>
-                                <td> <label for="apellidos">Apellidos:</label></td>
-                                <td><input type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" />
-                                    <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?></td>
-                            </tr>
-                            <tr>
-                                <td> <label for="dni">Dni:</label></td>
-                                <td>
-                                    <input type="text" pattern="[0-9]{8}[A-Za-z]{1}" id="dni" name="dni" placeholder="12345678Y" value="<?php if ($obj->usuario->dni != null) echo $dni; ?>" />
-                                    <?php if ($dni_de_otro) echo '<span class="error">*</span>'; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="copia">Copia DNI:</label></td>
-                                <td><input type="file" name="copia" id="copia"></td>
-                            </tr>
-                        </table>
 
-                        <input type="submit" name="modificar" value="Modificar" />
+                        <br />
+
+
+                    
+                                <input class="formu" type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" placeholder="Nombre" />
+                                    <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
+
+                           
+                                <br/>
+                                <br/><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
+                                    <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
+        
+                                <br/>
+                                <br/>
+                                    <input class="formu" type="text" pattern="[0-9]{8}[A-Za-z]{1}" id="dni" name="dni" placeholder="DNI Ej: 12345678Y" value="<?php if ($obj->usuario->dni != null) echo $dni; ?>" />
+                                    <?php if ($dni_de_otro) echo '<span class="error">*</span>'; ?>
+                    <br/>
+                    <br/>
+                
+                                 <label for="copia">Copia DNI:</label>
+                                <input class="sub" type="file" name="copia" id="copia">
+                         
+                        <br/>
+                        <br/>
+
+                        <input class="sub" type="submit" name="modificar" value="Modificar" />
                         <br />
                         <br />
                         <input type="hidden" class="edita_peque" name="edita_peque" />
