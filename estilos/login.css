@@ -46,6 +46,7 @@ form{
     /*Vertical*/
     align-items: center;
     padding:1.5em;
+    margin-top: 1.5em;
 
 }
 
@@ -53,6 +54,7 @@ form p{
     margin:0.3em;
     font-size:1.2em;
     color:white;
+    
 }
 form p input[type=text], form p input[type=password], form p input[type=email]{
 
@@ -61,11 +63,15 @@ form p input[type=text], form p input[type=password], form p input[type=email]{
     border:none;
     border-radius: 0.3em;
     padding:0.5em;
+    height: 40px;
+    text-align:center;
 }
 
 form p input[type=submit], form p button{
+    margin-top: 1em;
     cursor: pointer;
     border:none;
+    height: 40px;
     padding:0.5em;
     background: #ed217c;
     opacity:100%;

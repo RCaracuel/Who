@@ -55,17 +55,13 @@ if(isset($_POST["acceder"])){
         <img src="img/logo.png" alt="logotipo"/>
         <section>
             <form action="index.php" method="post">
+
                 <p>
-                    <label for="email">Introduzca su email:</label>
+                    <input type="email" name="email" id="email" value="<?php if(isset($_POST["acceder"])) echo $_POST["email"]; ?>" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["email"]=="") echo "Campo vacío"; else echo "Email"; ?>"/>
                 </p>
+
                 <p>
-                    <input type="email" name="email" id="email" value="<?php if(isset($_POST["acceder"])) echo $_POST["email"]; ?>" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["email"]=="") echo "Campo vacío"; ?>"/>
-                </p>
-                <p>
-                    <label for="clave">Introduzca contraseña:</label>
-                </p>
-                <p>
-                    <input type="password" name="clave" id="clave" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["clave"]=="") echo "Campo vacío"; ?>"/>
+                    <input type="password" name="clave" id="clave" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["clave"]=="") echo "Campo vacío"; else echo "Contraseña" ?>"/>
                 </p>
     
                 <p>
