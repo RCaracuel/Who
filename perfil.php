@@ -107,6 +107,15 @@ if (isset($_POST["cambiar_contrasenia"])) {
 
 }
 
+if(isset($_POST["eliminar"])){
+   //
+   // echo "eliminar";
+    $obj=consumir_servicio_REST(URL."/baja_usuario/".$_SESSION["email"],"PUT");
+    
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
 ?>
 
 
@@ -297,7 +306,21 @@ if (isset($_POST["cambiar_contrasenia"])) {
                 <span class="titulo"> Eliminar cuenta</span>
             </p>
             <div class="oculta">
-
+                        <article>
+                            <p>
+                            Al eliminar su cuenta usted no aparecerá en las búsquedas pero si lo hará en nuestra base de datos por un periodo de 3 meses. Si accede a la aplicación antes de cumplir los 3 meses la cuenta se volverá a activar.
+                            ¿Está seguro de eliminar la cuenta?
+                            </p>
+                        <form action="principal.php" method="post">
+                        <br/>
+                        <input type="submit"  class="sub" name="eliminar" value="Eliminar"/>
+                        <br/>
+                        <br/>
+                        
+                        <input type="submit"  class="sub" name="atras" value="Atrás"/>
+                        <br/>
+                        </form>
+                        </article>
             </div>
             <p>
                 <span class="titulo"> Informar problema </span>
@@ -417,6 +440,10 @@ if (isset($_POST["cambiar_contrasenia"])) {
 
 
             <?php
+            }elseif(isset($_POST["eliminar"])){
+
+
+
             } else {
 
                 $datos = array(
@@ -478,11 +505,10 @@ if (isset($_POST["cambiar_contrasenia"])) {
             $("#titulares > p").on("click",function(){
                // console.log($(this).attr("style"));
                //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
-                if(typeof $(this).attr("style")=="undefined"){
+               
+                    $("#titulares > p").removeAttr("style");
                     $(this).css("background-color","#ed217d");
-                }else{
-                    $(this).removeAttr("style");
-                }
+                
                
             });
 

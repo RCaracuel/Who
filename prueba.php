@@ -262,6 +262,16 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
 
             });
 
+            $("#titulares > p").on("click",function(){
+               // console.log($(this).attr("style"));
+               //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
+               
+                    $("#titulares > p").removeAttr("style");
+                    $(this).css("background-color","#ed217d");
+                
+               
+            });
+
             $(window).resize(function() {
                 // console.log("hola");
                 if ($(window).width() > 1000)
