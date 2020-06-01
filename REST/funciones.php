@@ -20,6 +20,19 @@ if(!$con){
     }else{
 
         $fila=mysqli_fetch_assoc($resultado);
+
+        if($fila["activo"]==0){
+            $consulta="update usuarios set activo=1 where email='$email' and pass='$cla'";
+            $resultado=mysqli_query($con,$consulta);
+            if(!$resultado){
+                mysqli_free_result($resultado);
+                mysqli_close($con);
+                return array("mensaje"=>"No se ha podido realizar la consulta".mysqli_error($con)."/".mysqli_errno($con));
+            }else{
+                return array("usuario"=>$fila);
+            }
+
+        }
         return array("usuario"=>$fila);
 
     }
@@ -231,6 +244,28 @@ function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jar
 
 }
 
+function insertar_informe($cod_usu,$texto){
+
+    $con=conectar();
+  //  return array("mensaje"=>"He entrado a la función");
+   
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar con la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+
+        $consulta="insert into informes (cod_usuario,informe,fecha_informe) values ('$cod_usu','$texto',now())";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+        }else{
+            return array("mensaje_exito"=>"Se ha insertado el informe con éxito");
+        }
+    }
+
+}
+
 
 function insertar_usuario($nombre,$apellido,$email,$clave){
 
@@ -274,7 +309,7 @@ function cambiar_foto($email,$foto){
 
 }
 
-function cambiar_datos($email,$nombre,$apellidos,$dni){
+function cambiar_datos($email,$nombre,$apellidos){
 
     $con=conectar();
       if(!$con){
@@ -282,7 +317,7 @@ function cambiar_datos($email,$nombre,$apellidos,$dni){
       }else{
           mysqli_set_charset($con,"utf8");
   
-          $consulta="update usuarios set nombre='$nombre', apellidos='$apellidos', dni='$dni' where email='$email'";
+          $consulta="update usuarios set nombre='$nombre', apellidos='$apellidos' where email='$email'";
           $resultado=mysqli_query($con,$consulta);
   
           if(!$resultado){

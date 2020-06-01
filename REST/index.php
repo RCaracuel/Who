@@ -46,7 +46,7 @@ $app->put('/cambiar_foto/:email', function($email) use ($app){
 
   $app->put('/cambiar_datos/:email', function($email) use ($app){
     $datos=$app->request->put();
-    echo json_encode(cambiar_datos($email,$datos["nombre"],$datos["apellidos"],$datos["dni"]),JSON_FORCE_OBJECT);
+    echo json_encode(cambiar_datos($email,$datos["nombre"],$datos["apellidos"]),JSON_FORCE_OBJECT);
   });
 
   $app->put('/cambiar_contrasenia/:email', function($email) use ($app){
@@ -65,6 +65,12 @@ $app->post("/registro", function(){
 $app->post("/insertar_propiedad", function(){
     echo json_encode(insertar_propiedad($_POST["codigo"],$_POST["habitaciones"],$_POST["terraza"],$_POST["piscina"],$_POST["garaje"],$_POST["jardin"],$_POST["distancia"],$_POST["m2"],$_POST["idufir"],$_POST["localidad"]), JSON_FORCE_OBJECT);
 });
+
+$app->post("/insertar_informe", function(){
+    echo json_encode(insertar_informe($_POST["cod_usu"],$_POST["texto"]), JSON_FORCE_OBJECT);
+});
+
+
 $app->run();
 
 ?>
