@@ -95,7 +95,7 @@ if(isset($_POST["eliminar"])){
 
 $error_informe=false;
 if(isset($_POST["informar"])){
-$error_infome=$_POST["informe"]=="";
+$error_informe=$_POST["informe"]=="";
 
 if(!$error_informe){
 
@@ -323,6 +323,49 @@ if(!$error_informe){
                     <input type="submit" name="informar" value="Informar" class="sub"/>
                 </form>
             </article>
+            </div>
+            <p>
+                <span class="titulo"> Mostrar informes </span>
+            </p>
+            <div class="oculta">
+
+
+                        <?php
+                        
+                        $obj=consumir_servicio_REST(URL."/buscar_informes/".$_SESSION["id_usu"],"GET");
+
+                        if (isset($obj->sin_informes)) {
+                            echo "<article>";
+        
+                            echo "No tiene ningún informe registrado";
+        
+                            echo "</article>";
+                        } elseif (isset($obj->informes)) {
+                            // var_dump($obj);
+                            echo " <span class='titulo2'>Informes</span>";
+                            $contador=1;
+                            foreach ($obj->informes as $informes) {
+        
+                                echo "<article>";
+                                // echo "hola";
+                                //echo $inmueble->imagen;
+
+                                
+                                echo "<p><span class='destino'>Informe Nº".$contador."</span>";
+                                $contador++;
+                                echo "<br/>";
+                                echo "Fecha: " . $informes->fecha_informe;
+                                echo "<br/>";
+                                echo "Mensaje: " . $informes->Informe;
+                                echo "<br/>";
+                                echo "</p>";
+                                echo "</article>";
+                                echo "<br/>";
+                            }
+                        }
+                        
+                        
+                        ?>
             </div>
         </section>
         <section id="grande">

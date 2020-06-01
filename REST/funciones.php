@@ -221,6 +221,36 @@ function buscar_propiedades($cod){
     }
 }
 
+function buscar_informes($cod){
+
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select * from informes where cod_usuario='$cod'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+            if(mysqli_num_rows($resultado)>0){
+                $informes=array();
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $informes[]=$fila;
+                }
+                $total=mysqli_num_rows($resultado);
+                mysqli_free_result($resultado);
+                return array("informes"=>$informes,"total"=>$total);
+            }else{
+            return array("sin_informes"=>"No existen informes registrados de este usuario");
+            }
+        }
+    }
+}
+
 
 function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jardin,$distancia,$m2,$idufir,$localidad){
 
