@@ -181,7 +181,7 @@ if (isset($_POST["cambiar_contrasenia"])) {
                 echo "</p>";
                 echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
                 echo "<input type='file' name='foto2'/>";
-                echo "<input type='submit' name='subir' value='Subir'/>";
+                echo "<input type='submit' class='sub' name='subir' value='Subir'/>";
                 echo "</form>";
                 echo "</article>";
                 ?>
@@ -437,7 +437,7 @@ if (isset($_POST["cambiar_contrasenia"])) {
                 echo "</p>";
                 echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
                 echo "<input type='file' name='foto2'/>";
-                echo "<input type='submit' name='subir' value='Subir'/>";
+                echo "<input class='sub' type='submit' name='subir' value='Subir'/>";
                 echo "</form>";
                 echo "</article>";
             }
