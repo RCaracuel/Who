@@ -174,10 +174,10 @@ if (isset($_POST["agregar"])) {
 
                         <div class="container">
                             <ul class="ks-cboxtags">
-                                <li><input type="checkbox" id="checkboxOne" value="terraza"><label for="checkboxOne">Terraza</label></li>
-                                <li><input type="checkbox" id="checkboxTwo" value="jardin"><label for="checkboxTwo">Jardín</label></li>
-                                <li><input type="checkbox" id="checkboxThree" value="piscina"><label for="checkboxThree">Piscina</label></li>
-                                <li><input type="checkbox" id="checkboxFour" value="garaje"><label for="checkboxFour">Garaje</label></li>
+                                <li><input type="checkbox" id="checkboxOne" name="terraza"><label for="checkboxOne">Terraza</label></li>
+                                <li><input type="checkbox" id="checkboxTwo" name="jardin"><label for="checkboxTwo">Jardín</label></li>
+                                <li><input type="checkbox" id="checkboxThree" name="piscina"><label for="checkboxThree">Piscina</label></li>
+                                <li><input type="checkbox" id="checkboxFour" name="garaje"><label for="checkboxFour">Garaje</label></li>
                             </ul>
                         </div>
 
