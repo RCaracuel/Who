@@ -44,6 +44,15 @@ if (isset($_POST["agregar"])) {
     }
 }
 
+if(isset($_POST["baja"])){
+
+
+    if(isset($_POST["casa"])){
+        var_dump($_POST["casa"]);
+        
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -193,13 +202,53 @@ if (isset($_POST["agregar"])) {
                 </article>
             </div>
             <p>
-                <span class="titulo"> Editar propiedad </span>
+                <span class="titulo"> Dar de baja </span>
             </p>
             <div class="oculta">
+                <article>
+                    <p>
+                        Las propiedad o propiedades que se den de baja no aparecerá en las búsquedas de otros usuarios pero permanecerán en nuestra base de datos.
+                    </p>
+                    <p>
+                        A continuación seleccione la propiedad  que desea dar de baja de nuestro servicio:
+                        <div class="container">
+                            <form action="principal.php" method="post">
+                            <ul class="ks-cboxtags">
 
+                                <?php
+
+                            $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                            //var_dump($obj);
+                            if (isset($obj->sin_propiedades)) {
+                                echo "<article>";
+
+                                echo "No tiene ninguna propiedad registrada";
+
+                                echo "</article>";
+                            } elseif (isset($obj->propiedades)) {
+                                // var_dump($obj);
+
+                                $contador=1;
+                                foreach ($obj->propiedades as $inmueble) {
+                                   // echo $inmueble->cod_inmueble;
+                                echo "<li><input type='radio' id='checkboxOne".$contador."' name='casa' value='".$inmueble->cod_inmueble."'><label for='checkboxOne".$contador."'>Cod. Inmueble: ".$inmueble->cod_inmueble." - Localidad: ".$inmueble->localidad."</label></li>";
+                            
+                                $contador++;
+
+                                }
+                            }
+
+
+                                ?>
+                        <input type="submit" class="sub" name="baja" value="Dar de baja"/>
+                            </ul>
+                            </form>
+                        </div>
+                    </p>
+                </article>
             </div>
             <p>
-                <span class="titulo"> Dar de baja </span>
+                <span class="titulo"> Dar de alta </span>
             </p>
             <div class="oculta">
 
@@ -208,58 +257,58 @@ if (isset($_POST["agregar"])) {
         <section id="grande">
 
             <?php
-                $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
-                if (isset($obj->sin_propiedades)) {
+            $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+            if (isset($obj->sin_propiedades)) {
+                echo "<article>";
+
+                echo "No tiene ninguna propiedad registrada";
+
+                echo "</article>";
+            } elseif (isset($obj->propiedades)) {
+                // var_dump($obj);
+                echo " <span class='titulo2'>Mis Propiedades</span>";
+                foreach ($obj->propiedades as $inmueble) {
+
                     echo "<article>";
+                    // echo "hola";
+                    //echo $inmueble->imagen;
 
-                    echo "No tiene ninguna propiedad registrada";
+                    if (!$inmueble->imagen)
+                        $foto_casa = "no_foto.jpg";
+                    else
+                        $foto_casa = $inmueble->imagen;
 
-                    echo "</article>";
-                } elseif (isset($obj->propiedades)) {
-                    // var_dump($obj);
-                    echo " <span class='titulo2'>Mis Propiedades</span>";
-                    foreach ($obj->propiedades as $inmueble) {
+                    echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
+                    echo "<br/>";
+                    echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
+                    echo "Localidad: " . $inmueble->localidad;
+                    echo "<br/>";
+                    echo "Distancia centro: " . $inmueble->distancia_centro . "km";
+                    echo "<br/>";
+                    echo "M2: " . ($inmueble->m2);
+                    echo "<br/>";
+                    echo "Nº Habitaciones: " . $inmueble->num_hab;
+                    echo "<br/>";
+                    echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Puntuación: ";
+                    $estrellas = (int) $inmueble->estrellas;
 
-                        echo "<article>";
-                        // echo "hola";
-                        //echo $inmueble->imagen;
-
-                        if (!$inmueble->imagen)
-                            $foto_casa = "no_foto.jpg";
-                        else
-                            $foto_casa = $inmueble->imagen;
-
-                        echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
-                        echo "<br/>";
-                        echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
-                        echo "Localidad: " . $inmueble->localidad;
-                        echo "<br/>";
-                        echo "Distancia centro: " . $inmueble->distancia_centro . "km";
-                        echo "<br/>";
-                        echo "M2: " . ($inmueble->m2);
-                        echo "<br/>";
-                        echo "Nº Habitaciones: " . $inmueble->num_hab;
-                        echo "<br/>";
-                        echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Puntuación: ";
-                        $estrellas = (int) $inmueble->estrellas;
-
-                        for ($i = 0; $i < $estrellas; $i++) {
-                            echo "⭐";
-                        }
-                        echo "</p>";
-                        echo "</article>";
-                        echo "<br/>";
+                    for ($i = 0; $i < $estrellas; $i++) {
+                        echo "⭐";
                     }
+                    echo "</p>";
+                    echo "</article>";
+                    echo "<br/>";
                 }
-            
+            }
+
             ?>
 
         </section>
