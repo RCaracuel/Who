@@ -6,41 +6,41 @@ $error_m2 = false;
 $error_localidad = false;
 $error_idufir = false;
 if (isset($_POST["agregar"])) {
-    $error_hab = $_POST["habitaciones"]=="";
-    $error_distancia = $_POST["distancia"]=="";
-    $error_m2 = $_POST["m2"]=="";
-    $error_localidad = $_POST["localidad"]=="";
-    $error_idufir = $_POST["idufir"]=="";
-    $error_idufir_long=strlen($_POST["idufir"])!=14;
-   // echo strlen($_POST["idufir"]);
+    $error_hab = $_POST["habitaciones"] == "";
+    $error_distancia = $_POST["distancia"] == "";
+    $error_m2 = $_POST["m2"] == "";
+    $error_localidad = $_POST["localidad"] == "";
+    $error_idufir = $_POST["idufir"] == "";
+    $error_idufir_long = strlen($_POST["idufir"]) != 14;
+    // echo strlen($_POST["idufir"]);
 
-    $error_propiedades=$error_hab||$error_distancia||$error_m2||$error_localidad||$error_idufir||$error_idufir_long;
+    $error_propiedades = $error_hab || $error_distancia || $error_m2 || $error_localidad || $error_idufir || $error_idufir_long;
 
-    if(!$error_propiedades){
-        $terraza=isset($_POST["terraza"]);
-        $piscina=isset($_POST["piscina"]);
-        $garaje=isset($_POST["garaje"]);
-        $jardin=isset($_POST["jardin"]);
-    
-        $inmueble=array(
-            "codigo"=>$_SESSION["id_usu"],
-            "habitaciones"=>$_POST["habitaciones"],
-            "terraza"=>$terraza,
-            "piscina"=>$piscina,
-            "garaje"=>$garaje,
-            "jardin"=>$jardin,
-            "distancia"=>$_POST["distancia"],
-            "m2"=>$_POST["m2"],
-            "idufir"=>$_POST["idufir"],
-            "localidad"=>$_POST["localidad"]
+    if (!$error_propiedades) {
+        $terraza = isset($_POST["terraza"]);
+        $piscina = isset($_POST["piscina"]);
+        $garaje = isset($_POST["garaje"]);
+        $jardin = isset($_POST["jardin"]);
+
+        $inmueble = array(
+            "codigo" => $_SESSION["id_usu"],
+            "habitaciones" => $_POST["habitaciones"],
+            "terraza" => $terraza,
+            "piscina" => $piscina,
+            "garaje" => $garaje,
+            "jardin" => $jardin,
+            "distancia" => $_POST["distancia"],
+            "m2" => $_POST["m2"],
+            "idufir" => $_POST["idufir"],
+            "localidad" => $_POST["localidad"]
         );
-        
+
         //var_dump($inmueble);
 
-        $obj=consumir_servicio_REST(URL."/insertar_propiedad","POST",$inmueble);
-      //  var_dump($obj);
+        $obj = consumir_servicio_REST(URL . "/insertar_propiedad", "POST", $inmueble);
+        //  var_dump($obj);
 
-    
+
     }
 }
 
@@ -92,7 +92,7 @@ if (isset($_POST["agregar"])) {
     <main>
         <section id="titulares">
             <p>
-              <span class="titulo"> Mis propiedades</span>
+                <span class="titulo"> Mis propiedades</span>
             </p>
             <div class="oculta">
 
@@ -114,12 +114,12 @@ if (isset($_POST["agregar"])) {
                         echo "<article>";
                         // echo "hola";
                         //echo $inmueble->imagen;
-                        
-                        if(!$inmueble->imagen)
-                        $foto_casa="no_foto.jpg";
+
+                        if (!$inmueble->imagen)
+                            $foto_casa = "no_foto.jpg";
                         else
-                        $foto_casa=$inmueble->imagen;
-                        
+                            $foto_casa = $inmueble->imagen;
+
                         echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
                         echo "<br/>";
                         echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
@@ -154,67 +154,34 @@ if (isset($_POST["agregar"])) {
                 </article>
             </div>
             <p>
-            <span class="titulo">  Añadir propiedad </span>
+                <span class="titulo"> Añadir propiedad </span>
             </p>
             <div class="oculta">
                 <article>
                     <form action="principal.php" method="post">
-                    <span class="titulo"> Añadir propiedad:</span>
-                        <br />
-                
-                        <br />
-                        <table>
-                            <tr>
-        
-                                <td><input  class="formu2" id="habitaciones" name="habitaciones" type="text" min="1" pattern="^[0-9]+" placeholder="Nº Habitaciones">
-                                    <?php if (isset($error_habitaciones)) echo '<span class="error">*</span>'; ?></td>
-                            </tr>
-                            <tr>
-                                <td> <label for="terraza">Terraza:&nbsp;&nbsp;&nbsp;</label>
-                                <input type="checkbox" id="terraza" name="terraza" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="jardin">Jardín:&nbsp;&nbsp;&nbsp;</label>
+                        <span class="titulo"> Añadir propiedad:</span>
+                        <input class="formu2" id="habitaciones" name="habitaciones" type="text" min="1" pattern="^[0-9]+" placeholder="Nº Habitaciones">
+                        <?php if (isset($error_habitaciones)) echo '<span class="error">*</span>'; ?>
+                        <input class="formu2" id="distancia" name="distancia" type="text" min="1" pattern="^[0-9]+" placeholder="Distancia al centro">
 
-                                    <input type="checkbox" id="jardin" name="jardin" />
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="piscina">Piscina:&nbsp;&nbsp;&nbsp;</label>
-                               
-                                    <input type="checkbox" id="piscina" name="piscina" />
+                        <input id="m2" class="formu2" name="m2" type="text" min="1" pattern="^[0-9]+" placeholder="M2">
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="garaje">Garaje:&nbsp;&nbsp;&nbsp;</label>
-                                
-                                    <input type="checkbox" id="garaje" name="garaje" />
 
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td><input  class="formu2" id="distancia" name="distancia" type="text" min="1" pattern="^[0-9]+" placeholder="Distancia al centro">
-                            </tr>
-                            <tr>
+                        <input id="idufir" class="formu2" name="idufir" type="text" min="1" required pattern="[0-9]{14}" placeholder="IDUFIR">
 
-                                <td><input id="m2" class="formu2" name="m2" type="text" min="1" pattern="^[0-9]+" placeholder="M2">
-                            </tr>
-                            <tr>
+                        <input class="formu2" id="localidad" name="localidad" type="text" placeholder="Localidad">
 
-                                <td><input id="idufir"class="formu2" name="idufir" type="text" min="1" required pattern="[0-9]{14}" placeholder="IDUFIR">
-                            </tr>
-                            <tr>
-                                <td><input class="formu2" id="localidad" name="localidad" type="text" placeholder="Localidad">
-                            </tr>
-                        </table>
+                        <div class="container">
+                            <ul class="ks-cboxtags">
+                                <li><input type="checkbox" id="checkboxOne" value="terraza"><label for="checkboxOne">Terraza</label></li>
+                                <li><input type="checkbox" id="checkboxTwo" value="jardin"><label for="checkboxTwo">Jardín</label></li>
+                                <li><input type="checkbox" id="checkboxThree" value="piscina"><label for="checkboxThree">Piscina</label></li>
+                                <li><input type="checkbox" id="checkboxFour" value="garaje"><label for="checkboxFour">Garaje</label></li>
+                            </ul>
+                        </div>
 
                         <input class="sub" type="submit" name="agregar" value="Agregar" />
-                        <br />
-                        <br />
                         <input type="hidden" class="edita_peque" name="edita_peque" />
                         <?php
 
@@ -226,13 +193,13 @@ if (isset($_POST["agregar"])) {
                 </article>
             </div>
             <p>
-            <span class="titulo">  Editar propiedad </span>
+                <span class="titulo"> Editar propiedad </span>
             </p>
             <div class="oculta">
 
             </div>
             <p>
-            <span class="titulo">   Dar de baja </span>
+                <span class="titulo"> Dar de baja </span>
             </p>
             <div class="oculta">
 
@@ -241,78 +208,6 @@ if (isset($_POST["agregar"])) {
         <section id="grande">
 
             <?php
-
-            if (isset($_POST["agregar"]) && ($error_propiedades)) {
-            ?>
-                <article>
-                <form action="principal.php" method="post">
-                    <span class="titulo"> Añadir propiedad:</span>
-                        <br />
-                
-                        <br />
-                        <table>
-                            <tr>
-        
-                                <td><input  class="formu2" id="habitaciones" name="habitaciones" type="text" min="1" pattern="^[0-9]+" placeholder="Nº Habitaciones">
-                                    <?php if (isset($error_habitaciones)) echo '<span class="error">*</span>'; ?></td>
-                            </tr>
-                            <tr>
-                                <td> <label for="terraza">Terraza:&nbsp;&nbsp;&nbsp;</label>
-                                <input type="checkbox" id="terraza" name="terraza" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="jardin">Jardín:&nbsp;&nbsp;&nbsp;</label>
-
-                                    <input type="checkbox" id="jardin" name="jardin" />
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="piscina">Piscina:&nbsp;&nbsp;&nbsp;</label>
-                               
-                                    <input type="checkbox" id="piscina" name="piscina" />
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <label for="garaje">Garaje:&nbsp;&nbsp;&nbsp;</label>
-                                
-                                    <input type="checkbox" id="garaje" name="garaje" />
-
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td><input  class="formu2" id="distancia" name="distancia" type="text" min="1" pattern="^[0-9]+" placeholder="Distancia al centro">
-                            </tr>
-                            <tr>
-
-                                <td><input id="m2" class="formu2" name="m2" type="text" min="1" pattern="^[0-9]+" placeholder="M2">
-                            </tr>
-                            <tr>
-
-                                <td><input id="idufir"class="formu2" name="idufir" type="text" min="1" required pattern="[0-9]{14}" placeholder="IDUFIR">
-                            </tr>
-                            <tr>
-                                <td><input class="formu2" id="localidad" name="localidad" type="text" placeholder="Localidad">
-                            </tr>
-                        </table>
-
-                        <input class="sub" type="submit" name="agregar" value="Agregar" />
-                        <br />
-                        <br />
-                        <input type="hidden" class="edita_peque" name="edita_peque" />
-                        <?php
-
-
-                        // echo "** Campo vacío o incorrecto **";
-
-                        ?>
-                    </form>
-                </article>
-            <?php
-            } else {
                 $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
                 if (isset($obj->sin_propiedades)) {
                     echo "<article>";
@@ -328,12 +223,12 @@ if (isset($_POST["agregar"])) {
                         echo "<article>";
                         // echo "hola";
                         //echo $inmueble->imagen;
-                          
-                        if(!$inmueble->imagen)
-                        $foto_casa="no_foto.jpg";
+
+                        if (!$inmueble->imagen)
+                            $foto_casa = "no_foto.jpg";
                         else
-                        $foto_casa=$inmueble->imagen;
-                        
+                            $foto_casa = $inmueble->imagen;
+
                         echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
                         echo "<br/>";
                         echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
@@ -361,9 +256,10 @@ if (isset($_POST["agregar"])) {
                         }
                         echo "</p>";
                         echo "</article>";
+                        echo "<br/>";
                     }
                 }
-            }
+            
             ?>
 
         </section>
@@ -390,22 +286,36 @@ if (isset($_POST["agregar"])) {
                 $("#grande").html($(this).next().html());
 
 
+                $("#grande .ks-cboxtags input").each(function() {
+                    $(this).attr("id", $(this).attr("id") + "grande");
+
+                });
+
+                $("#grande .ks-cboxtags label").each(function() {
+                    $(this).attr("for", $(this).attr("for") + "grande");
+
+                });
+
+
+
             });
 
-            $("#titulares > p").on("click",function(){
-               // console.log($(this).attr("style"));
-               //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
-               
-                    $("#titulares > p").removeAttr("style");
-                    $(this).css("background-color","#ed217d");
-                
-               
+            $("#titulares > p").on("click", function() {
+                // console.log($(this).attr("style"));
+                //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
+
+                $("#titulares > p").removeAttr("style");
+                $(this).css("background-color", "#ed217d");
+
+
+
             });
 
             $(window).resize(function() {
                 // console.log("hola");
                 if ($(window).width() > 1000)
                     $("#titulares .oculta").hide();
+
 
             })
 
