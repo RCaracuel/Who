@@ -26,7 +26,7 @@ if (isset($_SESSION["nombre"])) {
 
            if(isset($_GET["perfil"])|| isset($_POST["perfil"])||isset($_POST["subir"])|| isset($_POST["modificar"]) || isset($_POST["cambiar_contrasenia"]) || isset($_POST["atras"]) ||isset($_POST["informar"]))
                 include "perfil.php";
-            elseif(isset($_POST["propiedades"])|| isset($_POST["agregar"]) || isset($_POST["baja"]))
+            elseif(isset($_POST["propiedades"])|| isset($_POST["agregar"]) || isset($_POST["baja"]) || isset($_POST["alta"]))
                 include "propiedades.php";
             elseif(isset($_POST["contratos"]))
             include "contratos.php";

@@ -24,6 +24,10 @@ $app->get("/buscar_propiedades/:cod", function($cod){
     echo json_encode(buscar_propiedades($cod), JSON_FORCE_OBJECT);
 });
 
+$app->get("/buscar_propiedades_baja/:cod", function($cod){
+    echo json_encode(buscar_propiedades_baja($cod), JSON_FORCE_OBJECT);
+});
+
 $app->get("/buscar_informes/:cod", function($cod){
     echo json_encode(buscar_informes($cod), JSON_FORCE_OBJECT);
 });
@@ -60,6 +64,14 @@ $app->put('/cambiar_foto/:email', function($email) use ($app){
 
   $app->put('/baja_usuario/:email', function($email) use ($app){
     echo json_encode(baja_usuario($email),JSON_FORCE_OBJECT);
+  });
+
+  $app->put('/baja_propiedad/:codigo', function($codigo) use ($app){
+    echo json_encode(baja_propiedad($codigo),JSON_FORCE_OBJECT);
+  });
+
+  $app->put('/alta_propiedad/:codigo', function($codigo) use ($app){
+    echo json_encode(alta_propiedad($codigo),JSON_FORCE_OBJECT);
   });
 
 $app->post("/registro", function(){

@@ -221,6 +221,36 @@ function buscar_propiedades($cod){
     }
 }
 
+function buscar_propiedades_baja($cod){
+
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select inmueble.*,fotos.cod_foto,fotos.imagen  from inmueble left join fotos on inmueble.cod_inmueble=fotos.cod_inmueble where inmueble.cod_propietario='$cod' and baja=1";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+            if(mysqli_num_rows($resultado)>0){
+                $propiedades=array();
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $propiedades[]=$fila;
+                }
+                $total=mysqli_num_rows($resultado);
+                mysqli_free_result($resultado);
+                return array("propiedades"=>$propiedades,"total"=>$total);
+            }else{
+            return array("sin_propiedades"=>"No existen propiedades registradas de este usuario");
+            }
+        }
+    }
+}
+
 function buscar_informes($cod){
 
     $con=conectar();
@@ -398,4 +428,46 @@ function baja_usuario($email){
     }
 
 }
+
+
+function baja_propiedad($codigo){
+    $con=conectar();
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar con la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+      
+        $consulta="update inmueble set baja='1' where cod_inmueble='$codigo'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+        }else{
+            return array("mensaje_exito"=>"Se ha dado de baja con éxito");
+        }
+    }
+
+}
+
+
+function alta_propiedad($codigo){
+    $con=conectar();
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar con la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+      
+        $consulta="update inmueble set baja='0' where cod_inmueble='$codigo'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+        }else{
+            return array("mensaje_exito"=>"Se ha dado de baja con éxito");
+        }
+    }
+
+}
+
+
 ?>

@@ -50,6 +50,23 @@ if(isset($_POST["baja"])){
     if(isset($_POST["casa"])){
        // var_dump($_POST["casa"]);
         
+       $obj=consumir_servicio_REST(URL."/baja_propiedad/".$_POST["casa"], "PUT");
+     //  var_dump($obj);
+
+
+    }
+}
+
+if(isset($_POST["alta"])){
+
+
+    if(isset($_POST["casa2"])){
+       // var_dump($_POST["casa"]);
+        
+       $obj=consumir_servicio_REST(URL."/alta_propiedad/".$_POST["casa2"], "PUT");
+      // var_dump($obj);
+
+
     }
 }
 
@@ -252,7 +269,50 @@ if(isset($_POST["baja"])){
                 <span class="titulo"> Dar de alta </span>
             </p>
             <div class="oculta">
+                            <article>
+                      
+                        
+                            
+                           
 
+                                <?php
+
+                            $obj = consumir_servicio_REST(URL . "/buscar_propiedades_baja/" . $_SESSION["id_usu"], "GET");
+                            //var_dump($obj);
+                            if (isset($obj->sin_propiedades)) {
+                                echo "<article>";
+
+                                echo "No tiene ninguna propiedad dada de baja";
+
+                                echo "</article>";
+                            } elseif (isset($obj->propiedades)) {
+                                // var_dump($obj);
+
+                                $contador=1;
+                                echo "A continuación seleccione la propiedad  que desea dar de alta en nuestro servicio";
+
+                                echo "<form action='principal.php' method='post'>";
+                                echo "<div class='container'>";
+                               echo "<ul class='ks-cboxtags'>";
+                                foreach ($obj->propiedades as $inmueble) {
+                                   // echo $inmueble->cod_inmueble;
+                                   
+                                echo "<li><input type='radio' id='checkboxOne".$contador."' name='casa2' value='".$inmueble->cod_inmueble."'><label for='checkboxOne".$contador."'>Cod. Inmueble: ".$inmueble->cod_inmueble." - Localidad: ".$inmueble->localidad."</label></li>";
+                            
+                                $contador++;
+
+                                }
+                                echo "</div>";
+                            }
+
+
+                                ?>
+                        <input type="submit" class="sub" name="alta" value="Dar de alta"/>
+                            </ul>
+                         
+                            </form>
+                        
+                            </article>
             </div>
         </section>
         <section id="grande">
