@@ -38,7 +38,7 @@ if (isset($_POST["agregar"])) {
         //var_dump($inmueble);
 
         $obj = consumir_servicio_REST(URL . "/insertar_propiedad", "POST", $inmueble);
-        //  var_dump($obj);
+        // var_dump($obj);
 
 
     }
@@ -48,7 +48,7 @@ if(isset($_POST["baja"])){
 
 
     if(isset($_POST["casa"])){
-        var_dump($_POST["casa"]);
+       // var_dump($_POST["casa"]);
         
     }
 }
@@ -108,9 +108,10 @@ if(isset($_POST["baja"])){
                 <?php
 
                 $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+             
                 if (isset($obj->sin_propiedades)) {
                     echo "<article>";
-
+                
                     echo "No tiene ninguna propiedad registrada";
 
                     echo "</article>";

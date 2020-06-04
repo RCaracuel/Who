@@ -200,7 +200,7 @@ function buscar_propiedades($cod){
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select inmueble.*,fotos.cod_foto,fotos.imagen  from inmueble left join fotos on inmueble.cod_inmueble=fotos.cod_inmueble where inmueble.cod_propietario='$cod' and baja=1";
+        $consulta="select inmueble.*,fotos.cod_foto,fotos.imagen  from inmueble left join fotos on inmueble.cod_inmueble=fotos.cod_inmueble where inmueble.cod_propietario='$cod' and baja=0";
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){

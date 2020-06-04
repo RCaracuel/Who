@@ -31,6 +31,7 @@ if (isset($_POST["entrar"])) {
         if (isset($obj->existe)) {
             $error_existe = true;
         }
+       // var_dump($obj);
     }
     $error_todo = $error_nombre || $error_apellido || $error_email || $error_clave || $error_clave2 || $error_iguales || $error_existe;
 

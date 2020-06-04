@@ -218,9 +218,7 @@ if(!$error_informe){
 
                         ?>
                         <span class="titulo"> Editar perfil:</span>
-                        <br />
 
-                        <br />
 
 
                     
@@ -228,17 +226,16 @@ if(!$error_informe){
                                     <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
 
                            
-                                <br/>
+                             
                                 <br/><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
                                     <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
-                    <br/>
-                    <br/>
+               
                 
                                  <label for="copia">Copia DNI:</label>
                                 <input class="sub" type="file" name="copia" id="copia">
                          
                         <br/>
-                        <br/>
+                   
 
                         <input class="sub" type="submit" name="modificar" value="Modificar" />
                         <br />
@@ -266,21 +263,18 @@ if(!$error_informe){
                     <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
                         <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
                         
-                        <br />
-                        <br />
+                    
                         <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
                         <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
                         
-                        <br />
-                        <br />
+                    
                         <?php if ($error_nueva2) echo '<span class="titulo">*</span>'; ?>
                         <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
                         
-                        <br />
-                        <br />
+                   
                         <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
                         <input type="hidden" class="edita_peque" name="edita_peque2" />
-                        <br />
+                   
                         <?php
 
                         if ($error_old || $error_nueva || $error_nueva2)
@@ -303,11 +297,10 @@ if(!$error_informe){
                         <form action="principal.php" method="post">
                         <br/>
                         <input type="submit"  class="sub" name="eliminar" value="Eliminar"/>
-                        <br/>
-                        <br/>
+
                         
                         <input type="submit"  class="sub" name="atras" value="Atrás"/>
-                        <br/>
+
                         </form>
                         </article>
             </div>
@@ -420,9 +413,7 @@ if(!$error_informe){
 
                         ?>
                         <span class="titulo"> Editar perfil:</span>
-                        <br />
-
-                        <br />
+     
 
 
                     
@@ -433,18 +424,15 @@ if(!$error_informe){
                                 <br/>
                                 <br/><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
                                     <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
-                    <br/>
-                    <br/>
+       
                 
                                  <label for="copia">Copia DNI:</label>
                                 <input class="sub" type="file" name="copia" id="copia">
                          
-                        <br/>
-                        <br/>
+              
 
                         <input class="sub" type="submit" name="modificar" value="Modificar" />
-                        <br />
-                        <br />
+                 
                         <input type="hidden" class="edita_peque" name="edita_peque" />
                         <?php
 
@@ -461,28 +449,23 @@ if(!$error_informe){
             ?>
                 <article>
                 <span class="cabecera">Cambiar contraseña</span>
-                    <br />
-                    <br />
+             
                     <form action="principal.php" method="post">
 
                     <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
                         <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
                        
-                        <br />
-                        <br />
+                     
                         <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
                         <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
-                        
-                        <br />
-                        <br />
+                  
                         <?php if ($error_nueva2 || $error_distintas) echo '<span class="titulo">*</span>'; ?>
                         <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
                         
-                        <br />
-                        <br />
+                
                         <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
                         <input type="hidden" class="edita_peque2" name="edita_peque" />
-                        <br />
+                   
                         <?php
 
                         if ($error_old || $error_nueva || $error_nueva2)
