@@ -228,7 +228,7 @@ if(isset($_POST["alta"])){
                         Las propiedad o propiedades que se den de baja no aparecerá en las búsquedas de otros usuarios pero permanecerán en nuestra base de datos.
                     </p>
                     <p>
-                        A continuación seleccione la propiedad  que desea dar de baja de nuestro servicio:
+                        A continuación seleccione la propiedad  que desea dar de baja de nuestro servicio:</p>
                         <div class="container">
                             <form action="principal.php" method="post">
                             <ul class="ks-cboxtags">
@@ -249,7 +249,7 @@ if(isset($_POST["alta"])){
                                 $contador=1;
                                 foreach ($obj->propiedades as $inmueble) {
                                    // echo $inmueble->cod_inmueble;
-                                echo "<li><input type='radio' id='checkboxOne".$contador."' name='casa' value='".$inmueble->cod_inmueble."'><label for='checkboxOne".$contador."'>Cod. Inmueble: ".$inmueble->cod_inmueble." - Localidad: ".$inmueble->localidad."</label></li>";
+                                echo "<li><input type='radio' id='checkboxOtro".$contador."' name='casa' value='".$inmueble->cod_inmueble."'><label for='checkboxOtro".$contador."'>Cod. ".$inmueble->cod_inmueble." - Loc. ".$inmueble->localidad."</label></li>";
                             
                                 $contador++;
 
@@ -258,11 +258,12 @@ if(isset($_POST["alta"])){
 
 
                                 ?>
-                        <input type="submit" class="sub" name="baja" value="Dar de baja"/>
+                     
                             </ul>
+                            <input type="submit" class="sub" name="baja" value="Dar de baja"/>
                             </form>
                         </div>
-                    </p>
+                   
                 </article>
             </div>
             <p>
@@ -297,7 +298,7 @@ if(isset($_POST["alta"])){
                                 foreach ($obj->propiedades as $inmueble) {
                                    // echo $inmueble->cod_inmueble;
                                    
-                                echo "<li><input type='radio' id='checkboxOne".$contador."' name='casa2' value='".$inmueble->cod_inmueble."'><label for='checkboxOne".$contador."'>Cod. Inmueble: ".$inmueble->cod_inmueble." - Localidad: ".$inmueble->localidad."</label></li>";
+                                echo "<li><input type='radio' id='checkboxOne".$contador."' name='casa2' value='".$inmueble->cod_inmueble."'><label for='checkboxOne".$contador."'>Cod.".$inmueble->cod_inmueble." - Loc. ".$inmueble->localidad."</label></li>";
                             
                                 $contador++;
 

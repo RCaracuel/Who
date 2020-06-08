@@ -74,7 +74,7 @@ function top5(){
     }else{
         mysqli_set_charset($con,"utf8");
 
-        $consulta="select * from inmueble join fotos where inmueble.cod_inmueble=fotos.cod_inmueble group by inmueble.cod_inmueble order by estrellas desc  limit 5";
+        $consulta="select *, avg(comenta.estrellas) as media_estrellas, count(comenta.cod_usuario) as total_comenta from inmueble join fotos on inmueble.cod_inmueble=fotos.cod_inmueble join comenta on inmueble.cod_inmueble=comenta.cod_inmueble group by inmueble.cod_inmueble order by media_estrellas desc limit 5";
         $resultado=mysqli_query($con,$consulta);
     
         if(!$resultado){
@@ -95,29 +95,6 @@ function top5(){
 
 }
 
-function obtener_libros(){
-
-    $con=conectar();
-    if(!$con){
-        return array("mensaje"=>"No se ha podido conectar a la BD.");
-    }else{
-        mysqli_set_charset($con,"utf8");
-
-        $consulta="select * from libros";
-        $resultado=mysqli_query($con,$consulta);
-        if(!$resultado){
-            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
-        }else{
-            $libros=array();
-            while($fila=mysqli_fetch_assoc($resultado)){
-                $libros[]=$fila;
-            }
-            $total=mysqli_num_rows($resultado);
-            mysqli_free_result($resultado);
-            return array("libros"=>$libros,"total"=>$total);
-        }
-    }
-}
 
 function buscar_email($email){
 
@@ -230,7 +207,7 @@ function buscar_propiedades_baja($cod){
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select inmueble.*,fotos.cod_foto,fotos.imagen  from inmueble left join fotos on inmueble.cod_inmueble=fotos.cod_inmueble where inmueble.cod_propietario='$cod' and baja=1";
+        $consulta="select inmueble.*,fotos.cod_foto,fotos.imagen  from inmueble left join fotos on inmueble.cod_inmueble=fotos.cod_inmueble where inmueble.cod_propietario='$cod' and baja=11";
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){

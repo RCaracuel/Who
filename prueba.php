@@ -78,11 +78,14 @@
                     echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
                     echo "<br/>";
                     echo "Puntuación: ";
-                    $estrellas=(int)$inmueble->estrellas;
+                    $estrellas=(int)$inmueble->media_estrellas;
                     
                     for ($i=0; $i <$estrellas; $i++) { 
                         echo "⭐";
                     }
+                    echo "<br/>";
+                
+                    echo "(".$inmueble->total_comenta.($inmueble->total_comenta==1 ? " opinión" : " opiniones").")";
                     echo "</p>";
                     echo "</article>";
                 }
@@ -226,11 +229,14 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
                 echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
                 echo "<br/>";
                 echo "Puntuación: ";
-                $estrellas=(int)$inmueble->estrellas;
+                $estrellas=(int)$inmueble->media_estrellas;
                 
                 for ($i=0; $i <$estrellas; $i++) { 
                     echo "⭐";
                 }
+                echo "<br/>";
+                
+                echo "(".$inmueble->total_comenta.($inmueble->total_comenta==1 ? " opinión" : " opiniones").")";
                 echo "</p>";
                 echo "</article>";
             }

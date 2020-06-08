@@ -49,6 +49,9 @@ textarea::placeholder {
     padding: 2em;
 }
 
+.container{
+    width:100%;
+}
 ul.ks-cboxtags {
     list-style: none;
     padding: 20px;
@@ -309,7 +312,7 @@ main section#titulares div article {
     min-height: 33vh;
     flex-direction: column;
     padding: 0.5em;
-    font-size: 1.2em;
+   /* font-size: 1.2em;*/
     margin-bottom: 1em;
 
 }
@@ -338,7 +341,7 @@ main section#titulares div article form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     height: min-content;
 }
 main section#titulares div article form  input{

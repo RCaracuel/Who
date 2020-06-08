@@ -87,7 +87,7 @@ if (isset($_POST["cambiar_contrasenia"])) {
 if(isset($_POST["eliminar"])){
 
     $obj=consumir_servicio_REST(URL."/baja_usuario/".$_SESSION["email"],"PUT");
-    
+   // var_dump($obj);
     session_destroy();
     header("Location: index.php");
     exit;
@@ -297,10 +297,6 @@ if(!$error_informe){
                         <form action="principal.php" method="post">
                         <br/>
                         <input type="submit"  class="sub" name="eliminar" value="Eliminar"/>
-
-                        
-                        <input type="submit"  class="sub" name="atras" value="Atrás"/>
-
                         </form>
                         </article>
             </div>
