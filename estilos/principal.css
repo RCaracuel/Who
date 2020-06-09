@@ -49,6 +49,11 @@ textarea::placeholder {
     padding: 2em;
 }
 
+.invisible{
+    visibility: hidden;
+}
+
+
 .container{
     width:100%;
 }
@@ -258,10 +263,12 @@ header div#escritorio {
 
 main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
 }
 
+
+/***************************************************/
 main section#grande {
     display: none;
 }
@@ -273,7 +280,7 @@ main section#titulares {
     margin-right: auto;
     margin-bottom: 2em;
     width: 80vw;
-    min-height: 50vh;
+   /* min-height: 50vh;*/
     border-radius: 0.3em;
     color: white;
     padding: 1.5em;
@@ -320,7 +327,17 @@ main section#titulares div article {
 .cabecera {
     text-align: center;
 }
-
+.titulo_prueba{
+    text-decoration: none;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    background-color: #ed217da6;
+    border-radius: 0.3em;
+    padding: 0.3em;
+    border:none;
+    color:white;
+    width: 100%;
+}
 .titulo {
     font-size: 1.2em;
     padding: 1em;
@@ -391,7 +408,35 @@ article input.sub {
     margin-left: auto;
     margin-right: auto;
 }
+main section#grande2 > article {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: #3ba99c;
+    padding: 1.5em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2em;
+    width: 80vw;
+    border-radius: 0.3em;
+    color:white;
 
+}
+
+
+main section#grande2 article input.formu {
+    width: 70%;
+    margin-left: 15%;
+    background-color: #ede6e6;
+    height: 40px;
+    border: none;
+    color: grey;
+    
+
+}
+main section#grande2 article p img{
+    width:100%;
+}
 
 footer {
     display: flex;
@@ -459,6 +504,7 @@ footer p {
 
     main {
         justify-content: space-around;
+        flex-direction: row;
 
     }
 
@@ -470,12 +516,9 @@ footer p {
         margin-top: 6em;
         margin-bottom: 6em;
 
-
-
-
     }
 
-    main section#grande {
+    main section#grande2 {
 
         flex: 0 60%;
         margin-top: 6em;
@@ -491,11 +534,7 @@ footer p {
 
     }
 
-    main section#grande td {
-        color: white;
-    }
-
-    main section article img {
+    main section#grande2 article p img {
         width: 50%;
         height: auto;
         margin-bottom: auto;
@@ -567,6 +606,17 @@ footer p {
 
     main section#grande h1:nth-child(1) {
         font-size: 3em;
+    }
+    
+    main section#grande2 > article {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background-color: #3ba99c;
+        padding: 1.5em;
+        width: 100%;
+       
+
     }
 
     main section#grande article {

@@ -297,6 +297,8 @@ if(!$error_informe){
                         <form action="principal.php" method="post">
                         <br/>
                         <input type="submit"  class="sub" name="eliminar" value="Eliminar"/>
+
+
                         </form>
                         </article>
             </div>

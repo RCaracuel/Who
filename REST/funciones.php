@@ -120,7 +120,7 @@ function buscar_email($email){
     }
 }
 
-function buscar_dni_usuario($dni,$email){
+function buscar_dni_usuario($dni){
 
     $con=conectar();
 
@@ -129,16 +129,18 @@ function buscar_dni_usuario($dni,$email){
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select * from usuarios where dni='".$dni."' and email='$email'";
+        $consulta="select * from usuarios where dni='".$dni."'";
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){
             return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
         }else{
             if(mysqli_num_rows($resultado)>0){
-                return array("pertenece"=>"El dni pertenece al email");
+                $email=mysqli_fetch_assoc($resultado)["cod_usuario"];
+                return array("existe"=>"El dni existe", "codigo"=>$email);
             }else{
-            return array("no_pertenece"=>"El dni no pertenece al email");
+                
+            return array("no_existe"=>"El dni no existe");
             }
         }
     }
@@ -298,6 +300,28 @@ function insertar_informe($cod_usu,$texto){
             return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
         }else{
             return array("mensaje_exito"=>"Se ha insertado el informe con éxito");
+        }
+    }
+
+}
+
+function insertar_contrato($inquilino,$inmueble,$inicio,$fin){
+
+    $con=conectar();
+  //  return array("mensaje"=>"He entrado a la función");
+   
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar con la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+
+        $consulta="insert into alquila (cod_usuario,cod_inmueble,fecha_ini,fecha_fin) values ('$inquilino','$inmueble','$inicio','$fin')";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+        }else{
+            return array("mensaje_exito"=>"Se ha insertado el contrato con éxito");
         }
     }
 

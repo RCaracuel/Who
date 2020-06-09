@@ -23,70 +23,26 @@ if (isset($_POST["subir"])) {
     }
 }
 
-$error_prueba = isset($_POST["modificar"]);
-$error_nombre = false;
-$error_apellidos = false;
-$error_dni = false;
-$dni_de_otro = false;
-if (isset($_POST["modificar"])) {
-    $error_nombre = $_POST["nombre"] == "";
-    $error_apellidos = $_POST["apellidos"] == "";
-
-    $error_todo_perfil = $error_nombre || $error_apellidos;
-
-    if (!$error_todo_perfil) {
 
 
-        $datos = array(
-            "nombre" => $_POST["nombre"],
-            "apellidos" => $_POST["apellidos"]
+if (isset($_POST["crear"])) {
+    $datos_contrato=array(
+        "inquilino"=>$_SESSION["codigo_inquilino"],
+        "inmueble"=>$_POST["inmueble"],
+        "inicio"=>$_POST["fecha_ini"],
+        "fin"=>$_POST["fecha_fin"]
+    );
 
-        );
+    $ahora=date("Y-m-d");
 
-        $obj = consumir_servicio_REST(URL . "/cambiar_datos/" . $_SESSION["email"], "PUT", $datos);
-
-        $_SESSION["nombre"] = $_POST["nombre"] . " " . $_POST["apellidos"];
-    }
+   if($_POST["fecha_fin"]>=$_POST["fecha_ini"] && $_POST["fecha_ini"]>=$ahora)
+{
+   $obj=consumir_servicio_REST(URL."/insertar_contrato","POST",$datos_contrato);
+  // echo "correcto";
+}else{
+    echo "Fechas incorrectas";
 }
-
-$error_prueba_contrasenia = isset($_POST["cambiar_contrasenia"]);
-$error_old = false;
-$error_nueva = false;
-$error_nueva2 = false;
-$error_distintas = false;
-if (isset($_POST["cambiar_contrasenia"])) {
-
-    $error_old = $_POST["old"] == "";
-    $error_nueva = $_POST["nueva"] == "";
-    $error_nueva2 = $_POST["nueva2"] == "";
-    $error_distintas = ($_POST["nueva"] != $_POST["nueva2"]);
-
-    $error_todo_contrasenia = $error_old || $error_nueva || $error_nueva2 || $error_distintas;
-
-    if (!$error_todo_contrasenia) {
-        $nueva = md5($_POST["nueva"]);
-        $vieja = md5($_POST["old"]);
-        $datos_contrasenia = array(
-            "old" => $vieja,
-            "nueva" => $nueva
-        );
-
-
-        $obj = consumir_servicio_REST(URL . "/cambiar_contrasenia/" . $_SESSION['email'], "PUT", $datos_contrasenia);
-        var_dump($obj);
-    }
-}
-
-
-
-
-if (isset($_POST["eliminar"])) {
-
-    $obj = consumir_servicio_REST(URL . "/baja_usuario/" . $_SESSION["email"], "PUT");
-
-    session_destroy();
-    header("Location: index.php");
-    exit;
+ 
 }
 
 $error_informe = false;
@@ -152,301 +108,137 @@ if (isset($_POST["informar"])) {
     </header>
     <main>
         <section id="titulares">
-            <p>
-                <span class="titulo"> Crear contrato</span>
-            </p>
-            <div class="oculta">
+            <form action="principal.php" method="post">
+
+                <input <?php if (isset($_POST["crear_contrato"]) || isset($_POST["dni"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='crear_contrato' class="titulo_prueba" value='Crear contrato'>
+
+                <input <?php if (isset($_POST["contrato_fin"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='contrato_fin' class="titulo_prueba" value='Contrato Finalizado'>
+
+                <input type='submit' name='opiniones_usu' class="titulo_prueba" value='Opiniones Usuario'>
+
 
                 <?php
-                $datos = array(
-                    "email" => $_SESSION["email"]
-                );
-                // var_dump($datos);
-
-                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                echo "<article>";
-                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-                echo "Email: " . $obj->usuario->email . "</br>";
-                if ($obj->usuario->dni == null)
-                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                else
-                    echo "DNI: " . $obj->usuario->dni . "</br>";
-                echo "</p>";
-                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-                echo "<input type='file' name='foto2'/>";
-                echo "<input type='submit' class='sub' name='subir' value='Subir'/>";
-                echo "</form>";
-                echo "</article>";
+                $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                //var_dump($obj);
+                if (isset($obj->propiedades)) {
                 ?>
 
-            </div>
-            <p>
-                <span class="titulo"> Contratos finalizados</span>
-            </p>
-            <div class="oculta" style="<?php if ($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
-                <article>
-                    <form action="principal.php" method="post">
-                        <?php
-                        $datos = array(
-                            "email" => $_SESSION["email"]
-                        );
-                        // var_dump($datos);
 
-                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                        if (!isset($_POST["modificar"])) {
-                            $nombre = $obj->usuario->nombre;
-                            $apellidos = $obj->usuario->apellidos;
-
-                            if ($obj->usuario->dni != null) {
-                                $dni = $obj->usuario->dni;
-                            }
-                        } else {
-                            $nombre = $_POST["nombre"];
-                            $apellidos = $_POST["apellidos"];
-                        }
-
-                        ?>
-                        <span class="titulo"> Contratos finalizados</span>
-
-
-
-
-                        <input class="formu" type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" placeholder="Nombre" />
-                        <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
-
-
-
-                        <br /><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
-                        <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
-
-
-                        <label for="copia">Copia DNI:</label>
-                        <input class="sub" type="file" name="copia" id="copia">
-
-                        <br />
-
-
-                        <input class="sub" type="submit" name="modificar" value="Modificar" />
-                        <br />
-                        <br />
-                        <input type="hidden" class="edita_peque" name="edita_peque" />
-                        <?php
-
-                        if ($dni_de_otro || $error_nombre || $error_apellidos)
-                            echo "** Campo vacío o incorrecto **";
-
-                        ?>
-                    </form>
-                </article>
-            </div>
-            <p>
-                <span class="titulo"> Opiniones de usuarios</span>
-            </p>
-            <div class="oculta" style="<?php if ($error_prueba_contrasenia && isset($_POST["edita_peque2"])) echo 'display:block'; ?>">
-                <article>
-                    <span class="cabecera">Opiniones de usuarios</span>
-                    <br />
-                    <br />
-                    <form action="principal.php" method="post">
-
-                        <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
-
-
-                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
-
-
-                        <?php if ($error_nueva2) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
-
-
-                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
-                        <input type="hidden" class="edita_peque" name="edita_peque2" />
-
-                        <?php
-
-                        if ($error_old || $error_nueva || $error_nueva2)
-                            echo "** Campo vacío o incorrecto **";
-                        if ($error_distintas)
-                            echo "**La contraseña no coincide**";
-                        ?>
-                    </form>
-                </article>
-            </div>
-            <?php
-            $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
-            //var_dump($obj);
-            if (isset($obj->propiedades)) {
-            ?>
-
-<p>
-                <span class="titulo"> Consultar inquilino</span>
-            </p>
-            <div class="oculta">
-
-                <article>
-                    <form action="principal.php" method="post">
-
-                        <textarea name="informe" placeholder="Informar de un problema"></textarea>
-                        <input type="submit" name="informar" value="Informar" class="sub" />
-                    </form>
-                </article>
-            </div>
-
-
+                    <input type='submit' name='consultar_inquilino' class="titulo_prueba" value='Consultar inquilino'>
                 <?php
-            }
+                }
+                ?>
 
-            ?>
-
+            </form>
         </section>
-        <section id="grande">
+        <section id="grande2">
+
             <?php
-            if (isset($_POST["modificar"])) {
+            if (isset($_POST["contrato_fin"])) {
             ?>
+
                 <article>
-                    <form action="principal.php" method="post">
-                        <?php
-                        $datos = array(
-                            "email" => $_SESSION["email"]
+                    Ha pulsado Contratos finalizados
+                </article>
+            <?php
+            } else {
+            ?>
+
+                <article>
+
+
+
+                    <?php
+                    if (isset($_POST["buscar"]) && $_POST["dni"] != "" || isset($_POST["crear"])) {
+                        if(isset($_POST["dni"]))
+                        $_SESSION["dni"]=$_POST["dni"];
+                        
+                        $dni_usu = array(
+                            "dni" => $_SESSION["dni"]
                         );
-                        // var_dump($datos);
-
-                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-
-                        if (!isset($_POST["modificar"])) {
-                            $nombre = $obj->usuario->nombre;
-                            $apellidos = $obj->usuario->apellidos;
-
-                            if ($obj->usuario->dni != null) {
-                                $dni = $obj->usuario->dni;
-                            }
-                        } else {
-                            $nombre = $_POST["nombre"];
-                            $apellidos = $_POST["apellidos"];
-                        }
-
-                        ?>
-
-                        <form action="principal.php" method="post">
-                            <?php
-                            $datos = array(
-                                "email" => $_SESSION["email"]
-                            );
-                            // var_dump($datos);
-
-                            $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                            if (!isset($_POST["modificar"])) {
-                                $nombre = $obj->usuario->nombre;
-                                $apellidos = $obj->usuario->apellidos;
-
-                                if ($obj->usuario->dni != null) {
-                                    $dni = $obj->usuario->dni;
+                        $obj = consumir_servicio_REST(URL . "/buscar_dni_usuario", "POST", $dni_usu);
+                        //var_dump($obj);
+                        if (isset($obj->existe)) {
+                            //var_dump($obj);
+                            // echo $obj->codigo;
+                            
+                             $_SESSION["codigo_inquilino"]=$obj->codigo;
+                            // echo $_SESSION["codigo_inquilino"];
+                       
+                            $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                            if (isset($obj->sin_propiedades)) {
+                                echo "<article>";
+                
+                                echo "No tiene ninguna propiedad registrada";
+                
+                                echo "</article>";
+                            } elseif (isset($obj->propiedades)) {
+                                if(isset($_POST["crear"])){
+                                    $fecha_inicio=$_POST["fecha_ini"];
+                                    $fecha_fin=$_POST["fecha_fin"];
                                 }
-                            } else {
-                                $nombre = $_POST["nombre"];
-                                $apellidos = $_POST["apellidos"];
+                                ?>
+                                
+                                <form action="principal.php" method="post" enctype="multipart/form-data">
+                             
+                                  <select class="titulo_prueba" name="inmueble">
+                                    <?php
+                                   foreach ($obj->propiedades as $inmueble) {
+                                       if(isset($_POST["inmueble"]) && $inmueble->cod_inmueble==$_POST["inmueble"])
+                                    echo "<option value='".$inmueble->cod_inmueble."' checked>".$inmueble->cod_inmueble."-".$inmueble->localidad."</option>";
+                                  else
+                                  echo "<option value='".$inmueble->cod_inmueble."' >".$inmueble->cod_inmueble."-".$inmueble->localidad."</option>";
+                                }
+                                  ?>  
+                            </select>
+                           <p> Fecha Inicio
+                            <br/>
+                            <input class="formu" type="date" name="fecha_ini" value='<?php if(isset($_POST["crear"]))
+                                   echo $_POST["fecha_ini"]; ?>' required>
+                                </p>
+                            <p>
+                            Fecha Fin
+                            <br/>
+                            <input class="formu" type="date" name="fecha_fin" value='<?php if(isset($_POST["crear"]))
+                                   echo $_POST["fecha_fin"]; ?>' required/>
+                                </p>
+                             <br/>   
+                            <input class="sub" type="submit" name="crear" value="Crear contrato"/>
+
+                            </form>
+
+
+<?php
+                        
                             }
+                        
 
-                            ?>
-                            <span class="titulo"> Editar perfil:</span>
+                    ?>
+
+                            
+
+                        <?php
+                        } elseif (isset($obj->no_existe)) {
+                            echo "No existe";
+                        } else {
+                            echo $obj->mensaje;
+                        }
+                    } else {
+                        ?>
+                        <form action="principal.php" method="post">
+                            <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" class="formu" type="text" name="dni" placeholder="Escriba dni del inquilino" value='<?php
+                                                                                                                                                                                                            if (isset($_POST["dni"])) echo $_POST["dni"]; ?>' required />
+                                <label for="buscar">🔎</label>
+                                <input class="invisible" type="submit" id="buscar" name="buscar" />
+                            </p>
 
 
-
-
-                            <input class="formu" type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" placeholder="Nombre" />
-                            <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
-
-
-                            <br />
-                            <br /><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
-                            <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
-
-
-                            <label for="copia">Copia DNI:</label>
-                            <input class="sub" type="file" name="copia" id="copia">
-
-
-
-                            <input class="sub" type="submit" name="modificar" value="Modificar" />
-
-                            <input type="hidden" class="edita_peque" name="edita_peque" />
-                            <?php
-
-                            if ($dni_de_otro || $error_nombre || $error_apellidos)
-                                echo "** Campo vacío o incorrecto **";
-
-                            ?>
                         </form>
                 </article>
-
-            <?php
-
-            } elseif (isset($_POST["cambiar_contrasenia"])) {
-            ?>
-                <article>
-                    <span class="cabecera">Cambiar contraseña</span>
-
-                    <form action="principal.php" method="post">
-
-                        <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
-
-
-                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
-
-                        <?php if ($error_nueva2 || $error_distintas) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
-
-
-                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
-                        <input type="hidden" class="edita_peque2" name="edita_peque" />
-
-                        <?php
-
-                        if ($error_old || $error_nueva || $error_nueva2)
-                            echo "** Campo vacío o incorrecto **";
-                        if ($error_distintas)
-
-                            echo "**La contraseña no coincide**";
-                        ?>
-
-                    </form>
-                </article>
-
-
-            <?php
-            } elseif (isset($_POST["eliminar"])) {
-            } else {
-
-                $datos = array(
-                    "email" => $_SESSION["email"]
-                );
-                // var_dump($datos);
-
-                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                echo "<article>";
-                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-                echo "Email: " . $obj->usuario->email . "</br>";
-                if ($obj->usuario->dni == null)
-                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                else
-                    echo "DNI: " . $obj->usuario->dni . "</br>";
-                echo "</p>";
-                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-                echo "<input type='file' name='foto2'/>";
-                echo "<input class='sub' type='submit' name='subir' value='Subir'/>";
-                echo "</form>";
-                echo "</article>";
-            }
-            ?>
-
+        <?php
+                    }
+                }
+        ?>
         </section>
     </main>
     <footer>
@@ -458,46 +250,7 @@ if (isset($_POST["informar"])) {
             Idea original de Rosa Caracuel Calderón
         </p>
     </footer>
-    <script type="text/javascript" src="JS/jquery-3.5.1.js"></script>
-    <script>
-        $(document).ready(function() {
 
-
-            //al hacer click a cualquier etiqueta que no tenga la clase oculta dentro de la etiqueta con id titulares
-            $("#titulares").on("click", "p:not(.oculta)", function() {
-                //console.log("hola");
-                if ($(window).width() < 1000)
-                    $(this).next().slideToggle(800);
-
-                $("#grande").html($(this).next().html());
-
-                // console.log($("#grande .edita_peque").val());
-                $("#grande .edita_peque").remove();
-                $("#grande .edita_peque2").remove();
-
-
-            });
-
-
-            $("#titulares > p").on("click", function() {
-                // console.log($(this).attr("style"));
-                //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
-
-                $("#titulares > p").removeAttr("style");
-                $(this).css("background-color", "#ed217d");
-
-
-            });
-
-            $(window).resize(function() {
-                // console.log("hola");
-                if ($(window).width() > 1000)
-                    $("#titulares .oculta").hide();
-
-            })
-
-        })
-    </script>
 </body>
 
 </html>

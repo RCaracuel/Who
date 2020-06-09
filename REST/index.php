@@ -37,7 +37,7 @@ $app->get("/buscar_dni/:dni", function($dni){
 });
 
 $app->post("/buscar_dni_usuario", function(){
-    echo json_encode(buscar_dni_usuario($_POST["dni"],$_POST["email"]), JSON_FORCE_OBJECT);
+    echo json_encode(buscar_dni_usuario($_POST["dni"]), JSON_FORCE_OBJECT);
 });
 
 $app->post('/top5', function(){
@@ -85,6 +85,11 @@ $app->post("/insertar_propiedad", function(){
 $app->post("/insertar_informe", function(){
     echo json_encode(insertar_informe($_POST["cod_usu"],$_POST["texto"]), JSON_FORCE_OBJECT);
 });
+
+$app->post("/insertar_contrato", function(){
+    echo json_encode(insertar_contrato($_POST["inquilino"],$_POST["inmueble"], $_POST["inicio"],$_POST["fin"]), JSON_FORCE_OBJECT);
+});
+
 
 
 $app->run();
