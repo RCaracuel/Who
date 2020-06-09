@@ -29,152 +29,152 @@
             </ul>
         </form>
         <div id="escritorio">
-        <p><?php echo $_SESSION["nombre"]; ?></p>
+            <p><?php echo $_SESSION["nombre"]; ?></p>
             <?php
-             $datos=array(
-                "email"=>$_SESSION["email"]
+            $datos = array(
+                "email" => $_SESSION["email"]
             );
-           // var_dump($datos);
-    
+            // var_dump($datos);
+
             $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-            $_SESSION["id_usu"]=$obj->usuario->cod_usuario;
-            echo "<a href='principal.php?perfil'><img src='img/".$obj->usuario->foto_perfil."' alt='foto-perfil'/></a>"
+            $_SESSION["id_usu"] = $obj->usuario->cod_usuario;
+            echo "<a href='principal.php?perfil'><img src='img/" . $obj->usuario->foto_perfil . "' alt='foto-perfil'/></a>"
             ?>
         </div>
     </header>
     <main>
         <section id="titulares">
-        <form action="principal.php" method="post">
+            <form action="principal.php" method="post">
 
-<input <?php if (isset($_POST["top5"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='top5' class="titulo_prueba" value='Top 5'>
+                <input <?php if (isset($_POST["top5"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='top5' class="titulo_prueba" value='Top 5'>
 
-<input <?php if (isset($_POST["mas_buscados"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='mas_buscados' class="titulo_prueba" value='Los + buscados'>
+                <input <?php if (isset($_POST["mas_buscados"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='mas_buscados' class="titulo_prueba" value='Los + buscados'>
 
-<input <?php if (isset($_POST["mas_economicos"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='mas_economicos' class="titulo_prueba" value='Los + económicos'>
-<input <?php if (isset($_POST["protegida"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='protegida' class="titulo_prueba" value='Tu casa protegida'>
+                <input <?php if (isset($_POST["mas_economicos"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='mas_economicos' class="titulo_prueba" value='Los + económicos'>
+                <input <?php if (isset($_POST["protegida"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='protegida' class="titulo_prueba" value='Tu casa protegida'>
 
 
-</form>
+            </form>
 
         </section>
         <section id="grande2">
-        
-                <?php
-               if(isset($_POST["mas_buscados"])){
-                    ?>
-                          <article>
-                   
-                   <p><span class="destino">Londres</span>
-                       <br/>
-                       <img src="img/londres.jpg" alt="londres"/>
-                       Es el destino más buscado en Google, no es de extrañar, debido a que es la mayor ciudad y área urbana de Gran Bretaña y de toda la Unión Europea. Con todas las zonas de interés cultural que Londres tiene es normal que sea uno de los destinos preferidos por los ínter nautas para elegir como destino vacacional.
-                   </p>
-               </article>
-               <article>
-                  
-                   <p><span class="destino">Tailandia</span>
-                       <br/>
-                       <img src="img/tailandia.jpg" alt="tailandia"/>
-                       Uno de los destinos favoritas para realizar un viaje de novios, la combinación de zonas culturales con zonas paradisíacas de playas hacen de Tailandia un destino muy solicitado por los recién casados. Un destino bastante económico para pasar una temporada larga allí y empaparte de la cultura milenaria asiática de diferentes zonas de Tailandia.
-                   </p>
-               </article>
-               <article>
-                  
-                   <p><span class="destino">París</span>
-                       <br/>
-                       <img src="img/paris.jpg" alt="paris"/>
-                       El tercer destino más buscado en Google es París, la ciudad del amor, un destino romántico con un gran interés cultural en territorio Francés. Destacan diferentes lugares para visitar como la Torre Eiffel, Disneyland Paris o la Catedral de Notre Dame.
-                   </p>
-               </article>
-               <article>
-                  
-                   <p><span class="destino">Roma</span>
-                       <br/>
-                       <img src="img/roma.jpg" alt="roma"/>
-                       Preciosa ciudad llena de lugares culturales que visitar, en cuanto pises Roma notarás que respiras historia en casi cualquier zona. Espectaculares monumentos te esperan para que puedas visitarlos con total tranquilidad y disfrutes de su belleza y cultura italiana.
-                   </p>
-                   
-               </article>
-               <a href="https://www.felicesvacaciones.es/blog/los-destinos-mas-buscados-en-google">Artículo de felicesvacaciones.es</a>
 
-                    <?php
-                }elseif(isset($_POST["mas_economicos"])){
-                    ?>
+            <?php
+            if (isset($_POST["mas_buscados"])) {
+            ?>
+                <article>
 
-<article>
-                   
-                   <p><span class="destino">Camboya</span>
-                       <br/>
-                       <img src="https://content.skyscnr.com/m/055ab35306c6c272/original/GettyImages-474347378.jpg?resize=1800px:1800px&quality=100" alt="camboya"/>
-                       En Camboya podrás encontrar alojamiento a partir de 7 euros la noche. Y si quieres el lujo de disponer de aire acondicionado, unos 10 euros. Un buen plato de pescado en Khmer Amok te costará entorno a los 4 euros.
-                   </p>
-               </article>
-               <article>
-                  
-                   <p><span class="destino">Malasia</span>
-                       <br/>
-                       <img src="https://content.skyscnr.com/m/72e1e49275db7466/original/GettyImages-480173148.jpg?resize=1800px:1800px&quality=100" alt="malasia"/>
-                       Si te apasiona probar platos nuevos, pero siempre aparece el fantasma del dinero arruinando cada plan que haces, tu destino es Malasia.
-                   </p>
-               </article>
-               <article>
-                   
-                   <p><span class="destino">Paraguay</span>
-                       <br/>
-                       <img src="https://content.skyscnr.com/m/1b5dc12e5372c2a7/original/GettyImages-178820829_doc.jpg?resize=1800px:1800px&quality=100" alt="paraguay"/>
-                       Con la capital, Asunción, considerada la ciudad más barata del mundo, este país escala posiciones en el top de los países más baratos del mundo a los que ir a pasar unas vacaciones de lujo.
-                   </p>
-               </article>
-               <article>
-                  
-                   <p><span class="destino">Bolivia</span>
-                       <br/>
-                       <img src="https://content.skyscnr.com/m/0309f59d3544aa9f/original/GettyImages-99446039.jpg?resize=1800px:1800px&quality=100" alt="bolivia"/>
-                       Bolivia es uno de los países más baratos por excelencia y más teniendo en cuenta que puedes sobrevivir, moverte y conocer el país por menos de 19 euros al día.
-                   </p>
-                   
-               </article>
-               <a href="https://www.skyscanner.es/noticias/inspiracion/los-20-paises-mas-baratos-a-los-que-ir-de-vacaciones">Artículo de skyscanner.es</a>
+                    <p><span class="destino">Londres</span>
+                        <br />
+                        <img src="img/londres.jpg" alt="londres" />
+                        Es el destino más buscado en Google, no es de extrañar, debido a que es la mayor ciudad y área urbana de Gran Bretaña y de toda la Unión Europea. Con todas las zonas de interés cultural que Londres tiene es normal que sea uno de los destinos preferidos por los ínter nautas para elegir como destino vacacional.
+                    </p>
+                </article>
+                <article>
 
-                <?php
-                    
-                    
-                }elseif(isset($_POST["protegida"])){
-                    ?>
-      <article class="robo">
-            <p>
-            <span class="destino">Cómo proteger tu casa</span>
-            <br/>
-            <br/>
-            ⚪ Que se vea que tu hogar está protegido.
-            <br/> Está demostrado que una casa con un sistema de seguridad visible, con cámaras de vigilancia o carteles de la compañía que nos proporciona el servicio puede llegar a disuadir a los ladrones de intentar robar en ella. Hoy en día existen alarmas que se pueden conectar o desconectar desde un smartphone y te permiten ver imágenes en tiempo real del interior de la vivienda.
-            <br/>
-            ⚪ La discreción es muy importante. <br/>
-No comentes, excepto a tus más allegados y personas de confianza, cuándo y durante cuánto tiempo vas a estar fuera de casa. Tampoco publiques en las redes sociales nada relativo a tus próximas vacaciones o escapadas ya que estarás dando pistas a los cacos para saber cuándo es el mejor momento para hacer de las suyas.
-<br/>
-⚪ Que no parezca que tu casa está vacía.<br/>
- No dejes las persianas bajadas y asegúrate de que no se va acumulando el correo en tu buzón. Éstos son signos inequívocos de que no hay nadie en casa. Pídele a un amigo o un familiar, incluso un vecino de confianza que recoja tus cartas y abra y cierre las ventanas para que se vea movimiento. Si te vas por pocos días, podrías dejar ropa tendida. Si cuentas con alumbrado exterior, déjalo encendido, y si es posible deja alguna luz prendida en el interior para dar la impresión de que la casa no está sola.
-<br/>
-⚪ Asegúrate de que no existen accesos fáciles a tu vivienda.<br/>
- Otro de los consejos para proteger tu casa cuando no estás es revisar las posibles entradas a través de balcones, árboles o estructuras de la propia vivienda como canalones. No escondas la llave en una maceta, en la caja de contadores o en los alrededores de la vivienda ya que se pueden encontrar con relativa facilidad.
-<br/>
-⚪ Ve un paso por delante de los ladrones.<br/>
- Hoy en día uno de los métodos más usados para evitar el correcto funcionamiento de dispositivos electrónicos es el uso de inhibidores. Afortunadamente existen en el mercado soluciones de seguridad que permiten conectarse con la Central Receptora de Alarmas de forma inalámbrica o por cable incluso si el sistema está siendo boicoteado.
-            </p>
-            </article>
+                    <p><span class="destino">Tailandia</span>
+                        <br />
+                        <img src="img/tailandia.jpg" alt="tailandia" />
+                        Uno de los destinos favoritas para realizar un viaje de novios, la combinación de zonas culturales con zonas paradisíacas de playas hacen de Tailandia un destino muy solicitado por los recién casados. Un destino bastante económico para pasar una temporada larga allí y empaparte de la cultura milenaria asiática de diferentes zonas de Tailandia.
+                    </p>
+                </article>
+                <article>
 
-<?php
-                }else{
+                    <p><span class="destino">París</span>
+                        <br />
+                        <img src="img/paris.jpg" alt="paris" />
+                        El tercer destino más buscado en Google es París, la ciudad del amor, un destino romántico con un gran interés cultural en territorio Francés. Destacan diferentes lugares para visitar como la Torre Eiffel, Disneyland Paris o la Catedral de Notre Dame.
+                    </p>
+                </article>
+                <article>
 
-                    $obj = consumir_servicio_REST(URL . "/top5", "POST");
+                    <p><span class="destino">Roma</span>
+                        <br />
+                        <img src="img/roma.jpg" alt="roma" />
+                        Preciosa ciudad llena de lugares culturales que visitar, en cuanto pises Roma notarás que respiras historia en casi cualquier zona. Espectaculares monumentos te esperan para que puedas visitarlos con total tranquilidad y disfrutes de su belleza y cultura italiana.
+                    </p>
+
+                </article>
+                <a href="https://www.felicesvacaciones.es/blog/los-destinos-mas-buscados-en-google">Artículo de felicesvacaciones.es</a>
+
+            <?php
+            } elseif (isset($_POST["mas_economicos"])) {
+            ?>
+
+                <article>
+
+                    <p><span class="destino">Camboya</span>
+                        <br />
+                        <img src="https://content.skyscnr.com/m/055ab35306c6c272/original/GettyImages-474347378.jpg?resize=1800px:1800px&quality=100" alt="camboya" />
+                        En Camboya podrás encontrar alojamiento a partir de 7 euros la noche. Y si quieres el lujo de disponer de aire acondicionado, unos 10 euros. Un buen plato de pescado en Khmer Amok te costará entorno a los 4 euros.
+                    </p>
+                </article>
+                <article>
+
+                    <p><span class="destino">Malasia</span>
+                        <br />
+                        <img src="https://content.skyscnr.com/m/72e1e49275db7466/original/GettyImages-480173148.jpg?resize=1800px:1800px&quality=100" alt="malasia" />
+                        Si te apasiona probar platos nuevos, pero siempre aparece el fantasma del dinero arruinando cada plan que haces, tu destino es Malasia.
+                    </p>
+                </article>
+                <article>
+
+                    <p><span class="destino">Paraguay</span>
+                        <br />
+                        <img src="https://content.skyscnr.com/m/1b5dc12e5372c2a7/original/GettyImages-178820829_doc.jpg?resize=1800px:1800px&quality=100" alt="paraguay" />
+                        Con la capital, Asunción, considerada la ciudad más barata del mundo, este país escala posiciones en el top de los países más baratos del mundo a los que ir a pasar unas vacaciones de lujo.
+                    </p>
+                </article>
+                <article>
+
+                    <p><span class="destino">Bolivia</span>
+                        <br />
+                        <img src="https://content.skyscnr.com/m/0309f59d3544aa9f/original/GettyImages-99446039.jpg?resize=1800px:1800px&quality=100" alt="bolivia" />
+                        Bolivia es uno de los países más baratos por excelencia y más teniendo en cuenta que puedes sobrevivir, moverte y conocer el país por menos de 19 euros al día.
+                    </p>
+
+                </article>
+                <a href="https://www.skyscanner.es/noticias/inspiracion/los-20-paises-mas-baratos-a-los-que-ir-de-vacaciones">Artículo de skyscanner.es</a>
+
+            <?php
+
+
+            } elseif (isset($_POST["protegida"])) {
+            ?>
+                <article class="robo">
+                    <p>
+                        <span class="destino">Cómo proteger tu casa</span>
+                        <br />
+                        <br />
+                        ⚪ Que se vea que tu hogar está protegido.
+                        <br /> Está demostrado que una casa con un sistema de seguridad visible, con cámaras de vigilancia o carteles de la compañía que nos proporciona el servicio puede llegar a disuadir a los ladrones de intentar robar en ella. Hoy en día existen alarmas que se pueden conectar o desconectar desde un smartphone y te permiten ver imágenes en tiempo real del interior de la vivienda.
+                        <br />
+                        ⚪ La discreción es muy importante. <br />
+                        No comentes, excepto a tus más allegados y personas de confianza, cuándo y durante cuánto tiempo vas a estar fuera de casa. Tampoco publiques en las redes sociales nada relativo a tus próximas vacaciones o escapadas ya que estarás dando pistas a los cacos para saber cuándo es el mejor momento para hacer de las suyas.
+                        <br />
+                        ⚪ Que no parezca que tu casa está vacía.<br />
+                        No dejes las persianas bajadas y asegúrate de que no se va acumulando el correo en tu buzón. Éstos son signos inequívocos de que no hay nadie en casa. Pídele a un amigo o un familiar, incluso un vecino de confianza que recoja tus cartas y abra y cierre las ventanas para que se vea movimiento. Si te vas por pocos días, podrías dejar ropa tendida. Si cuentas con alumbrado exterior, déjalo encendido, y si es posible deja alguna luz prendida en el interior para dar la impresión de que la casa no está sola.
+                        <br />
+                        ⚪ Asegúrate de que no existen accesos fáciles a tu vivienda.<br />
+                        Otro de los consejos para proteger tu casa cuando no estás es revisar las posibles entradas a través de balcones, árboles o estructuras de la propia vivienda como canalones. No escondas la llave en una maceta, en la caja de contadores o en los alrededores de la vivienda ya que se pueden encontrar con relativa facilidad.
+                        <br />
+                        ⚪ Ve un paso por delante de los ladrones.<br />
+                        Hoy en día uno de los métodos más usados para evitar el correcto funcionamiento de dispositivos electrónicos es el uso de inhibidores. Afortunadamente existen en el mercado soluciones de seguridad que permiten conectarse con la Central Receptora de Alarmas de forma inalámbrica o por cable incluso si el sistema está siendo boicoteado.
+                    </p>
+                </article>
+
+            <?php
+            } else {
+
+                $obj = consumir_servicio_REST(URL . "/top5", "POST");
                 //var_dump($obj);
                 foreach ($obj->top as $inmueble) {
 
                     echo "<article>";
                     // echo "hola";
                     //echo $inmueble->imagen;
-                    
-                    echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble."</span>";
+
+                    echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
                     echo "<br/>";
                     echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
                     echo "Localidad: " . $inmueble->localidad;
@@ -194,22 +194,21 @@ No comentes, excepto a tus más allegados y personas de confianza, cuándo y dur
                     echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
                     echo "<br/>";
                     echo "Puntuación: ";
-                    $estrellas=(int)$inmueble->media_estrellas;
-                    
-                    for ($i=0; $i <$estrellas; $i++) { 
+                    $estrellas = (int) $inmueble->media_estrellas;
+
+                    for ($i = 0; $i < $estrellas; $i++) {
                         echo "⭐";
                     }
                     echo "<br/>";
-                
-                    echo "(".$inmueble->total_comenta.($inmueble->total_comenta==1 ? " opinión" : " opiniones").")";
+
+                    echo "(" . $inmueble->total_comenta . ($inmueble->total_comenta == 1 ? " opinión" : " opiniones") . ")";
                     echo "</p>";
                     echo "</article>";
                 }
+            }
 
-                }
-                
-                
-                ?>
+
+            ?>
 
         </section>
     </main>

@@ -117,74 +117,26 @@ if(isset($_POST["alta"])){
     </header>
     <main>
         <section id="titulares">
-            <p>
-                <span class="titulo"> Mis propiedades</span>
-            </p>
-            <div class="oculta">
 
-                <?php
+        <form action="principal.php" method="post">
 
-                $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
-             
-                if (isset($obj->sin_propiedades)) {
-                    echo "<article>";
-                
-                    echo "No tiene ninguna propiedad registrada";
+<input <?php if (isset($_POST["mis_propiedades"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='mis_propiedades' class="titulo_prueba" value='Mis Propiedades'>
 
-                    echo "</article>";
-                } elseif (isset($obj->propiedades)) {
-                    // var_dump($obj);
-                    echo "<span class='titulo2'>Mis Propiedades</span>";
+<input <?php if (isset($_POST["add_propiedad"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='add_propiedad' class="titulo_prueba" value='Añadir propiedad'>
 
-                    foreach ($obj->propiedades as $inmueble) {
+<input <?php if (isset($_POST["dar_baja"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='dar_baja' class="titulo_prueba" value='Dar de baja'>
+<input <?php if (isset($_POST["dar_alta"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='dar_alta' class="titulo_prueba" value='Dar de alta'>
 
-                        echo "<article>";
-                        // echo "hola";
-                        //echo $inmueble->imagen;
 
-                        if (!$inmueble->imagen)
-                            $foto_casa = "no_foto.jpg";
-                        else
-                            $foto_casa = $inmueble->imagen;
+</form>
+        </section>
+        <section id="grande2">
+                            <?php
 
-                        echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
-                        echo "<br/>";
-                        echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
-                        echo "Localidad: " . $inmueble->localidad;
-                        echo "<br/>";
-                        echo "Distancia centro: " . $inmueble->distancia_centro . "km";
-                        echo "<br/>";
-                        echo "M2: " . ($inmueble->m2);
-                        echo "<br/>";
-                        echo "Nº Habitaciones: " . $inmueble->num_hab;
-                        echo "<br/>";
-                        echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
-                        echo "<br/>";
-                        echo "Puntuación: ";
-                        $estrellas = (int) $inmueble->estrellas;
+                            if(isset($_POST["add_propiedad"])){
+                                    ?>
 
-                        for ($i = 0; $i < $estrellas; $i++) {
-                            echo "⭐";
-                        }
-                        echo "</p>";
-                        echo "</article>";
-                    }
-                }
-
-                ?>
-                </article>
-            </div>
-            <p>
-                <span class="titulo"> Añadir propiedad </span>
-            </p>
-            <div class="oculta">
-                <article>
+<article>
                     <form action="principal.php" method="post">
                         <span class="titulo"> Añadir propiedad:</span>
                         <input class="formu2" id="habitaciones" name="habitaciones" type="text" min="1" pattern="^[0-9]+" placeholder="Nº Habitaciones">
@@ -218,12 +170,12 @@ if(isset($_POST["alta"])){
                         ?>
                     </form>
                 </article>
-            </div>
-            <p>
-                <span class="titulo"> Dar de baja </span>
-            </p>
-            <div class="oculta">
-                <article>
+
+
+<?php
+                            }elseif(isset($_POST["dar_baja"])){
+                                ?>
+<article>
                     <p>
                         Las propiedad o propiedades que se den de baja no aparecerá en las búsquedas de otros usuarios pero permanecerán en nuestra base de datos.
                     </p>
@@ -265,12 +217,12 @@ if(isset($_POST["alta"])){
                         </div>
                    
                 </article>
-            </div>
-            <p>
-                <span class="titulo"> Dar de alta </span>
-            </p>
-            <div class="oculta">
-                            <article>
+
+<?php
+                            }elseif(isset($_POST["dar_alta"])){
+                                ?>
+
+<article>
                       
                         
                             
@@ -314,64 +266,77 @@ if(isset($_POST["alta"])){
                             </form>
                         
                             </article>
-            </div>
-        </section>
-        <section id="grande">
 
-            <?php
-            $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
-            if (isset($obj->sin_propiedades)) {
-                echo "<article>";
 
-                echo "No tiene ninguna propiedad registrada";
+<?php
+                            }
+                            else{
 
-                echo "</article>";
-            } elseif (isset($obj->propiedades)) {
-                // var_dump($obj);
-                echo " <span class='titulo2'>Mis Propiedades</span>";
-                foreach ($obj->propiedades as $inmueble) {
+                                ?>
+                        
+                <?php
 
-                    echo "<article>";
-                    // echo "hola";
-                    //echo $inmueble->imagen;
+$obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
 
-                    if (!$inmueble->imagen)
-                        $foto_casa = "no_foto.jpg";
-                    else
-                        $foto_casa = $inmueble->imagen;
+if (isset($obj->sin_propiedades)) {
+    echo "<article>";
 
-                    echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
-                    echo "<br/>";
-                    echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
-                    echo "Localidad: " . $inmueble->localidad;
-                    echo "<br/>";
-                    echo "Distancia centro: " . $inmueble->distancia_centro . "km";
-                    echo "<br/>";
-                    echo "M2: " . ($inmueble->m2);
-                    echo "<br/>";
-                    echo "Nº Habitaciones: " . $inmueble->num_hab;
-                    echo "<br/>";
-                    echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Puntuación: ";
-                    $estrellas = (int) $inmueble->estrellas;
+    echo "No tiene ninguna propiedad registrada";
 
-                    for ($i = 0; $i < $estrellas; $i++) {
-                        echo "⭐";
-                    }
-                    echo "</p>";
-                    echo "</article>";
-                    echo "<br/>";
-                }
-            }
+    echo "</article>";
+} elseif (isset($obj->propiedades)) {
+    // var_dump($obj);
+    echo "<span class='titulo2'>Mis Propiedades</span>";
 
-            ?>
+    foreach ($obj->propiedades as $inmueble) {
+
+        echo "<article>";
+        // echo "hola";
+        //echo $inmueble->imagen;
+
+        if (!$inmueble->imagen)
+            $foto_casa = "no_foto.jpg";
+        else
+            $foto_casa = $inmueble->imagen;
+
+        echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
+        echo "<br/>";
+        echo "<img src='img/" . $foto_casa . "' alt='foto_casa'/>";
+        echo "Localidad: " . $inmueble->localidad;
+        echo "<br/>";
+        echo "Distancia centro: " . $inmueble->distancia_centro . "km";
+        echo "<br/>";
+        echo "M2: " . ($inmueble->m2);
+        echo "<br/>";
+        echo "Nº Habitaciones: " . $inmueble->num_hab;
+        echo "<br/>";
+        echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
+        echo "<br/>";
+        echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
+        echo "<br/>";
+        echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
+        echo "<br/>";
+        echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
+        echo "<br/>";
+        echo "Puntuación: ";
+        $estrellas = (int) $inmueble->estrellas;
+
+        for ($i = 0; $i < $estrellas; $i++) {
+            echo "⭐";
+        }
+        echo "</p>";
+        echo "</article>";
+    }
+}
+
+?>
+</article>
+
+<?php
+                            }
+                            
+                            
+                            ?>
 
         </section>
     </main>
@@ -384,54 +349,6 @@ if(isset($_POST["alta"])){
             Idea original de Rosa Caracuel Calderón
         </p>
     </footer>
-    <script type="text/javascript" src="JS/jquery-3.5.1.js"></script>
-    <script>
-        $(document).ready(function() {
-
-
-            $("#titulares").on("click", "p:not(.oculta)", function() {
-                //console.log("hola");
-                if ($(window).width() < 1000)
-                    $(this).next().fadeToggle(800);
-
-                $("#grande").html($(this).next().html());
-
-
-                $("#grande .ks-cboxtags input").each(function() {
-                    $(this).attr("id", $(this).attr("id") + "grande");
-
-                });
-
-                $("#grande .ks-cboxtags label").each(function() {
-                    $(this).attr("for", $(this).attr("for") + "grande");
-
-                });
-
-
-
-            });
-
-            $("#titulares > p").on("click", function() {
-                // console.log($(this).attr("style"));
-                //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
-
-                $("#titulares > p").removeAttr("style");
-                $(this).css("background-color", "#ed217d");
-
-
-
-            });
-
-            $(window).resize(function() {
-                // console.log("hola");
-                if ($(window).width() > 1000)
-                    $("#titulares .oculta").hide();
-
-
-            })
-
-        })
-    </script>
 </body>
 
 </html>
