@@ -36,6 +36,10 @@ $app->get("/buscar_dni/:dni", function($dni){
     echo json_encode(buscar_dni($dni), JSON_FORCE_OBJECT);
 });
 
+$app->get("/opiniones/:codigo", function($codigo){
+    echo json_encode(buscar_opiniones($codigo), JSON_FORCE_OBJECT);
+});
+
 $app->post("/buscar_dni_usuario", function(){
     echo json_encode(buscar_dni_usuario($_POST["dni"]), JSON_FORCE_OBJECT);
 });

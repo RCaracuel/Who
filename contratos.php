@@ -203,6 +203,19 @@ $datos_nuevo=array(
                                    echo $_POST["fecha_fin"]; ?>' required/>
                                 </p>
                              <br/>   
+                             <?php
+
+                    //traer opiniones de los inquilinos
+                                    $obj=consumir_servicio_REST(URL."/opiniones/".$_SESSION["codigo_inquilino"], "GET");
+                                  //ar_dump($obj);
+                                if($obj!=null){
+                                    $puntuacion=floor($obj->opiniones->puntuacion);
+                                    if($puntuacion>5)
+                                    $puntuacion=5;
+                                    echo "Puntuación: ".$puntuacion;
+                                    echo "  (Total votaciones: ".$obj->opiniones->total.")";
+                                }
+?>
                             <input class="sub" type="submit" name="crear" value="Crear contrato"/>
 
                             </form>

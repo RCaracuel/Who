@@ -260,6 +260,30 @@ function buscar_informes($cod){
     }
 }
 
+function buscar_opiniones($codigo){
+
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select avg(opina.estrellas) as puntuacion, count(opina.cod_propietario) as total from opina where cod_inquilino='$codigo'";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+
+               $opiniones=mysqli_fetch_assoc($resultado);
+                
+                return array("opiniones"=>$opiniones);
+
+        }
+    }
+}
+
 
 function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jardin,$distancia,$m2,$idufir,$localidad){
 
