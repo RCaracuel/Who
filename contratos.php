@@ -26,38 +26,44 @@ if (isset($_POST["subir"])) {
 
 
 if (isset($_POST["crear"])) {
-    $datos_contrato=array(
-        "inquilino"=>$_SESSION["codigo_inquilino"],
-        "inmueble"=>$_POST["inmueble"],
-        "inicio"=>$_POST["fecha_ini"],
-        "fin"=>$_POST["fecha_fin"]
+    $datos_contrato = array(
+        "inquilino" => $_SESSION["codigo_inquilino"],
+        "inmueble" => $_POST["inmueble"],
+        "inicio" => $_POST["fecha_ini"],
+        "fin" => $_POST["fecha_fin"]
     );
 
-    $ahora=date("Y-m-d");
+    $ahora = date("Y-m-d");
 
-   if($_POST["fecha_fin"]>=$_POST["fecha_ini"] && $_POST["fecha_ini"]>=$ahora)
-{
-   $obj=consumir_servicio_REST(URL."/insertar_contrato","POST",$datos_contrato);
-  // echo "correcto";
-}else{
-    echo "Fechas incorrectas";
-}
- 
+    if ($_POST["fecha_fin"] >= $_POST["fecha_ini"] && $_POST["fecha_ini"] >= $ahora) {
+        $obj = consumir_servicio_REST(URL . "/insertar_contrato", "POST", $datos_contrato);
+        // echo "correcto";
+    } else {
+        echo "Fechas incorrectas";
+    }
 }
 
-$error_informe = false;
 if (isset($_POST["continuar"])) {
 
 
-$datos_nuevo=array(
-    "nombre"=>$_POST["nombre"],
-    "apellidos"=>$_POST["apellidos"],
-    "dni"=>$_POST["dni"]
-);
- $obj = consumir_servicio_REST(URL . "/registro_contrato", "POST", $datos_nuevo);
-   // var_dump($obj);
-  //  $_SESSION["codigo_inquilino"]=$obj->ultimo;
+    $datos_nuevo = array(
+        "nombre" => $_POST["nombre"],
+        "apellidos" => $_POST["apellidos"],
+        "dni" => $_POST["dni"]
+    );
+    $obj = consumir_servicio_REST(URL . "/registro_contrato", "POST", $datos_nuevo);
+    // var_dump($obj);
+    //  $_SESSION["codigo_inquilino"]=$obj->ultimo;
 }
+
+if (isset($_POST["finalizar_contrato"])) {
+    echo "hola";
+     echo $_POST["codigo_casa"];
+    echo $_POST["codigo_inquilino"];
+    echo $_POST["fecha_inicio_alquiler"];
+
+}
+
 ?>
 
 
@@ -111,7 +117,7 @@ $datos_nuevo=array(
             <form action="principal.php" method="post">
 
                 <input <?php if (isset($_POST["crear_contrato"]) || isset($_POST["dni"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='crear_contrato' class="titulo_prueba" value='Crear contrato'>
-
+                <input <?php if (isset($_POST["contrato_vigente"]) || isset($_POST["crear"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='contrato_vigente' class="titulo_prueba" value='Contratos Vigentes'>
                 <input <?php if (isset($_POST["contrato_fin"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='contrato_fin' class="titulo_prueba" value='Contrato Finalizado'>
 
                 <input type='submit' name='opiniones_usu' class="titulo_prueba" value='Opiniones Usuario'>
@@ -141,6 +147,45 @@ $datos_nuevo=array(
                     Ha pulsado Contratos finalizados
                 </article>
             <?php
+            }elseif(isset($_POST["crear"]) || isset($_POST["contrato_vigente"])){
+                $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                            if (isset($obj->sin_propiedades)) {
+                                echo "<article>";
+
+                                echo "No tiene ninguna propiedad registrada";
+
+                                echo "</article>";
+                            } else{
+                                $obj=consumir_servicio_REST(URL."/buscar_contratos/".$_SESSION["id_usu"],"GET");
+                             //   var_dump($obj);
+                                $contador_contratos=1;
+                                foreach ($obj->contratos as $contrato) {
+
+                                    echo "<article>";
+                                    // echo "hola";
+                                    //echo $inmueble->imagen;
+                
+                                    echo "<p><span class='destino'>Contrato Nº " . $contador_contratos . "</span>";
+                                    echo "<br/>";
+                                    echo "Localidad " . $contrato->localidad;
+                                    echo "<br/>";
+                                    echo "Fecha inicio  " . $contrato->fecha_ini;
+                                    echo "<br/>";
+                                    echo "Fecha inicio  " . $contrato->fecha_fin;
+                                    echo "</p>";
+                                   
+                                    
+                            echo "<form action='principal.php' method='post'>";
+                echo "<input type='hidden' name='codigo_casa' value='".$contrato->cod_inmueble."'/>";
+                echo "<input type='hidden' name='codigo_inquilino' value='".$contrato->cod_usuario."'/>";
+                echo "<input type='hidden' name='fecha_inicio_alquiler' value='".$contrato->fecha_ini."'/>";
+               echo "<input class='sub' type='submit' name='finalizar_contrato' value='Finalizar contrato'/>";
+            echo "</form>";
+                                
+                                    echo "</article>";
+                                    $contador_contratos++;
+                                }
+                            }
             } else {
             ?>
 
@@ -150,9 +195,9 @@ $datos_nuevo=array(
 
                     <?php
                     if (isset($_POST["buscar"]) && $_POST["dni"] != "" || isset($_POST["crear"]) || isset($_POST["continuar"])) {
-                        if(isset($_POST["dni"]))
-                        $_SESSION["dni"]=$_POST["dni"];
-                        
+                        if (isset($_POST["dni"]))
+                            $_SESSION["dni"] = $_POST["dni"];
+
                         $dni_usu = array(
                             "dni" => $_SESSION["dni"]
                         );
@@ -161,101 +206,101 @@ $datos_nuevo=array(
                         if (isset($obj->existe)) {
                             //var_dump($obj);
                             // echo $obj->codigo;
-                            
-                             $_SESSION["codigo_inquilino"]=$obj->codigo;
+
+                            $_SESSION["codigo_inquilino"] = $obj->codigo;
                             // echo $_SESSION["codigo_inquilino"];
-                       
+
                             $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
                             if (isset($obj->sin_propiedades)) {
                                 echo "<article>";
-                
+
                                 echo "No tiene ninguna propiedad registrada";
-                
+
                                 echo "</article>";
                             } elseif (isset($obj->propiedades)) {
-                                if(isset($_POST["crear"])){
-                                    $fecha_inicio=$_POST["fecha_ini"];
-                                    $fecha_fin=$_POST["fecha_fin"];
+                                if (isset($_POST["crear"])) {
+                                    $fecha_inicio = $_POST["fecha_ini"];
+                                    $fecha_fin = $_POST["fecha_fin"];
                                 }
-                                ?>
-                                
-                                <form action="principal.php" method="post" enctype="multipart/form-data">
-                             
-                                  <select class="titulo_prueba" name="inmueble">
-                                    <?php
-                                   foreach ($obj->propiedades as $inmueble) {
-                                       if(isset($_POST["inmueble"]) && $inmueble->cod_inmueble==$_POST["inmueble"])
-                                    echo "<option value='".$inmueble->cod_inmueble."' checked>".$inmueble->cod_inmueble."-".$inmueble->localidad."</option>";
-                                  else
-                                  echo "<option value='".$inmueble->cod_inmueble."' >".$inmueble->cod_inmueble."-".$inmueble->localidad."</option>";
-                                }
-                                  ?>  
-                            </select>
-                           <p> Fecha Inicio
-                            <br/>
-                            <input class="formu" type="date" name="fecha_ini" value='<?php if(isset($_POST["crear"]))
-                                   echo $_POST["fecha_ini"]; ?>' required>
-                                </p>
-                            <p>
-                            Fecha Fin
-                            <br/>
-                            <input class="formu" type="date" name="fecha_fin" value='<?php if(isset($_POST["crear"]))
-                                   echo $_POST["fecha_fin"]; ?>' required/>
-                                </p>
-                             <br/>   
-                             <?php
-
-                    //traer opiniones de los inquilinos
-                                    $obj=consumir_servicio_REST(URL."/opiniones/".$_SESSION["codigo_inquilino"], "GET");
-                                  //ar_dump($obj);
-                                if($obj!=null){
-                                    $puntuacion=floor($obj->opiniones->puntuacion);
-                                    if($puntuacion>5)
-                                    $puntuacion=5;
-                                    echo "Puntuación: ".$puntuacion;
-                                    echo "  (Total votaciones: ".$obj->opiniones->total.")";
-                                }
-?>
-                            <input class="sub" type="submit" name="crear" value="Crear contrato"/>
-
-                            </form>
-
-
-<?php
-                        
-                            }
-                        
-
                     ?>
 
-                            
+                                <form action="principal.php" method="post" enctype="multipart/form-data">
+
+                                    <select class="titulo_prueba" name="inmueble">
+                                        <?php
+                                        foreach ($obj->propiedades as $inmueble) {
+                                            if (isset($_POST["inmueble"]) && $inmueble->cod_inmueble == $_POST["inmueble"])
+                                                echo "<option value='" . $inmueble->cod_inmueble . "' checked>" . $inmueble->cod_inmueble . "-" . $inmueble->localidad . "</option>";
+                                            else
+                                                echo "<option value='" . $inmueble->cod_inmueble . "' >" . $inmueble->cod_inmueble . "-" . $inmueble->localidad . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    <p> Fecha Inicio
+                                        <br />
+                                        <input class="formu" type="date" name="fecha_ini" value='<?php if (isset($_POST["crear"]))
+                                                                                                        echo $_POST["fecha_ini"]; ?>' required>
+                                    </p>
+                                    <p>
+                                        Fecha Fin
+                                        <br />
+                                        <input class="formu" type="date" name="fecha_fin" value='<?php if (isset($_POST["crear"]))
+                                                                                                        echo $_POST["fecha_fin"]; ?>' required />
+                                    </p>
+                                    <br />
+                                    <?php
+
+                                    //traer opiniones de los inquilinos
+                                    $obj = consumir_servicio_REST(URL . "/opiniones/" . $_SESSION["codigo_inquilino"], "GET");
+                                    //ar_dump($obj);
+                                    if ($obj != null) {
+                                        $puntuacion = floor($obj->opiniones->puntuacion);
+                                        if ($puntuacion > 5)
+                                            $puntuacion = 5;
+                                        echo "Puntuación: " . $puntuacion;
+                                        echo "  (Total votaciones: " . $obj->opiniones->total . ")";
+                                    }
+                                    ?>
+                                    <input class="sub" type="submit" name="crear" value="Crear contrato" />
+
+                                </form>
+
+
+                            <?php
+
+                            }
+
+
+                            ?>
+
+
 
                         <?php
                         } elseif (isset($obj->no_existe)) {
-                           ?>
+                        ?>
                             <form action="principal.php" method="post">
 
-                            <p>
-                    <input class="formu" type="text" name="nombre" value="<?php if (isset($_POST["entrar"])) echo $_POST["nombre"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_nombre) echo "Campo vacío";
-                                                                                                                                                    else echo "Nombre"; ?>" required />
+                                <p>
+                                    <input class="formu" type="text" name="nombre" value="<?php if (isset($_POST["entrar"])) echo $_POST["nombre"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_nombre) echo "Campo vacío";
+                                                                                                                                                                        else echo "Nombre"; ?>" required />
 
-                </p>
-                <br/>
-                <p>
-                    <input class="formu" type="text" name="apellidos" value="<?php if (isset($_POST["entrar"])) echo $_POST["apellidos"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_apellido) echo "Campo vacío";
-                                                                                                                                                            else echo "Apellidos"; ?>" required/>
+                                </p>
+                                <br />
+                                <p>
+                                    <input class="formu" type="text" name="apellidos" value="<?php if (isset($_POST["entrar"])) echo $_POST["apellidos"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_apellido) echo "Campo vacío";
+                                                                                                                                                                            else echo "Apellidos"; ?>" required />
 
-                </p>
-<br/>
-                <p>
-                    <input class="formu" type="text" name="dni" value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" required pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" />
+                                </p>
+                                <br />
+                                <p>
+                                    <input class="formu" type="text" name="dni" value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" required pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" />
 
-                </p>
-<br/>
-                <p>
-                    <input class="sub" type="submit" name="continuar" value="Continuar" />
+                                </p>
+                                <br />
+                                <p>
+                                    <input class="sub" type="submit" name="continuar" value="Continuar" />
 
-                </p>
+                                </p>
 
 
 
@@ -266,15 +311,15 @@ $datos_nuevo=array(
 
                             </form>
 
-<?php
+                        <?php
                         } else {
                             echo $obj->mensaje;
                         }
                     } else {
                         ?>
                         Crear Contrato
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <form action="principal.php" method="post">
                             <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" class="formu" type="text" name="dni" placeholder="Escriba dni del inquilino" value='<?php
                                                                                                                                                                                                             if (isset($_POST["dni"])) echo $_POST["dni"]; ?>' required />

@@ -28,7 +28,7 @@ if (isset($_SESSION["nombre"])) {
                 include "perfil.php";
             elseif(isset($_POST["propiedades"])|| isset($_POST["agregar"]) || isset($_POST["baja"]) || isset($_POST["alta"]) || isset($_POST["mis_propiedades"])|| isset($_POST["add_propiedad"]) || isset($_POST["dar_baja"]) || isset($_POST["dar_alta"]))
                 include "propiedades.php";
-            elseif(isset($_POST["contratos"]) || isset($_POST["crear_contrato"]) || isset($_POST["contrato_fin"]) || isset($_POST["dni"]) || isset($_POST["crear"]) || isset($_POST["continuar"]))
+            elseif(isset($_POST["contratos"]) ||isset($_POST["contrato_vigente"]) || isset($_POST["finalizar_contrato"]) || isset($_POST["crear_contrato"]) || isset($_POST["contrato_fin"]) || isset($_POST["dni"]) || isset($_POST["crear"]) || isset($_POST["continuar"]))
             include "contratos.php";
                 else
                 include "prueba.php";

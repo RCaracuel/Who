@@ -285,6 +285,37 @@ function buscar_opiniones($codigo){
 }
 
 
+function buscar_contratos($cod){
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'and alquila.fecha_fin>now()";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+
+            if(mysqli_num_rows($resultado)>0){
+                $contratos=array();
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $contratos[]=$fila;
+                }
+
+                mysqli_free_result($resultado);
+                return array("contratos"=>$contratos);
+            }else{
+            return array("sin_contratos"=>"No existen contratos registrados de este usuario");
+            }
+
+        }
+    }
+}
+
 function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jardin,$distancia,$m2,$idufir,$localidad){
 
     $con=conectar();

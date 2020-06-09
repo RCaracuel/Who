@@ -32,6 +32,10 @@ $app->get("/buscar_informes/:cod", function($cod){
     echo json_encode(buscar_informes($cod), JSON_FORCE_OBJECT);
 });
 
+$app->get("/buscar_contratos/:cod", function($cod){
+    echo json_encode(buscar_contratos($cod), JSON_FORCE_OBJECT);
+});
+
 $app->get("/buscar_dni/:dni", function($dni){
     echo json_encode(buscar_dni($dni), JSON_FORCE_OBJECT);
 });
