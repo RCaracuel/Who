@@ -350,6 +350,31 @@ function insertar_usuario($nombre,$apellido,$email,$clave){
 
 }
 
+function insertar_usuario_contrato($nombre,$apellido,$dni){
+
+    $con=conectar();
+  //  return array("mensaje"=>"He entrado a la función");
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar con la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+
+        $consulta="insert into usuarios (nombre,apellidos,dni) values ('$nombre','$apellido','$dni')";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+        }else{
+            
+            $ultimo=mysqli_insert_id($con);
+
+            return array("mensaje_exito"=>"Se ha insertado el usuario con éxito", "ultimo"=>$ultimo);
+        }
+    }
+
+}
+
 function cambiar_foto($email,$foto){
 
     $con=conectar();

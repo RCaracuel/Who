@@ -78,6 +78,10 @@ $app->post("/registro", function(){
     echo json_encode(insertar_usuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["clave"]), JSON_FORCE_OBJECT);
 });
 
+$app->post("/registro_contrato", function(){
+    echo json_encode(insertar_usuario_contrato($_POST["nombre"],$_POST["apellidos"],$_POST["dni"]), JSON_FORCE_OBJECT);
+});
+
 $app->post("/insertar_propiedad", function(){
     echo json_encode(insertar_propiedad($_POST["codigo"],$_POST["habitaciones"],$_POST["terraza"],$_POST["piscina"],$_POST["garaje"],$_POST["jardin"],$_POST["distancia"],$_POST["m2"],$_POST["idufir"],$_POST["localidad"]), JSON_FORCE_OBJECT);
 });

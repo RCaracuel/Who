@@ -37,78 +37,70 @@ if (isset($_POST["modificar"])) {
     if (!$error_todo_perfil) {
 
 
-            $datos = array(
-                "nombre" => $_POST["nombre"],
-                "apellidos" => $_POST["apellidos"]
-            
-            );
+        $datos = array(
+            "nombre" => $_POST["nombre"],
+            "apellidos" => $_POST["apellidos"]
 
-            $obj = consumir_servicio_REST(URL . "/cambiar_datos/" . $_SESSION["email"], "PUT", $datos);
-        
-            $_SESSION["nombre"] = $_POST["nombre"] . " " . $_POST["apellidos"];
-        }
-    
+        );
 
+        $obj = consumir_servicio_REST(URL . "/cambiar_datos/" . $_SESSION["email"], "PUT", $datos);
 
+        $_SESSION["nombre"] = $_POST["nombre"] . " " . $_POST["apellidos"];
+    }
 }
 
 $error_prueba_contrasenia = isset($_POST["cambiar_contrasenia"]);
 $error_old = false;
 $error_nueva = false;
 $error_nueva2 = false;
-$error_distintas=false;
+$error_distintas = false;
 if (isset($_POST["cambiar_contrasenia"])) {
 
-    $error_old = $_POST["old"]=="";
-    $error_nueva = $_POST["nueva"]=="";
-    $error_nueva2 = $_POST["nueva2"]=="";
-    $error_distintas=($_POST["nueva"]!=$_POST["nueva2"]);
+    $error_old = $_POST["old"] == "";
+    $error_nueva = $_POST["nueva"] == "";
+    $error_nueva2 = $_POST["nueva2"] == "";
+    $error_distintas = ($_POST["nueva"] != $_POST["nueva2"]);
 
-    $error_todo_contrasenia = $error_old || $error_nueva || $error_nueva2 ||$error_distintas;
+    $error_todo_contrasenia = $error_old || $error_nueva || $error_nueva2 || $error_distintas;
 
     if (!$error_todo_contrasenia) {
-        $nueva=md5($_POST["nueva"]);
-        $vieja=md5($_POST["old"]);
-        $datos_contrasenia=array(
-            "old"=>$vieja,
-            "nueva"=>$nueva
+        $nueva = md5($_POST["nueva"]);
+        $vieja = md5($_POST["old"]);
+        $datos_contrasenia = array(
+            "old" => $vieja,
+            "nueva" => $nueva
         );
-        
 
-    $obj=consumir_servicio_REST(URL."/cambiar_contrasenia/".$_SESSION['email'],"PUT",$datos_contrasenia);
-    var_dump($obj);
+
+        $obj = consumir_servicio_REST(URL . "/cambiar_contrasenia/" . $_SESSION['email'], "PUT", $datos_contrasenia);
+        var_dump($obj);
     }
-
 }
 
 
 
 
-if(isset($_POST["eliminar"])){
+if (isset($_POST["eliminar"])) {
 
-    $obj=consumir_servicio_REST(URL."/baja_usuario/".$_SESSION["email"],"PUT");
-   // var_dump($obj);
+    $obj = consumir_servicio_REST(URL . "/baja_usuario/" . $_SESSION["email"], "PUT");
+    // var_dump($obj);
     session_destroy();
     header("Location: index.php");
     exit;
 }
 
-$error_informe=false;
-if(isset($_POST["informar"])){
-$error_informe=$_POST["informe"]=="";
+$error_informe = false;
+if (isset($_POST["informar"])) {
+    $error_informe = $_POST["informe"] == "";
 
-if(!$error_informe){
+    if (!$error_informe) {
 
-    $datos_informe=array(
-        "cod_usu"=>$_SESSION["id_usu"],
-        "texto"=>$_POST["informe"]
-    );
- $obj=consumir_servicio_REST(URL."/insertar_informe","POST",$datos_informe);
-
-
-}
-
-
+        $datos_informe = array(
+            "cod_usu" => $_SESSION["id_usu"],
+            "texto" => $_POST["informe"]
+        );
+        $obj = consumir_servicio_REST(URL . "/insertar_informe", "POST", $datos_informe);
+    }
 }
 ?>
 
@@ -160,11 +152,181 @@ if(!$error_informe){
     </header>
     <main>
         <section id="titulares">
-            <p>
-                <span class="titulo"> Datos personales</span>
-            </p>
-            <div class="oculta">
 
+            <form action="principal.php" method="post">
+
+                <input <?php if (isset($_POST["datos_personales"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='datos_personales' class="titulo_prueba" value='Datos Personales'>
+
+                <input <?php if (isset($_POST["editar_perfil"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='editar_perfil' class="titulo_prueba" value='Editar perfil'>
+
+                <input <?php if (isset($_POST["eliminar_cuenta"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='eliminar_cuenta' class="titulo_prueba" value='Eliminar Cuenta'>
+                <input <?php if (isset($_POST["informar_problema"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='informar_problema' class="titulo_prueba" value='Informar problema'>
+                <input <?php if (isset($_POST["mostrar_informe"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='mostrar_informe' class="titulo_prueba" value='Mostrar informes'>
+
+
+            </form>
+        </section>
+        <section id="grande2">
+            <?php
+            if (isset($_POST["editar_perfil"])) {
+            ?>
+                <article>
+                    <form action="principal.php" method="post">
+                        <?php
+                        $datos = array(
+                            "email" => $_SESSION["email"]
+                        );
+                        // var_dump($datos);
+
+                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
+                        if (!isset($_POST["modificar"])) {
+                            $nombre = $obj->usuario->nombre;
+                            $apellidos = $obj->usuario->apellidos;
+
+                            if ($obj->usuario->dni != null) {
+                                $dni = $obj->usuario->dni;
+                            }
+                        } else {
+                            $nombre = $_POST["nombre"];
+                            $apellidos = $_POST["apellidos"];
+                        }
+
+                        ?>
+                        <span class="titulo"> Editar perfil</span>
+
+
+
+
+                        <input class="formu" type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" placeholder="Nombre" />
+                        <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
+
+                        <br />
+
+                        <br /><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
+                        <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
+                        <br />
+                        <br />
+                        <input class="sub" type="submit" name="modificar" value="Modificar" />
+                        <br />
+                        <br />
+                        <input type="hidden" class="edita_peque" name="edita_peque" />
+                        <?php
+
+                        if ($dni_de_otro || $error_nombre || $error_apellidos)
+                            echo "** Campo vacío o incorrecto **";
+
+                        ?>
+                    </form>
+                </article>
+                <article>
+                    <span class="cabecera">Cambiar contraseña</span>
+                    <br />
+                    <br />
+                    <form action="principal.php" method="post">
+
+                        <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
+                        <br />
+                        <br />
+                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
+                        <br />
+                        <br />
+                        <?php if ($error_nueva2) echo '<span class="titulo">*</span>'; ?>
+                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
+                        <br />
+                        <br />
+                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
+
+
+                        <?php
+
+                        if ($error_old || $error_nueva || $error_nueva2)
+                            echo "** Campo vacío o incorrecto **";
+                        if ($error_distintas)
+                            echo "**La contraseña no coincide**";
+                        ?>
+                    </form>
+                </article>
+
+
+            <?php
+            } elseif (isset($_POST["eliminar_cuenta"])) {
+            ?>
+
+                <article>
+                    <p>
+                        Al eliminar su cuenta usted no aparecerá en las búsquedas pero si lo hará en nuestra base de datos por un periodo de 3 meses. Si accede a la aplicación antes de cumplir los 3 meses la cuenta se volverá a activar.
+                        ¿Está seguro de eliminar la cuenta?
+                    </p>
+                    <form action="principal.php" method="post">
+                        <br />
+                        <input type="submit" class="sub" name="eliminar" value="Eliminar" />
+
+
+                    </form>
+                </article>
+            <?php
+
+            } elseif(isset($_POST["informar_problema"])){
+                ?>
+                            <article>
+                    <form action="principal.php" method="post">
+
+                        <textarea name="informe" placeholder="Informar de un problema"></textarea>
+                        <input type="submit" name="informar" value="Informar" class="sub" />
+                    </form>
+                </article>
+
+<?php
+
+            }elseif(isset($_POST["mostrar_informe"])){
+                ?>
+                
+
+                <?php
+
+                $obj = consumir_servicio_REST(URL . "/buscar_informes/" . $_SESSION["id_usu"], "GET");
+
+                if (isset($obj->sin_informes)) {
+                    echo "<article>";
+
+                    echo "No tiene ningún informe registrado";
+
+                    echo "</article>";
+                } elseif (isset($obj->informes)) {
+                    // var_dump($obj);
+                    echo " <span class='titulo2'>Informes</span>";
+                    $contador = 1;
+                    foreach ($obj->informes as $informes) {
+
+                        echo "<article>";
+                        // echo "hola";
+                        //echo $inmueble->imagen;
+
+
+                        echo "<p><span class='destino'>Informe Nº" . $contador . "</span>";
+                        $contador++;
+                        echo "<br/>";
+                        echo "Fecha: " . $informes->fecha_informe;
+                        echo "<br/>";
+                        echo "Mensaje: " . $informes->Informe;
+                        echo "<br/>";
+                        echo "</p>";
+                        echo "</article>";
+                        echo "<br/>";
+                    }
+                }
+
+
+                ?>
+
+<?php
+
+
+            }else {
+
+            ?>
                 <?php
                 $datos = array(
                     "email" => $_SESSION["email"]
@@ -189,325 +351,12 @@ if(!$error_informe){
                 echo "</article>";
                 ?>
 
-            </div>
-            <p>
-                <span class="titulo"> Editar perfil</span>
-            </p>
-            <div class="oculta" style="<?php if ($error_prueba && isset($_POST["edita_peque"])) echo 'display:block'; ?>">
-                <article>
-                    <form action="principal.php" method="post">
-                        <?php
-                        $datos = array(
-                            "email" => $_SESSION["email"]
-                        );
-                        // var_dump($datos);
-
-                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                        if (!isset($_POST["modificar"])) {
-                            $nombre = $obj->usuario->nombre;
-                            $apellidos = $obj->usuario->apellidos;
-
-                            if ($obj->usuario->dni != null) {
-                                $dni = $obj->usuario->dni;
-                            }
-                        } else {
-                            $nombre = $_POST["nombre"];
-                            $apellidos = $_POST["apellidos"];
-                        
-                        }
-
-                        ?>
-                        <span class="titulo"> Editar perfil:</span>
-
-
-
-                    
-                                <input class="formu" type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" placeholder="Nombre" />
-                                    <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
-
-                           
-                             
-                                <br/><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
-                                    <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
-               
-                
-                                 <label for="copia">Copia DNI:</label>
-                                <input class="sub" type="file" name="copia" id="copia">
-                         
-                        <br/>
-                   
-
-                        <input class="sub" type="submit" name="modificar" value="Modificar" />
-                        <br />
-                        <br />
-                        <input type="hidden" class="edita_peque" name="edita_peque" />
-                        <?php
-
-                        if ($dni_de_otro || $error_nombre || $error_apellidos)
-                            echo "** Campo vacío o incorrecto **";
-
-                        ?>
-                    </form>
-                </article>
-            </div>
-            <p>
-                <span class="titulo"> Cambiar contraseña</span>
-            </p>
-            <div class="oculta" style="<?php if ($error_prueba_contrasenia && isset($_POST["edita_peque2"])) echo 'display:block'; ?>">
-                <article>
-                    <span class="cabecera">Cambiar contraseña</span>
-                    <br />
-                    <br />
-                    <form action="principal.php" method="post">
-
-                    <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
-                        
-                    
-                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
-                        
-                    
-                        <?php if ($error_nueva2) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
-                        
-                   
-                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
-                        <input type="hidden" class="edita_peque" name="edita_peque2" />
-                   
-                        <?php
-
-                        if ($error_old || $error_nueva || $error_nueva2)
-                            echo "** Campo vacío o incorrecto **";
-                        if($error_distintas)
-                        echo "**La contraseña no coincide**";
-                        ?>
-                    </form>
-                </article>
-            </div>
-            <p>
-                <span class="titulo"> Eliminar cuenta</span>
-            </p>
-            <div class="oculta">
-                        <article>
-                            <p>
-                            Al eliminar su cuenta usted no aparecerá en las búsquedas pero si lo hará en nuestra base de datos por un periodo de 3 meses. Si accede a la aplicación antes de cumplir los 3 meses la cuenta se volverá a activar.
-                            ¿Está seguro de eliminar la cuenta?
-                            </p>
-                        <form action="principal.php" method="post">
-                        <br/>
-                        <input type="submit"  class="sub" name="eliminar" value="Eliminar"/>
-
-
-                        </form>
-                        </article>
-            </div>
-            <p>
-                <span class="titulo"> Informar problema </span>
-            </p>
-            <div class="oculta">
-
-            <article>
-                <form action="principal.php" method="post">
-
-                    <textarea name="informe" placeholder="Informar de un problema"></textarea>
-                    <input type="submit" name="informar" value="Informar" class="sub"/>
-                </form>
-            </article>
-            </div>
-            <p>
-                <span class="titulo"> Mostrar informes </span>
-            </p>
-            <div class="oculta">
-
-
-                        <?php
-                        
-                        $obj=consumir_servicio_REST(URL."/buscar_informes/".$_SESSION["id_usu"],"GET");
-
-                        if (isset($obj->sin_informes)) {
-                            echo "<article>";
-        
-                            echo "No tiene ningún informe registrado";
-        
-                            echo "</article>";
-                        } elseif (isset($obj->informes)) {
-                            // var_dump($obj);
-                            echo " <span class='titulo2'>Informes</span>";
-                            $contador=1;
-                            foreach ($obj->informes as $informes) {
-        
-                                echo "<article>";
-                                // echo "hola";
-                                //echo $inmueble->imagen;
-
-                                
-                                echo "<p><span class='destino'>Informe Nº".$contador."</span>";
-                                $contador++;
-                                echo "<br/>";
-                                echo "Fecha: " . $informes->fecha_informe;
-                                echo "<br/>";
-                                echo "Mensaje: " . $informes->Informe;
-                                echo "<br/>";
-                                echo "</p>";
-                                echo "</article>";
-                                echo "<br/>";
-                            }
-                        }
-                        
-                        
-                        ?>
-            </div>
-        </section>
-        <section id="grande">
-            <?php
-            if (isset($_POST["modificar"])) {
-            ?>
-                <article>
-                    <form action="principal.php" method="post">
-                        <?php
-                        $datos = array(
-                            "email" => $_SESSION["email"]
-                        );
-                        // var_dump($datos);
-
-                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-
-                        if (!isset($_POST["modificar"])) {
-                            $nombre = $obj->usuario->nombre;
-                            $apellidos = $obj->usuario->apellidos;
-
-                            if ($obj->usuario->dni != null) {
-                                $dni = $obj->usuario->dni;
-                            }
-                        } else {
-                            $nombre = $_POST["nombre"];
-                            $apellidos = $_POST["apellidos"];
-                
-                        }
-
-                        ?>
-
-                    <form action="principal.php" method="post">
-                        <?php
-                        $datos = array(
-                            "email" => $_SESSION["email"]
-                        );
-                        // var_dump($datos);
-
-                        $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                        if (!isset($_POST["modificar"])) {
-                            $nombre = $obj->usuario->nombre;
-                            $apellidos = $obj->usuario->apellidos;
-
-                            if ($obj->usuario->dni != null) {
-                                $dni = $obj->usuario->dni;
-                            }
-                        } else {
-                            $nombre = $_POST["nombre"];
-                            $apellidos = $_POST["apellidos"];
-                         
-                        }
-
-                        ?>
-                        <span class="titulo"> Editar perfil:</span>
-     
-
-
-                    
-                                <input class="formu" type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" placeholder="Nombre" />
-                                    <?php if ($error_nombre) echo '<span class="error">*</span>'; ?>
-
-                           
-                                <br/>
-                                <br/><input class="formu" type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>" placeholder="apellidos" />
-                                    <?php if ($error_apellidos) echo '<span class="error">*</span>'; ?>
-       
-                
-                                 <label for="copia">Copia DNI:</label>
-                                <input class="sub" type="file" name="copia" id="copia">
-                         
-              
-
-                        <input class="sub" type="submit" name="modificar" value="Modificar" />
-                 
-                        <input type="hidden" class="edita_peque" name="edita_peque" />
-                        <?php
-
-                        if ($dni_de_otro || $error_nombre || $error_apellidos)
-                            echo "** Campo vacío o incorrecto **";
-
-                        ?>
-                    </form>
-                </article>
 
             <?php
-
-            } elseif (isset($_POST["cambiar_contrasenia"])) {
-            ?>
-                <article>
-                <span class="cabecera">Cambiar contraseña</span>
-             
-                    <form action="principal.php" method="post">
-
-                    <?php if ($error_old) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="old" placeholder="Introduzca contraseña actual" />
-                       
-                     
-                        <?php if ($error_nueva) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva" placeholder="Contraseña nueva" />
-                  
-                        <?php if ($error_nueva2 || $error_distintas) echo '<span class="titulo">*</span>'; ?>
-                        <input class="formu" type="password" name="nueva2" placeholder=" Confirme contraseña nueva" />
-                        
-                
-                        <input class="sub" type="submit" name="cambiar_contrasenia" value="Cambiar contraseña" />
-                        <input type="hidden" class="edita_peque2" name="edita_peque" />
-                   
-                        <?php
-
-                        if ($error_old || $error_nueva || $error_nueva2)
-                            echo "** Campo vacío o incorrecto **";
-                            if($error_distintas)
-                            
-                            echo "**La contraseña no coincide**";
-                        ?>
-
-                    </form>
-                </article>
-
-
-            <?php
-            }elseif(isset($_POST["eliminar"])){
-
-
-
-            } else {
-
-                $datos = array(
-                    "email" => $_SESSION["email"]
-                );
-                // var_dump($datos);
-
-                $obj = consumir_servicio_REST(URL . "/usuario", "POST", $datos);
-                echo "<article>";
-                echo "<img id='perfil' src='img/" . $obj->usuario->foto_perfil . "' alt='imagen-perfil'/>";
-                echo "<p id='perf'>Nombre: " . $obj->usuario->nombre . "</br>";
-                echo "Apellidos: " . $obj->usuario->apellidos . "<br/>";
-                echo "Email: " . $obj->usuario->email . "</br>";
-                if ($obj->usuario->dni == null)
-                    echo "Su perfil no está completo, debe rellenarlo en 'Editar Perfil'<br/>";
-                else
-                    echo "DNI: " . $obj->usuario->dni . "</br>";
-                echo "</p>";
-                echo "<form action='principal.php' method='post' enctype='multipart/form-data'>";
-                echo "<input type='file' name='foto2'/>";
-                echo "<input class='sub' type='submit' name='subir' value='Subir'/>";
-                echo "</form>";
-                echo "</article>";
             }
-            ?>
 
+
+            ?>
         </section>
     </main>
     <footer>
@@ -519,46 +368,6 @@ if(!$error_informe){
             Idea original de Rosa Caracuel Calderón
         </p>
     </footer>
-    <script type="text/javascript" src="JS/jquery-3.5.1.js"></script>
-    <script>
-        $(document).ready(function() {
-
-
-            //al hacer click a cualquier etiqueta que no tenga la clase oculta dentro de la etiqueta con id titulares
-            $("#titulares").on("click", "p:not(.oculta)", function() {
-                //console.log("hola");
-                if ($(window).width() < 1000)
-                    $(this).next().slideToggle(800);
-
-                $("#grande").html($(this).next().html());
-
-                // console.log($("#grande .edita_peque").val());
-                $("#grande .edita_peque").remove();
-                $("#grande .edita_peque2").remove();
-
-
-            });
-
-
-            $("#titulares > p").on("click",function(){
-               // console.log($(this).attr("style"));
-               //comprobar si un hermano tiene el atributo y así se le quita y se le pone a $this
-               
-                    $("#titulares > p").removeAttr("style");
-                    $(this).css("background-color","#ed217d");
-                
-               
-            });
-
-            $(window).resize(function() {
-                // console.log("hola");
-                if ($(window).width() > 1000)
-                    $("#titulares .oculta").hide();
-
-            })
-
-        })
-    </script>
 </body>
 
 </html>

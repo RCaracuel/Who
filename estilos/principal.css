@@ -440,6 +440,9 @@ main section#grande2 article input.formu {
 main section#grande2 article p img{
     width:100%;
 }
+main section#grande2 > article img#perfil {
+width:100%;
+}
 main section#grande2 article input.formu2 {
     width: 70%;
     margin-bottom: 1em;

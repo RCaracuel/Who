@@ -46,17 +46,17 @@ if (isset($_POST["crear"])) {
 }
 
 $error_informe = false;
-if (isset($_POST["informar"])) {
-    $error_informe = $_POST["informe"] == "";
+if (isset($_POST["continuar"])) {
 
-    if (!$error_informe) {
 
-        $datos_informe = array(
-            "cod_usu" => $_SESSION["id_usu"],
-            "texto" => $_POST["informe"]
-        );
-        $obj = consumir_servicio_REST(URL . "/insertar_informe", "POST", $datos_informe);
-    }
+$datos_nuevo=array(
+    "nombre"=>$_POST["nombre"],
+    "apellidos"=>$_POST["apellidos"],
+    "dni"=>$_POST["dni"]
+);
+ $obj = consumir_servicio_REST(URL . "/registro_contrato", "POST", $datos_nuevo);
+   // var_dump($obj);
+  //  $_SESSION["codigo_inquilino"]=$obj->ultimo;
 }
 ?>
 
@@ -149,7 +149,7 @@ if (isset($_POST["informar"])) {
 
 
                     <?php
-                    if (isset($_POST["buscar"]) && $_POST["dni"] != "" || isset($_POST["crear"])) {
+                    if (isset($_POST["buscar"]) && $_POST["dni"] != "" || isset($_POST["crear"]) || isset($_POST["continuar"])) {
                         if(isset($_POST["dni"]))
                         $_SESSION["dni"]=$_POST["dni"];
                         
@@ -219,12 +219,49 @@ if (isset($_POST["informar"])) {
 
                         <?php
                         } elseif (isset($obj->no_existe)) {
-                            echo "No existe";
+                           ?>
+                            <form action="principal.php" method="post">
+
+                            <p>
+                    <input class="formu" type="text" name="nombre" value="<?php if (isset($_POST["entrar"])) echo $_POST["nombre"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_nombre) echo "Campo vacío";
+                                                                                                                                                    else echo "Nombre"; ?>" required />
+
+                </p>
+                <br/>
+                <p>
+                    <input class="formu" type="text" name="apellidos" value="<?php if (isset($_POST["entrar"])) echo $_POST["apellidos"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_apellido) echo "Campo vacío";
+                                                                                                                                                            else echo "Apellidos"; ?>" required/>
+
+                </p>
+<br/>
+                <p>
+                    <input class="formu" type="text" name="dni" value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" required pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" />
+
+                </p>
+<br/>
+                <p>
+                    <input class="sub" type="submit" name="continuar" value="Continuar" />
+
+                </p>
+
+
+
+
+
+
+
+
+                            </form>
+
+<?php
                         } else {
                             echo $obj->mensaje;
                         }
                     } else {
                         ?>
+                        Crear Contrato
+                        <br/>
+                        <br/>
                         <form action="principal.php" method="post">
                             <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" class="formu" type="text" name="dni" placeholder="Escriba dni del inquilino" value='<?php
                                                                                                                                                                                                             if (isset($_POST["dni"])) echo $_POST["dni"]; ?>' required />
