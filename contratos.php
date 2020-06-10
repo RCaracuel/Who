@@ -57,12 +57,18 @@ if (isset($_POST["continuar"])) {
 }
 
 if (isset($_POST["finalizar_contrato"])) {
-    echo "hola";
-     echo $_POST["codigo_casa"];
-    echo $_POST["codigo_inquilino"];
-    echo $_POST["fecha_inicio_alquiler"];
 
+    $datos_fin_contrato = array(
+        "codigo_casa" => $_POST["codigo_casa"],
+        "codigo_inquilino" => $_POST["codigo_inquilino"],
+        "fecha_inicio_alquiler" => $_POST["fecha_inicio_alquiler"]
+    );
+
+
+    $obj = consumir_servicio_REST(URL . "/finalizar_contrato", "PUT", $datos_fin_contrato);
+    var_dump($obj);
 }
+
 
 ?>
 
@@ -74,7 +80,7 @@ if (isset($_POST["finalizar_contrato"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos/principal.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&family=Montserrat&display=swap" rel="stylesheet">
     <title>Perfil usuario</title>
 
 </head>
@@ -90,11 +96,11 @@ if (isset($_POST["finalizar_contrato"])) {
         </label>
         <form action="principal.php" method="post">
             <ul id="menu">
-                <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
-                <li><button type="input" name="buscar">Buscar</button></li>
-                <li><button type="input" name="contratos">Contratos</button></li>
-                <li><button type="input" name="propiedades">Propiedades</button></li>
-                <li><button type="input" name="salir">Salir</button></li>
+                <li class="oculto"><button type="input" name="perfil">PERFIL</button></li>
+                <li><button type="input" name="buscar">BUSCAR</button></li>
+                <li><button type="input" name="contratos">CONTRATOS</button></li>
+                <li><button type="input" name="propiedades">PROPIEDADES</button></li>
+                <li><button type="input" name="salir">SALIR</button></li>
             </ul>
         </form>
         <div id="escritorio">
@@ -118,9 +124,8 @@ if (isset($_POST["finalizar_contrato"])) {
 
                 <input <?php if (isset($_POST["crear_contrato"]) || isset($_POST["dni"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='crear_contrato' class="titulo_prueba" value='Crear contrato'>
                 <input <?php if (isset($_POST["contrato_vigente"]) || isset($_POST["crear"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='contrato_vigente' class="titulo_prueba" value='Contratos Vigentes'>
-                <input <?php if (isset($_POST["contrato_fin"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='contrato_fin' class="titulo_prueba" value='Contrato Finalizado'>
+                <input <?php if (isset($_POST["contrato_fin"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='contrato_fin' class="titulo_prueba" value='Contratos Finalizados'>
 
-                <input type='submit' name='opiniones_usu' class="titulo_prueba" value='Opiniones Usuario'>
 
 
                 <?php
@@ -141,52 +146,218 @@ if (isset($_POST["finalizar_contrato"])) {
 
             <?php
             if (isset($_POST["contrato_fin"])) {
+                $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                if (isset($obj->sin_propiedades)) {
+
+                    $obj = consumir_servicio_REST(URL . "/buscar_contratos_finalizados_inquilino/" . $_SESSION["id_usu"], "GET");
+                    if (isset($obj->contratos_inquilino)) {
+                        $contador_contratos = 1;
+                        foreach ($obj->contratos_inquilino as $contrato) {
+
+                            echo "<article class='contratos'>";
+                            // echo "hola";
+                            //echo $inmueble->imagen;
+
+                            echo "<p><span class='destino'>Contrato Nº " . $contador_contratos . "</span>";
+                            echo "<br/>";
+                            echo "Localidad " . $contrato->localidad;
+                            echo "<br/>";
+                            echo "Fecha inicio  " . $contrato->fecha_ini;
+                            echo "<br/>";
+                            echo "Fecha fin  " . $contrato->fecha_fin;
+                            echo "</p>";
+                            echo "<form action='principal.php' method='post'>";
+                            echo "<input type='hidden' name='codigo_inmueble' value='" . $contrato->cod_inmueble . "'/>";
+                            echo "<input type='hidden' name='codigo_inquilino' value='" . $contrato->cod_usuario . "'/>";
+                            echo "<input type='hidden' name='fecha_inicio_alquiler' value='" . $contrato->fecha_ini . "'/>";
+                            echo "<input class='sub' type='submit' name='comentar_experiencia' value='Comentar experiencia'/>";
+                            echo "</form>";
+                            echo "</article>";
+                        }
+                    } else {
+                        echo "<article>";
+
+                        echo "No tiene ninguna propiedad o contrato registrado";
+
+                        echo "</article>";
+                    }
+                } else {
+                    $obj = consumir_servicio_REST(URL . "/buscar_contratos_finalizados_propietario/" . $_SESSION["id_usu"], "GET");
+                    //   var_dump($obj);
+                    if(isset($obj->sin_contratos)){
+                        echo "<article>No existe ningún contrato finalizado</article>";
+                    }else{
+                    $contador_contratos = 1;
+                    foreach ($obj->contratos as $contrato) {
+
+                        echo "<article class='contratos'>";
+                        // echo "hola";
+                        //echo $inmueble->imagen;
+                        $datos2 = array(
+                            "codigo" => $contrato->cod_usuario
+                        );
+                        // var_dump($datos);
+        
+                        $obj2 = consumir_servicio_REST(URL . "/usuario_codigo", "POST", $datos2);
+                        
+
+                        echo "<p><span class='destino'><strong>Contrato Nº </strong>" . $contador_contratos . "</span>";
+                        echo "<br/>";
+                        echo "<strong>Inquilino</strong>  ".$obj2->usuario->nombre." ".$obj2->usuario->apellidos; 
+                        echo "<br/><strong>Localidad</strong> " . $contrato->localidad;
+                        echo "<br/>";
+                        echo "<strong>Fecha inicio  </strong>" . $contrato->fecha_ini;
+                        echo "<br/>";
+                        echo "<strong>Fecha fin </strong> " . $contrato->fecha_fin;
+                        echo "</p>";
+                        echo "<form action='principal.php' method='post'>";
+                        echo "<input type='hidden' name='codigo_propietario' value='" . $contrato->cod_propietario . "'/>";
+                        echo "<input type='hidden' name='codigo_inquilino' value='" . $contrato->cod_usuario . "'/>";
+                        echo "<input type='hidden' name='fecha_inicio_alquiler' value='" . $contrato->fecha_ini . "'/>";
+                        echo "<input class='sub' type='submit' name='puntuar_experiencia' value='Puntuar experiencia'/>";
+                        echo "</form>";
+                        echo "</article>";
+                        $contador_contratos++;
+                    }
             ?>
 
+
+                <?php
+                    }
+                }
+            }elseif(isset($_POST["comentar_experiencia"])){
+
+                ?>
                 <article>
-                    Ha pulsado Contratos finalizados
+                <form action="principal.php" method="post">
+                    Puntuación 🌟<select name="estrellas">
+                    <?php
+            for ($i=1; $i <=5 ; $i++) { 
+                echo "<option value='$i'>$i</option>";
+            }
+            
+            echo "<br/><br/><input type='hidden' name='codigo_inmueble' value='" . $_POST['codigo_inmueble'] . "'/>";
+            echo "<input type='hidden' name='codigo_inquilino' value='" . $_POST['codigo_inquilino'] . "'/>";
+
+?>
+
+                        
+                    </select>
+                    <textarea name="comenta" placeholder="Escriba aquí su comentario"></textarea>
+                    
+                    <input type="submit" name="comentario" value="Enviar comentario" class="sub" />
+                </form>
                 </article>
+
             <?php
-            }elseif(isset($_POST["crear"]) || isset($_POST["contrato_vigente"])){
+
+
+            } elseif (isset($_POST["crear"]) || isset($_POST["contrato_vigente"])) {
                 $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
-                            if (isset($obj->sin_propiedades)) {
-                                echo "<article>";
+                $obj2 = consumir_servicio_REST(URL . "/buscar_contratos/" . $_SESSION["id_usu"], "GET");
+               //var_dump($obj2);
+                if (isset($obj->sin_propiedades) && isset($obj2->sin_contratos)) {
+                    echo "<article>";
 
-                                echo "No tiene ninguna propiedad registrada";
+                    echo "No tiene ninguna propiedad registrada o contrato vigente";
 
-                                echo "</article>";
-                            } else{
-                                $obj=consumir_servicio_REST(URL."/buscar_contratos/".$_SESSION["id_usu"],"GET");
-                             //   var_dump($obj);
-                                $contador_contratos=1;
-                                foreach ($obj->contratos as $contrato) {
+                    echo "</article>";
+                } else {
+                    $obj = consumir_servicio_REST(URL . "/buscar_contratos/" . $_SESSION["id_usu"], "GET");
+                    $obj3 = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                    // var_dump($obj);
+                    $contador_contratos = 1;
+                    foreach ($obj->contratos as $contrato) {
 
-                                    echo "<article>";
-                                    // echo "hola";
-                                    //echo $inmueble->imagen;
+                        echo "<article class='contratos'>";
+                        // echo "hola";
+                        //echo $inmueble->imagen;
+                        $datos2 = array(
+                            "codigo" => $contrato->cod_usuario
+                        );
+                        // var_dump($datos);
+        
+                        $obj2 = consumir_servicio_REST(URL . "/usuario_codigo", "POST", $datos2);
+                        
+
+                        echo "<p><span class='destino'><strong>Contrato Nº </strong>" . $contador_contratos . "</span>";
+                        echo "<br/>";
+                        echo "<strong>Inquilino</strong>  ".$obj2->usuario->nombre." ".$obj2->usuario->apellidos; 
+                        echo "<br/><strong>Localidad</strong> " . $contrato->localidad;
+                        echo "<br/>";
+                        echo "<strong>Fecha inicio  </strong>" . $contrato->fecha_ini;
+                        echo "<br/>";
+                        echo "<strong>Fecha fin </strong> " . $contrato->fecha_fin;
+                        echo "</p>";
+
+                       
+                        if(!isset($obj3->sin_propiedades)){
+                        echo "<form action='principal.php' method='post'>";
+                        echo "<input type='hidden' name='codigo_casa' value='" . $contrato->cod_inmueble . "'/>";
+                        echo "<input type='hidden' name='codigo_inquilino' value='" . $contrato->cod_usuario . "'/>";
+                        echo "<input type='hidden' name='fecha_inicio_alquiler' value='" . $contrato->fecha_ini . "'/>";
+                        echo "<input class='sub' type='submit' name='finalizar_contrato' value='Finalizar contrato'/>";
+                        echo "</form>";
+                        }
+                        echo "</article>";
+                        $contador_contratos++;
+                    }
+                }
+            } elseif (isset($_POST["puntuar_experiencia"])) {
+
+
+                ?>
+                <article>
+                <form action="principal.php" method="post">
+                    Puntuación 🌟<select name="estrellas">
+                    <?php
+            for ($i=1; $i <=5 ; $i++) { 
+                echo "<option value='$i'>$i</option>";
+            }
+            
+            echo "<br/><br/><input type='hidden' name='codigo_propietario' value='" . $_POST['codigo_propietario'] . "'/>";
+            echo "<input type='hidden' name='codigo_inquilino' value='" . $_POST['codigo_inquilino'] . "'/>";
+
+?>
+
+                        
+                    </select>
+                    <textarea name="opina" placeholder="Escriba aquí su comentario"></textarea>
+                    
+                    <input type="submit" name="opinion" value="Enviar opinión" class="sub" />
+                </form>
+                </article>
+
+            <?php
+
+            }elseif(isset($_POST["opinion"])){
+
+                $datos_opinion=array(
+                "propietario"=>$_POST['codigo_propietario'],
+                "inquilino"=>$_POST['codigo_inquilino'],
+                "opinion"=> $_POST["opina"],
+                "estrellas"=>$_POST["estrellas"]
+
+                );
+
+                $obj=consumir_servicio_REST(URL."/enviar_opinion","POST", $datos_opinion);
+                echo "<article> Opinión enviada con éxito</article>";
                 
-                                    echo "<p><span class='destino'>Contrato Nº " . $contador_contratos . "</span>";
-                                    echo "<br/>";
-                                    echo "Localidad " . $contrato->localidad;
-                                    echo "<br/>";
-                                    echo "Fecha inicio  " . $contrato->fecha_ini;
-                                    echo "<br/>";
-                                    echo "Fecha inicio  " . $contrato->fecha_fin;
-                                    echo "</p>";
-                                   
-                                    
-                            echo "<form action='principal.php' method='post'>";
-                echo "<input type='hidden' name='codigo_casa' value='".$contrato->cod_inmueble."'/>";
-                echo "<input type='hidden' name='codigo_inquilino' value='".$contrato->cod_usuario."'/>";
-                echo "<input type='hidden' name='fecha_inicio_alquiler' value='".$contrato->fecha_ini."'/>";
-               echo "<input class='sub' type='submit' name='finalizar_contrato' value='Finalizar contrato'/>";
-            echo "</form>";
-                                
-                                    echo "</article>";
-                                    $contador_contratos++;
-                                }
-                            }
-            } else {
+
+            } elseif(isset($_POST["comentario"])){
+
+                $datos_comentario=array(
+                    "inmueble"=>$_POST['codigo_inmueble'],
+                    "inquilino"=>$_POST['codigo_inquilino'],
+                    "opinion"=> $_POST["comenta"],
+                    "estrellas"=>$_POST["estrellas"]
+    
+                    );
+    
+                    $obj=consumir_servicio_REST(URL."/enviar_comentario","POST", $datos_comentario);
+                    echo "<article> Comentario enviado con éxito</article>";
+
+            }else {
             ?>
 
                 <article>
@@ -257,7 +428,10 @@ if (isset($_POST["finalizar_contrato"])) {
                                         $puntuacion = floor($obj->opiniones->puntuacion);
                                         if ($puntuacion > 5)
                                             $puntuacion = 5;
-                                        echo "Puntuación: " . $puntuacion;
+                                        echo "Puntuación: ";
+                                        for ($i=1; $i <=$puntuacion ; $i++) { 
+                                            echo "⭐";
+                                        }
                                         echo "  (Total votaciones: " . $obj->opiniones->total . ")";
                                     }
                                     ?>
@@ -316,24 +490,33 @@ if (isset($_POST["finalizar_contrato"])) {
                             echo $obj->mensaje;
                         }
                     } else {
+                        $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
+                        if (isset($obj->sin_propiedades)) {
+                            echo "<article>";
+
+                            echo "No tiene ninguna propiedad registrada";
+
+                            echo "</article>";
+                        } else {
                         ?>
-                        Crear Contrato
-                        <br />
-                        <br />
-                        <form action="principal.php" method="post">
-                            <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" class="formu" type="text" name="dni" placeholder="Escriba dni del inquilino" value='<?php
-                                                                                                                                                                                                            if (isset($_POST["dni"])) echo $_POST["dni"]; ?>' required />
-                                <label for="buscar">🔎</label>
-                                <input class="invisible" type="submit" id="buscar" name="buscar" />
-                            </p>
+                            Crear Contrato
+                            <br />
+                            <br />
+                            <form action="principal.php" method="post">
+                                <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" class="formu" type="text" name="dni" placeholder="Escriba dni del inquilino" value='<?php
+                                                                                                                                                                                                                if (isset($_POST["dni"])) echo $_POST["dni"]; ?>' required />
+                                    <label for="buscar">🔎</label>
+                                    <input class="invisible" type="submit" id="buscar" name="buscar" />
+                                </p>
 
 
-                        </form>
+                            </form>
                 </article>
-        <?php
+    <?php
+                        }
                     }
                 }
-        ?>
+    ?>
         </section>
     </main>
     <footer>

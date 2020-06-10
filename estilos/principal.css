@@ -2,7 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Quicksand', sans-serif;
+    /*font-family: 'Quicksand', sans-serif;*/
+    font-family: 'Dosis', sans-serif;
+
 
 }
 
@@ -34,19 +36,23 @@ a {
 
 p {
     cursor: pointer;
+    font-size: 1.2rem;
 }
 
 textarea {
-    width: 100%;
+    width: 70%;
     height: 10em;
     color: grey;
-    padding: 1em;
-    outline: none
+    padding: 0.5em;
+    outline: none;
+    margin-left:15%;
+    
 }
 
 textarea::placeholder {
     text-align: center;
     padding: 2em;
+    font-size: 1.1rem;
 }
 
 .invisible{
@@ -60,6 +66,11 @@ textarea::placeholder {
 ul.ks-cboxtags {
     list-style: none;
     padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    margin-left: 15%;
+    width: 70%;
 }
 
 ul.ks-cboxtags li {
@@ -403,13 +414,15 @@ main section#titulares article input.formu2 {
 }
 
 article input.sub {
-    width: 100%;
+    width: 70%;
+    margin-left: 15%;
     background-color: #ed217c;
     height: 40px;
     border: none;
     color: white;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 1.2rem;
+    font-size: 1.2rem;
+    border-radius: 0.5em;
 }
 main section#grande2 > article {
     display: flex;
@@ -425,6 +438,26 @@ main section#grande2 > article {
     color:white;
 
 }
+main section#grande2 > article#contenedor_perfil {
+    display: flex;
+    flex-direction: row;
+
+}
+
+main section#grande2 > article#contenedor_perfil div:first-of-type{
+    width:30%;
+ 
+}
+main section#grande2 > article#contenedor_perfil div:last-of-type{
+    width:60%;
+    padding-left: 2rem;
+ 
+}
+
+main section#grande2 > article#contenedor_perfil form{
+    width:100%;
+    margin-top: 2rem;
+}
 
 
 main section#grande2 article input.formu {
@@ -434,6 +467,7 @@ main section#grande2 article input.formu {
     height: 40px;
     border: none;
     color: grey;
+    padding-left: 1rem;
     
 
 }
@@ -458,7 +492,6 @@ main section#grande2 article input.formu2 {
 footer {
     display: flex;
     padding: 1.2em;
-    height: 4.2em;
     width: auto;
     margin-top: auto;
     background-color: #3ba99c;
@@ -545,7 +578,7 @@ footer p {
         display: block;
         color: white;
         padding: 2em;
-        display: flex;
+       /* display: flex;*/
         flex-direction: column;
 
 
@@ -595,12 +628,13 @@ footer p {
         border: none;
         color: grey;
         text-align: center;
-
+        
     }
 
     main section#grande2 article input.formu2 {
         width: 70%;
         margin-bottom: 1em;
+        margin-top: 0.5em;
         margin-left: 15%;
         background-color: #ede6e6;
         height: 40px;
@@ -611,13 +645,16 @@ footer p {
     }
 
     article input.sub {
-        width: 100%;
+        width: 70%;
         background-color: #ed217c;
         height: 40px;
         border: none;
         color: white;
         margin-left: auto;
         margin-right: auto;
+        margin-left: 15%;
+        margin-top: 2rem;
+  
     }
 
 
@@ -635,6 +672,17 @@ footer p {
         width: 100%;
        
 
+    }
+
+    main section#grande2> article.contratos{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background-color: #3ba99c;
+        padding: 1.5em;
+        width: 40%;
+        float: left;
+        margin-left: 8%;
     }
 
     main section#grande article {
@@ -672,6 +720,13 @@ footer p {
         width: 80%;
     }
 
+    main section#grande2 > article img#perfil {
+        width:70%;
+        }
 
+        main section#grande2 > article#contenedor_perfil div:last-of-type{
+            align-self: center;
+         
+        }
 
 }

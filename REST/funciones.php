@@ -66,6 +66,33 @@ function usuario($email){
     }
 
 
+    function usuario_codigo($codigo){
+        $con=conectar();
+        if(!$con){
+            return array("mensaje"=>"No se ha podido conectar");
+        }else{
+            mysqli_set_charset($con,"utf8");
+        
+    
+            $consulta="select * from usuarios where cod_usuario='$codigo'";
+            $resultado=mysqli_query($con,$consulta);
+        
+            if(!$resultado){
+                mysqli_free_result($resultado);
+                mysqli_close($con);
+                return array("mensaje"=>"No se ha podido realizar la consulta".mysqli_error($con)."/".mysqli_errno($con));
+            }else{
+        
+                $fila=mysqli_fetch_assoc($resultado);
+                return array("usuario"=>$fila);
+        
+            }
+        
+        }
+        }
+
+
+
 function top5(){
 
     $con=conectar();
@@ -293,7 +320,7 @@ function buscar_contratos($cod){
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'and alquila.fecha_fin>now()";
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'  or alquila.cod_usuario='$cod' and alquila.fecha_fin>now()";
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){
@@ -316,6 +343,163 @@ function buscar_contratos($cod){
     }
 }
 
+function buscar_contratos_finalizados_propietario($cod){
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble, inmueble.cod_propietario from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'and alquila.fecha_fin<now()";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+
+            if(mysqli_num_rows($resultado)>0){
+                $contratos=array();
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $contratos[]=$fila;
+                }
+
+                mysqli_free_result($resultado);
+                return array("contratos"=>$contratos);
+            }else{
+            return array("sin_contratos"=>"No existen contratos registrados de este propietario");
+            }
+
+        }
+    }
+}
+
+function enviar_opinion($propietario,$inquilino,$opinion,$estrellas){
+
+    $con=conectar();
+    //  return array("mensaje"=>"He entrado a la función");
+    $ahora = date("Y-m-d");
+    $estr=intval($estrellas);
+      if(!$con){
+          return array("mensaje"=>"No se ha podido conectar con la BD");
+      }else{
+          mysqli_set_charset($con,"utf8");
+
+            $consulta="select * from opina where cod_propietario='$propietario'and cod_inquilino='$inquilino'";
+            $resultado=mysqli_query($con,$consulta);
+  
+            if(!$resultado){
+                return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+            }else{
+                if(mysqli_num_rows($resultado)>0){
+                    $consulta="update opina set opinion='$opinion',fecha='$ahora',estrellas='$estr' where cod_propietario='$propietario' and cod_inquilino='$inquilino'";
+                   // return $consulta;
+                    $resultado=mysqli_query($con,$consulta);
+            
+                    if(!$resultado){
+                        return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+                    }else{
+                        return array("mensaje_exito"=>"Se ha actualizado la opinión con éxito");
+                    }
+
+                }else{
+                    $consulta="insert into opina (cod_propietario,cod_inquilino,fecha,opinion,estrellas) values ('$propietario','$inquilino','$ahora','$opinion',$estr)";
+                    //return $consulta;
+                    $resultado=mysqli_query($con,$consulta);
+            
+                    if(!$resultado){
+                        return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+                    }else{
+                        return array("mensaje_exito"=>"Se ha insertado la opinión con éxito");
+                    }
+                }
+            }
+
+         
+      }
+
+}
+
+function enviar_comentario($inmueble,$inquilino,$opinion,$estrellas){
+
+    $con=conectar();
+    //  return array("mensaje"=>"He entrado a la función");
+    $ahora = date("Y-m-d");
+    $estr=intval($estrellas);
+      if(!$con){
+          return array("mensaje"=>"No se ha podido conectar con la BD");
+      }else{
+          mysqli_set_charset($con,"utf8");
+
+            $consulta="select * from comenta where cod_inmueble='$inmueble'and cod_usuario='$inquilino'";
+            $resultado=mysqli_query($con,$consulta);
+  
+            if(!$resultado){
+                return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+            }else{
+                if(mysqli_num_rows($resultado)>0){
+                    $consulta="update comenta set comentario='$opinion',fecha_comentario='$ahora',estrellas='$estr' where cod_inmueble='$inmueble' and cod_usuario='$inquilino'";
+                   // return $consulta;
+                    $resultado=mysqli_query($con,$consulta);
+            
+                    if(!$resultado){
+                        return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+                    }else{
+                        return array("mensaje_exito"=>"Se ha actualizado el comentario con éxito");
+                    }
+
+                }else{
+                    $consulta="insert into comenta (cod_inmueble,cod_usuario,fecha_comentario,comentario,estrellas) values ('$inmueble','$inquilino','$ahora','$opinion',$estr)";
+                    //return $consulta;
+                    $resultado=mysqli_query($con,$consulta);
+            
+                    if(!$resultado){
+                        return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+                    }else{
+                        return array("mensaje_exito"=>"Se ha insertado el comentario con éxito");
+                    }
+                }
+            }
+
+         
+      }
+
+}
+
+
+
+function buscar_contratos_finalizados_inquilino($cod){
+    $con=conectar();
+
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar a la BD");
+    }else{
+        mysqli_set_charset($con,"utf8");
+        
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where alquila.cod_usuario='$cod'and alquila.fecha_fin<now()";
+        $resultado=mysqli_query($con,$consulta);
+
+        if(!$resultado){
+            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+
+            if(mysqli_num_rows($resultado)>0){
+                $contratos=array();
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $contratos[]=$fila;
+                }
+
+                mysqli_free_result($resultado);
+                return array("contratos_inquilino"=>$contratos);
+            }else{
+            return array("sin_contratos_inquilino"=>"No existen contratos registrados de este propietario");
+            }
+
+        }
+    }
+}
+
+
 function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jardin,$distancia,$m2,$idufir,$localidad){
 
     $con=conectar();
@@ -332,7 +516,18 @@ function insertar_propiedad($codigo,$habitaciones,$terraza,$piscina,$garaje,$jar
         if(!$resultado){
             return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
         }else{
-            return array("mensaje_exito"=>"Se ha insertado la propiedad con éxito");
+            $ultimo=mysqli_insert_id($con);
+            $consulta="insert into fotos (cod_inmueble,imagen) values ('$ultimo','no_foto.jpg')";
+            $resultado=mysqli_query($con,$consulta);
+    
+            if(!$resultado){
+                return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+            }else{
+                return array("mensaje_exito"=>"Se ha insertado la propiedad con éxito");
+                
+            }
+            
+
         }
     }
 
@@ -445,6 +640,27 @@ function cambiar_foto($email,$foto){
               return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
           }else{
               return array("mensaje_exito"=>"Se ha cambiado la foto con éxito");
+          }
+      }
+
+}
+
+
+function finalizar_contrato($codigo_casa,$codigo_inquilino,$fecha_inicio_alquiler){
+
+    $con=conectar();
+      if(!$con){
+          return array("mensaje"=>"No se ha podido conectar con la BD");
+      }else{
+          mysqli_set_charset($con,"utf8");
+  
+          $consulta="update alquila set alquila.fecha_fin=now() where alquila.cod_inmueble='$codigo_casa' and alquila.cod_usuario='$codigo_inquilino' and alquila.fecha_ini='$fecha_inicio_alquiler'";
+          $resultado=mysqli_query($con,$consulta);
+  
+          if(!$resultado){
+              return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+          }else{
+              return array("mensaje_exito"=>"Se ha finalizado el contrato con éxito");
           }
       }
 

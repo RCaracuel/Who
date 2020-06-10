@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos/principal.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&family=Montserrat&display=swap" rel="stylesheet">
     <title>Página principal</title>
 
 </head>
@@ -21,11 +21,11 @@
         </label>
         <form action="principal.php" method="post">
             <ul id="menu">
-                <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
-                <li><button type="input" name="buscar">Buscar</button></li>
-                <li><button type="input" name="contratos">Contratos</button></li>
-                <li><button type="input" name="propiedades">Propiedades</button></li>
-                <li><button type="input" name="salir">Salir</button></li>
+                <li class="oculto"><button type="input" name="perfil">PERFIL</button></li>
+                <li><button type="input" name="buscar">BUSCAR</button></li>
+                <li><button type="input" name="contratos">CONTRATOS</button></li>
+                <li><button type="input" name="propiedades">PROPIEDADES</button></li>
+                <li><button type="input" name="salir">SALIR</button></li>
             </ul>
         </form>
         <div id="escritorio">

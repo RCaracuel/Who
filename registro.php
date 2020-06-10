@@ -12,6 +12,11 @@ $error_clave2 = true;
 $error_iguales = false;
 $error_existe = false;
 
+if(isset($_POST["atras"])){
+    header("Location: index.php");
+    exit;
+}
+
 if (isset($_POST["entrar"])) {
 
     $error_nombre = $_POST["nombre"] == "";
@@ -77,42 +82,44 @@ if (isset($_POST["entrar"])) {
                 <p>REGISTRO</p>
 
                 <p>
-                    <input class="formu" type="text" name="nombre" value="<?php if (isset($_POST["entrar"])) echo $_POST["nombre"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_nombre) echo "Campo vacío";
+                    <input class="formu" type="text" name="nombre" required value="<?php if (isset($_POST["entrar"])) echo $_POST["nombre"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_nombre) echo "Campo vacío";
                                                                                                                                                     else echo "Nombre"; ?>" />
 
                 </p>
                 <p>
-                    <input class="formu" type="text" name="apellidos" value="<?php if (isset($_POST["entrar"])) echo $_POST["apellidos"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_apellido) echo "Campo vacío";
+                    <input class="formu" type="text" name="apellidos" required value="<?php if (isset($_POST["entrar"])) echo $_POST["apellidos"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_apellido) echo "Campo vacío";
                                                                                                                                                             else echo "Apellidos"; ?>" />
 
                 </p>
 
                 <p>
-                    <input class="formu" type="email" name="email" value="<?php if (isset($_POST["entrar"])) echo $_POST["email"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_email) echo "Campo vacío";
+                    <input class="formu" type="email" name="email" required value="<?php if (isset($_POST["entrar"])) echo $_POST["email"]; ?>" placeholder="<?php if (isset($_POST["entrar"]) && $error_email) echo "Campo vacío";
                                                                                                                                                     else echo "Email"; ?>" />
 
                 </p>
                 <p>
-                    <input class="formu" type="text" name="dni" value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" />
+                    <input class="formu" type="text" name="dni" required value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" />
 
                 </p>
 
                 <p>
-                    <input class="formu" type="password" name="clave" placeholder="<?php if (isset($_POST["entrar"]) && $error_clave) echo "Campo vacío";
+                    <input class="formu" type="password" name="clave" required placeholder="<?php if (isset($_POST["entrar"]) && $error_clave) echo "Campo vacío";
                                                                                     elseif (isset($_POST["clave"]) && isset($_POST["clave2"]) && $_POST["clave"] != $_POST["clave2"]) echo "Las contraseñas no coinciden";
                                                                                     else echo "Contraseña"; ?>" />
 
                 </p>
 
                 <p>
-                    <input class="formu" type="password" name="clave2" placeholder="<?php if (isset($_POST["entrar"]) && $error_clave2) echo "Campo vacío";
+                    <input class="formu" type="password" name="clave2" required placeholder="<?php if (isset($_POST["entrar"]) && $error_clave2) echo "Campo vacío";
                                                                                     else echo "Repita Contraseña"; ?>" />
                 </p>
                 <p>
                     <input class="sub" type="submit" name="entrar" value="Entrar" />
-                    <button class="sub" type="submit" name="atras" formaction="index.php">Atrás</button>
-
+                  
                 </p>
+            </form>
+            <form action="index.php" method="post">
+            <button class="sub">Atrás</button>
             </form>
         </section>
     </main>

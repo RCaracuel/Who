@@ -35,6 +35,12 @@ $app->get("/buscar_informes/:cod", function($cod){
 $app->get("/buscar_contratos/:cod", function($cod){
     echo json_encode(buscar_contratos($cod), JSON_FORCE_OBJECT);
 });
+$app->get("/buscar_contratos_finalizados_propietario/:cod", function($cod){
+    echo json_encode(buscar_contratos_finalizados_propietario($cod), JSON_FORCE_OBJECT);
+});
+$app->get("/buscar_contratos_finalizados_inquilino/:cod", function($cod){
+    echo json_encode(buscar_contratos_finalizados_inquilino($cod), JSON_FORCE_OBJECT);
+});
 
 $app->get("/buscar_dni/:dni", function($dni){
     echo json_encode(buscar_dni($dni), JSON_FORCE_OBJECT);
@@ -55,6 +61,10 @@ $app->post('/usuario', function(){
     echo json_encode(usuario($_POST["email"]),JSON_FORCE_OBJECT);
 });
 
+$app->post('/usuario_codigo', function(){
+    echo json_encode(usuario_codigo($_POST["codigo"]),JSON_FORCE_OBJECT);
+});
+
 $app->put('/cambiar_foto/:email', function($email) use ($app){
     $datos=$app->request->put();
     echo json_encode(cambiar_foto($email,$datos["foto"]),JSON_FORCE_OBJECT);
@@ -68,6 +78,11 @@ $app->put('/cambiar_foto/:email', function($email) use ($app){
   $app->put('/cambiar_contrasenia/:email', function($email) use ($app){
     $datos=$app->request->put();
     echo json_encode(cambiar_contrasenia($email,$datos["old"],$datos["nueva"]),JSON_FORCE_OBJECT);
+  });
+
+  $app->put('/finalizar_contrato', function() use ($app){
+    $datos=$app->request->put();
+    echo json_encode(finalizar_contrato($datos["codigo_casa"],$datos["codigo_inquilino"],$datos["fecha_inicio_alquiler"]),JSON_FORCE_OBJECT);
   });
 
   $app->put('/baja_usuario/:email', function($email) use ($app){
@@ -96,6 +111,14 @@ $app->post("/insertar_propiedad", function(){
 
 $app->post("/insertar_informe", function(){
     echo json_encode(insertar_informe($_POST["cod_usu"],$_POST["texto"]), JSON_FORCE_OBJECT);
+});
+
+$app->post("/enviar_opinion", function(){
+    echo json_encode(enviar_opinion($_POST["propietario"],$_POST["inquilino"],$_POST["opinion"],$_POST["estrellas"]), JSON_FORCE_OBJECT);
+});
+
+$app->post("/enviar_comentario", function(){
+    echo json_encode(enviar_comentario($_POST["inmueble"],$_POST["inquilino"],$_POST["opinion"],$_POST["estrellas"]), JSON_FORCE_OBJECT);
 });
 
 $app->post("/insertar_contrato", function(){

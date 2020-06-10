@@ -78,7 +78,7 @@ if(isset($_POST["alta"])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos/principal.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&family=Montserrat&display=swap" rel="stylesheet">
     <title>Página principal</title>
 
 </head>
@@ -94,11 +94,11 @@ if(isset($_POST["alta"])){
         </label>
         <form action="principal.php" method="post">
             <ul id="menu">
-                <li class="oculto"><button type="input" name="perfil">Perfil</button></li>
-                <li><button type="input" name="buscar">Buscar</button></li>
-                <li><button type="input" name="contratos">Contratos</button></li>
-                <li><button type="input" name="propiedades">Propiedades</button></li>
-                <li><button type="input" name="salir">Salir</button></li>
+                <li class="oculto"><button type="input" name="perfil">PERFIL</button></li>
+                <li><button type="input" name="buscar">BUSCAR</button></li>
+                <li><button type="input" name="contratos">CONTRATOS</button></li>
+                <li><button type="input" name="propiedades">PROPIEDADES</button></li>
+                <li><button type="input" name="salir">SALIR</button></li>
             </ul>
         </form>
         <div id="escritorio">
@@ -138,7 +138,7 @@ if(isset($_POST["alta"])){
 
 <article>
                     <form action="principal.php" method="post">
-                        <span class="titulo"> Añadir propiedad:</span>
+
                         <input class="formu2" id="habitaciones" name="habitaciones" type="text" min="1" pattern="^[0-9]+" placeholder="Nº Habitaciones">
                         <?php if (isset($error_habitaciones)) echo '<span class="error">*</span>'; ?>
                         <input class="formu2" id="distancia" name="distancia" type="text" min="1" pattern="^[0-9]+" placeholder="Distancia al centro">
@@ -235,14 +235,14 @@ if(isset($_POST["alta"])){
                             if (isset($obj->sin_propiedades)) {
                                 echo "<article>";
 
-                                echo "No tiene ninguna propiedad dada de baja";
+                                echo "<p>No tiene ninguna propiedad dada de baja</p>";
 
                                 echo "</article>";
                             } elseif (isset($obj->propiedades)) {
                                 // var_dump($obj);
 
                                 $contador=1;
-                                echo "A continuación seleccione la propiedad  que desea dar de alta en nuestro servicio";
+                                echo "<p>A continuación seleccione la propiedad  que desea dar de alta en nuestro servicio</p>";
 
                                 echo "<form action='principal.php' method='post'>";
                                 echo "<div class='container'>";
@@ -281,7 +281,7 @@ $obj = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"]
 if (isset($obj->sin_propiedades)) {
     echo "<article>";
 
-    echo "No tiene ninguna propiedad registrada";
+    echo "<p>No tiene ninguna propiedad registrada</p>";
 
     echo "</article>";
 } elseif (isset($obj->propiedades)) {
