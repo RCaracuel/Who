@@ -45,19 +45,22 @@ if (isset($_POST["entrar"])) {
             "nombre" => $_POST["nombre"],
             "apellidos" => $_POST["apellidos"],
             "email" => $_POST["email"],
-            "clave" => $_POST["clave"]
+            "clave" => $_POST["clave"],
+            "dni"=>$_POST["dni"]
         );
         var_dump($datos);
         // var_dump(URL . "/login/" . $usu . "/" . $clavelito); 
 
         $obj = consumir_servicio_REST(URL . "/registro", "POST", $datos);
-        if ($obj->mensaje_exito) {
+        if (isset($obj->mensaje_exito)) {
             $_SESSION["nombre"] = $_POST["nombre"] . " " . $_POST["apellidos"];
             $_SESSION["clave"] = md5($_POST["clave"]);
             $_SESSION["email"] = $_POST["email"];
             $_SESSION["ultimo_acceso"] = time();
             header("Location:principal.php");
             exit;
+        }else{
+            var_dump($obj);
         }
     }
 }
@@ -98,7 +101,7 @@ if (isset($_POST["entrar"])) {
 
                 </p>
                 <p>
-                    <input class="formu" type="text" name="dni" required value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" />
+                    <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Za-z]{1}))" class="formu" type="text" name="dni" required value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI 72655489Y"; ?>" />
 
                 </p>
 

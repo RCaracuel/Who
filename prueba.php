@@ -46,12 +46,12 @@
         <section id="titulares">
             <form action="principal.php" method="post">
 
-                <input <?php if (isset($_POST["top5"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='top5' class="titulo_prueba" value='Top 5'>
 
                 <input <?php if (isset($_POST["mas_buscados"])) echo 'style="background-color:#ed217d"'; ?>type='submit' name='mas_buscados' class="titulo_prueba" value='Los + buscados'>
 
                 <input <?php if (isset($_POST["mas_economicos"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='mas_economicos' class="titulo_prueba" value='Los + económicos'>
                 <input <?php if (isset($_POST["protegida"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='protegida' class="titulo_prueba" value='Tu casa protegida'>
+                <input <?php if (isset($_POST["top5"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='top5' class="titulo_prueba" value='Top 5'>
 
 
             </form>
@@ -60,44 +60,51 @@
         <section id="grande2">
 
             <?php
-            if (isset($_POST["mas_buscados"])) {
-            ?>
-                <article>
+            if (isset($_POST["top5"])) {
+            
 
-                    <p><span class="destino">Londres</span>
-                        <br />
-                        <img src="img/londres.jpg" alt="londres" />
-                        Es el destino más buscado en Google, no es de extrañar, debido a que es la mayor ciudad y área urbana de Gran Bretaña y de toda la Unión Europea. Con todas las zonas de interés cultural que Londres tiene es normal que sea uno de los destinos preferidos por los ínter nautas para elegir como destino vacacional.
-                    </p>
-                </article>
-                <article>
+$obj = consumir_servicio_REST(URL . "/top5", "POST");
+                //var_dump($obj);
+                foreach ($obj->top as $inmueble) {
 
-                    <p><span class="destino">Tailandia</span>
-                        <br />
-                        <img src="img/tailandia.jpg" alt="tailandia" />
-                        Uno de los destinos favoritas para realizar un viaje de novios, la combinación de zonas culturales con zonas paradisíacas de playas hacen de Tailandia un destino muy solicitado por los recién casados. Un destino bastante económico para pasar una temporada larga allí y empaparte de la cultura milenaria asiática de diferentes zonas de Tailandia.
-                    </p>
-                </article>
-                <article>
+                    echo "<article>";
+                    // echo "hola";
+                    //echo $inmueble->imagen;
 
-                    <p><span class="destino">París</span>
-                        <br />
-                        <img src="img/paris.jpg" alt="paris" />
-                        El tercer destino más buscado en Google es París, la ciudad del amor, un destino romántico con un gran interés cultural en territorio Francés. Destacan diferentes lugares para visitar como la Torre Eiffel, Disneyland Paris o la Catedral de Notre Dame.
-                    </p>
-                </article>
-                <article>
+                    echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
+                    echo "<br/>";
+                    echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
+                    echo "Localidad: " . $inmueble->localidad;
+                    echo "<br/>";
+                    echo "Distancia centro: " . $inmueble->distancia_centro . "km";
+                    echo "<br/>";
+                    echo "M2: " . ($inmueble->m2);
+                    echo "<br/>";
+                    echo "Nº Habitaciones: " . $inmueble->num_hab;
+                    echo "<br/>";
+                    echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
+                    echo "<br/>";
+                    echo "Puntuación: ";
+                    $estrellas = (int) $inmueble->media_estrellas;
 
-                    <p><span class="destino">Roma</span>
-                        <br />
-                        <img src="img/roma.jpg" alt="roma" />
-                        Preciosa ciudad llena de lugares culturales que visitar, en cuanto pises Roma notarás que respiras historia en casi cualquier zona. Espectaculares monumentos te esperan para que puedas visitarlos con total tranquilidad y disfrutes de su belleza y cultura italiana.
-                    </p>
+                    for ($i = 0; $i < $estrellas; $i++) {
+                        echo "⭐";
+                    }
+                    echo "<br/>";
 
-                </article>
-                <a href="https://www.felicesvacaciones.es/blog/los-destinos-mas-buscados-en-google">Artículo de felicesvacaciones.es</a>
+                    echo "(" . $inmueble->total_comenta . ($inmueble->total_comenta == 1 ? " opinión" : " opiniones") . ")";
+                    echo "</p>";
+                    echo "</article>";
+                }
+            
 
-            <?php
+
             } elseif (isset($_POST["mas_economicos"])) {
             ?>
 
@@ -165,50 +172,44 @@
 
             <?php
             } else {
+?>
+                <article>
 
-                $obj = consumir_servicio_REST(URL . "/top5", "POST");
-                //var_dump($obj);
-                foreach ($obj->top as $inmueble) {
+                <p><span class="destino">Londres</span>
+                    <br />
+                    <img src="img/londres.jpg" alt="londres" />
+                    Es el destino más buscado en Google, no es de extrañar, debido a que es la mayor ciudad y área urbana de Gran Bretaña y de toda la Unión Europea. Con todas las zonas de interés cultural que Londres tiene es normal que sea uno de los destinos preferidos por los ínter nautas para elegir como destino vacacional.
+                </p>
+            </article>
+            <article>
 
-                    echo "<article>";
-                    // echo "hola";
-                    //echo $inmueble->imagen;
+                <p><span class="destino">Tailandia</span>
+                    <br />
+                    <img src="img/tailandia.jpg" alt="tailandia" />
+                    Uno de los destinos favoritas para realizar un viaje de novios, la combinación de zonas culturales con zonas paradisíacas de playas hacen de Tailandia un destino muy solicitado por los recién casados. Un destino bastante económico para pasar una temporada larga allí y empaparte de la cultura milenaria asiática de diferentes zonas de Tailandia.
+                </p>
+            </article>
+            <article>
 
-                    echo "<p><span class='destino'>Casa " . $inmueble->cod_inmueble . "</span>";
-                    echo "<br/>";
-                    echo "<img src='img/" . $inmueble->imagen . "' alt='foto_casa'/>";
-                    echo "Localidad: " . $inmueble->localidad;
-                    echo "<br/>";
-                    echo "Distancia centro: " . $inmueble->distancia_centro . "km";
-                    echo "<br/>";
-                    echo "M2: " . ($inmueble->m2);
-                    echo "<br/>";
-                    echo "Nº Habitaciones: " . $inmueble->num_hab;
-                    echo "<br/>";
-                    echo "Garaje: " . ($inmueble->garaje == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Terraza: " . ($inmueble->terraza == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Jardín: " . ($inmueble->jardin == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Piscina: " . ($inmueble->piscina == 0 ? "No" : "Si");
-                    echo "<br/>";
-                    echo "Puntuación: ";
-                    $estrellas = (int) $inmueble->media_estrellas;
+                <p><span class="destino">París</span>
+                    <br />
+                    <img src="img/paris.jpg" alt="paris" />
+                    El tercer destino más buscado en Google es París, la ciudad del amor, un destino romántico con un gran interés cultural en territorio Francés. Destacan diferentes lugares para visitar como la Torre Eiffel, Disneyland Paris o la Catedral de Notre Dame.
+                </p>
+            </article>
+            <article>
 
-                    for ($i = 0; $i < $estrellas; $i++) {
-                        echo "⭐";
-                    }
-                    echo "<br/>";
+                <p><span class="destino">Roma</span>
+                    <br />
+                    <img src="img/roma.jpg" alt="roma" />
+                    Preciosa ciudad llena de lugares culturales que visitar, en cuanto pises Roma notarás que respiras historia en casi cualquier zona. Espectaculares monumentos te esperan para que puedas visitarlos con total tranquilidad y disfrutes de su belleza y cultura italiana.
+                </p>
 
-                    echo "(" . $inmueble->total_comenta . ($inmueble->total_comenta == 1 ? " opinión" : " opiniones") . ")";
-                    echo "</p>";
-                    echo "</article>";
-                }
+            </article>
+            <a href="https://www.felicesvacaciones.es/blog/los-destinos-mas-buscados-en-google">Artículo de felicesvacaciones.es</a>
+<?php
             }
-
-
-            ?>
+?>
 
         </section>
     </main>

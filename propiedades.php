@@ -141,13 +141,13 @@ if(isset($_POST["alta"])){
 
                         <input class="formu2" id="habitaciones" name="habitaciones" type="text" min="1" pattern="^[0-9]+" placeholder="Nº Habitaciones">
                         <?php if (isset($error_habitaciones)) echo '<span class="error">*</span>'; ?>
-                        <input class="formu2" id="distancia" name="distancia" type="text" min="1" pattern="^[0-9]+" placeholder="Distancia al centro">
+                        <input class="formu2" id="distancia" name="distancia" type="text" min="1" pattern="^[0-9]+" placeholder="Distancia al centro (km)">
 
 
                         <input id="m2" class="formu2" name="m2" type="text" min="1" pattern="^[0-9]+" placeholder="M2">
 
 
-                        <input id="idufir" class="formu2" name="idufir" type="text" min="1" required pattern="[0-9]{14}" placeholder="IDUFIR">
+                        <input id="idufir" class="formu2" name="idufir" type="text" min="1" required pattern="[0-9]{14}" placeholder="IDUFIR (14 Dígitos)">
 
                         <input class="formu2" id="localidad" name="localidad" type="text" placeholder="Localidad">
 

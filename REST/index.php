@@ -32,6 +32,10 @@ $app->get("/buscar_informes/:cod", function($cod){
     echo json_encode(buscar_informes($cod), JSON_FORCE_OBJECT);
 });
 
+$app->get("/traer_opiniones/:dni", function($dni){
+    echo json_encode(traer_opiniones($dni), JSON_FORCE_OBJECT);
+});
+
 $app->get("/buscar_contratos/:cod", function($cod){
     echo json_encode(buscar_contratos($cod), JSON_FORCE_OBJECT);
 });
@@ -98,7 +102,7 @@ $app->put('/cambiar_foto/:email', function($email) use ($app){
   });
 
 $app->post("/registro", function(){
-    echo json_encode(insertar_usuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["clave"]), JSON_FORCE_OBJECT);
+    echo json_encode(insertar_usuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["clave"],$_POST["dni"]), JSON_FORCE_OBJECT);
 });
 
 $app->post("/registro_contrato", function(){

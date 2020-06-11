@@ -81,8 +81,8 @@ ul.ks-cboxtags li {
 ul.ks-cboxtags li label {
     display: inline-block;
     background-color: rgba(255, 255, 255, .9);
-    border: 2px solid #ed217c;
-    color: #ed217c;
+    border: 2px solid #B20653;
+    color: #B20653;
     border-radius: 25px;
     white-space: nowrap;
     margin: 3px 0px;
@@ -122,8 +122,8 @@ ul.ks-cboxtags li input[type="radio"]:checked+label::before, ul.ks-cboxtags li i
 }
 
 ul.ks-cboxtags li input[type="radio"]:checked+label, ul.ks-cboxtags li input[type="checkbox"]:checked+label {
-    border: 2px solid #ed217c;
-    background-color: #ed217c;
+    border: 2px solid #B20653;
+    background-color: #B20653;
     color: #fff;
     transition: all .2s;
 }
@@ -138,7 +138,7 @@ ul.ks-cboxtags li input[type="radio"], ul.ks-cboxtags li input[type="checkbox"] 
 }
 
 ul.ks-cboxtags li input[type="radio"]:focus+label, ul.ks-cboxtags li input[type="checkbox"]:focus+label {
-    border: 2px solid #ed217c;
+    border: 2px solid #B20653;
 }
 
 
@@ -306,7 +306,7 @@ main section#titulares>p {
     text-decoration: none;
     font-size: 1.2em;
     margin-bottom: 0.5em;
-    background-color: #ed217da6;
+    background-color: #B20653;
     border-radius: 0.3em;
     padding: 0.1em;
 
@@ -342,7 +342,7 @@ main section#titulares div article {
     text-decoration: none;
     font-size: 1.2em;
     margin-bottom: 0.5em;
-    background-color: #ed217da6;
+    background-color: #B20653;
     border-radius: 0.3em;
     padding: 0.3em;
     border:none;
@@ -416,7 +416,7 @@ main section#titulares article input.formu2 {
 article input.sub {
     width: 70%;
     margin-left: 15%;
-    background-color: #ed217c;
+    background-color: #B20653;
     height: 40px;
     border: none;
     color: white;
@@ -646,7 +646,7 @@ footer p {
 
     article input.sub {
         width: 70%;
-        background-color: #ed217c;
+        background-color: #B20653;
         height: 40px;
         border: none;
         color: white;

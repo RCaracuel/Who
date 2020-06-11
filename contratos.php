@@ -1,30 +1,5 @@
 <?php
 
-$error_foto = true;
-if (isset($_POST["subir"])) {
-
-    // var_dump($_FILES["foto2"]);
-    $error_foto = ($_FILES["foto2"]["name"] == "" || $_FILES['foto2']['error'] || !getimagesize($_FILES['foto2']['tmp_name']));
-    $arr = explode(".", $_FILES['foto2']['name']); //separador por el punto
-    $extension = end($arr); // del array obtenido antes quiero la última posición, la extensión
-
-    $nombre_unico = $_SESSION["id_usu"];
-    $foto_bd = $nombre_unico . "." . $extension;
-    $datos = array(
-        "foto" => $foto_bd
-    );
-
-    $obj = consumir_servicio_REST(URL . "/cambiar_foto/" . $_SESSION["email"], "PUT", $datos);
-    //  var_dump($obj);
-    if (isset($obj->mensaje_exito)) {
-        @$var = move_uploaded_file($_FILES['foto2']['tmp_name'], "img/" . $foto_bd);
-    } else {
-        echo $obj->mensaje;
-    }
-}
-
-
-
 if (isset($_POST["crear"])) {
     $datos_contrato = array(
         "inquilino" => $_SESSION["codigo_inquilino"],
@@ -66,7 +41,7 @@ if (isset($_POST["finalizar_contrato"])) {
 
 
     $obj = consumir_servicio_REST(URL . "/finalizar_contrato", "PUT", $datos_fin_contrato);
-    var_dump($obj);
+   // var_dump($obj);
 }
 
 
@@ -135,7 +110,7 @@ if (isset($_POST["finalizar_contrato"])) {
                 ?>
 
 
-                    <input type='submit' name='consultar_inquilino' class="titulo_prueba" value='Consultar inquilino'>
+                    <input <?php if (isset($_POST["consultar_inquilino"])) echo 'style="background-color:#ed217d"'; ?> type='submit' name='consultar_inquilino' class="titulo_prueba" value='Consultar inquilino'>
                 <?php
                 }
                 ?>
@@ -225,6 +200,59 @@ if (isset($_POST["finalizar_contrato"])) {
                 <?php
                     }
                 }
+            }elseif(isset($_POST["consultar_inquilino"])){
+
+                ?>
+                <article>
+                                                Consultar Inquilino
+                            <br />
+                            <br />
+                            <form action="principal.php" method="post">
+                                <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Za-z]{1}))" class="formu" type="text" name="dni2" placeholder="Dni del inquilino - 75633215R" value='<?php
+                                                                                                                                                                                                                if (isset($_POST["dni2"])) echo $_POST["dni2"]; ?>' required />
+                                    <label for="buscar2">🔎</label>
+                                    <input class="invisible" type="submit" id="buscar2" name="buscar2" />
+                                </p>
+
+
+                            </form>
+                            </article>
+
+
+                <?php
+                
+                
+            }elseif(isset($_POST["dni2"])){
+
+                $obj=consumir_servicio_REST(URL."/traer_opiniones/".$_POST["dni2"],"GET");
+                //var_dump($obj);
+                if(isset($obj->total) && $obj->total<1){
+                    ?>
+                            <article>
+                                    No se ha encontrado ninguna opinión
+                            </article>
+
+                    <?php
+                }else{
+                    if(isset($obj->opiniones)){
+                   //  var_dump($obj);
+                     foreach ($obj->opiniones as $opiniones) {
+                         echo "<article>";
+                                echo $opiniones->fecha;
+                                echo "<br/>";
+                                echo "Inquilino: ".$opiniones->nombre." ".$opiniones->apellidos;
+                                echo "<br/>";
+                                for ($i=0; $i <$opiniones->estrellas ; $i++) { 
+                                    echo "⭐";
+                                }
+                                echo "<br/>'".$opiniones->opinion."'";
+
+
+                         echo "</article>";
+                     }
+                    }
+                }
+                
             }elseif(isset($_POST["comentar_experiencia"])){
 
                 ?>
@@ -264,9 +292,13 @@ if (isset($_POST["finalizar_contrato"])) {
                     echo "</article>";
                 } else {
                     $obj = consumir_servicio_REST(URL . "/buscar_contratos/" . $_SESSION["id_usu"], "GET");
+                    if(isset($obj->total) && $obj->total==0){
+                        echo "<article>No existen contratos vigentes</article>";
+                    }elseif(isset($obj->contratos)){
                     $obj3 = consumir_servicio_REST(URL . "/buscar_propiedades/" . $_SESSION["id_usu"], "GET");
                     // var_dump($obj);
                     $contador_contratos = 1;
+                 
                     foreach ($obj->contratos as $contrato) {
 
                         echo "<article class='contratos'>";
@@ -302,7 +334,11 @@ if (isset($_POST["finalizar_contrato"])) {
                         echo "</article>";
                         $contador_contratos++;
                     }
+               
+                }else{
+                    echo "<article>No existen contratos vigentes</article>";
                 }
+            }
             } elseif (isset($_POST["puntuar_experiencia"])) {
 
 
@@ -467,7 +503,7 @@ if (isset($_POST["finalizar_contrato"])) {
                                 </p>
                                 <br />
                                 <p>
-                                    <input class="formu" type="text" name="dni" value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" required pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" />
+                                    <input class="formu" type="text" name="dni" value="<?php if (isset($_POST["entrar"])) echo $_POST["dni"]; ?>" placeholder="<?php echo "DNI"; ?>" required pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Za-z]{1}))" />
 
                                 </p>
                                 <br />
@@ -503,7 +539,7 @@ if (isset($_POST["finalizar_contrato"])) {
                             <br />
                             <br />
                             <form action="principal.php" method="post">
-                                <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" class="formu" type="text" name="dni" placeholder="Escriba dni del inquilino" value='<?php
+                                <p> <input pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Za-z]{1}))" class="formu" type="text" name="dni" placeholder="Dni del inquilino - 75633215R" value='<?php
                                                                                                                                                                                                                 if (isset($_POST["dni"])) echo $_POST["dni"]; ?>' required />
                                     <label for="buscar">🔎</label>
                                     <input class="invisible" type="submit" id="buscar" name="buscar" />

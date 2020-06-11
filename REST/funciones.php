@@ -314,13 +314,14 @@ function buscar_opiniones($codigo){
 
 function buscar_contratos($cod){
     $con=conectar();
-
+    $ahora = date("Y-m-d");
     if(!$con){
         return array("mensaje"=>"No se ha podido conectar a la BD");
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'  or alquila.cod_usuario='$cod' and alquila.fecha_fin>now()";
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod' and alquila.fecha_fin>'$ahora'  or alquila.cod_usuario='$cod' and alquila.fecha_fin>'$ahora'";
+        //return $consulta;
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){
@@ -332,9 +333,10 @@ function buscar_contratos($cod){
                 while($fila=mysqli_fetch_assoc($resultado)){
                     $contratos[]=$fila;
                 }
+                $total=mysqli_num_rows($resultado);
 
                 mysqli_free_result($resultado);
-                return array("contratos"=>$contratos);
+                return array("contratos"=>$contratos,"total"=>$total);
             }else{
             return array("sin_contratos"=>"No existen contratos registrados de este usuario");
             }
@@ -345,13 +347,14 @@ function buscar_contratos($cod){
 
 function buscar_contratos_finalizados_propietario($cod){
     $con=conectar();
-
+    $ahora = date("Y-m-d");
     if(!$con){
         return array("mensaje"=>"No se ha podido conectar a la BD");
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble, inmueble.cod_propietario from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'and alquila.fecha_fin<now()";
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble, inmueble.cod_propietario from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where inmueble.cod_propietario='$cod'and alquila.fecha_fin<='$ahora'";
+        //return $consulta;
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){
@@ -470,13 +473,14 @@ function enviar_comentario($inmueble,$inquilino,$opinion,$estrellas){
 
 function buscar_contratos_finalizados_inquilino($cod){
     $con=conectar();
+    $ahora = date("Y-m-d");
 
     if(!$con){
         return array("mensaje"=>"No se ha podido conectar a la BD");
     }else{
         mysqli_set_charset($con,"utf8");
         
-        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where alquila.cod_usuario='$cod'and alquila.fecha_fin<now()";
+        $consulta="select inmueble.localidad, alquila.fecha_ini, alquila.fecha_fin, alquila.cod_usuario, alquila.cod_inmueble from alquila join inmueble on alquila.cod_inmueble=inmueble.cod_inmueble join usuarios on usuarios.cod_usuario=inmueble.cod_propietario where alquila.cod_usuario='$cod'and alquila.fecha_fin<='$ahora'";
         $resultado=mysqli_query($con,$consulta);
 
         if(!$resultado){
@@ -578,7 +582,7 @@ function insertar_contrato($inquilino,$inmueble,$inicio,$fin){
 }
 
 
-function insertar_usuario($nombre,$apellido,$email,$clave){
+function insertar_usuario($nombre,$apellido,$email,$clave,$dni){
 
     $con=conectar();
   //  return array("mensaje"=>"He entrado a la función");
@@ -588,14 +592,28 @@ function insertar_usuario($nombre,$apellido,$email,$clave){
     }else{
         mysqli_set_charset($con,"utf8");
 
-        $consulta="insert into usuarios (nombre,apellidos,email,pass) values ('$nombre','$apellido','$email', '$pass')";
-        $resultado=mysqli_query($con,$consulta);
+        $existe=existe_usuario($dni);
+        if(isset($existe["resultado"])){
+            $consulta="update usuarios set nombre='$nombre', apellidos='$apellido',email='$email',pass='$pass' where dni='$dni'";
+            //return $consulta;
+            $resultado=mysqli_query($con,$consulta);
+            if(!$resultado){
+                return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+            }else{
+                return array("mensaje_exito"=>"Se ha insertado el usuario con éxito");
+            }
 
-        if(!$resultado){
-            return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
         }else{
-            return array("mensaje_exito"=>"Se ha insertado el usuario con éxito");
+            $consulta="insert into usuarios (nombre,apellidos,email,pass,dni) values ('$nombre','$apellido','$email', '$pass','$dni')";
+            $resultado=mysqli_query($con,$consulta);
+    
+            if(!$resultado){
+                return array("mensaje"=>"No se ha podido realizar la consulta.".mysqli_errno($con)."/".mysqli_error($con));
+            }else{
+                return array("mensaje_exito"=>"Se ha insertado el usuario con éxito");
+            }
         }
+
     }
 
 }
@@ -766,5 +784,73 @@ function alta_propiedad($codigo){
 
 }
 
+
+function traer_opiniones($dni){
+    $con=conectar();
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar");
+    }else{
+        mysqli_set_charset($con,"utf8");
+    
+
+        $consulta="select * from opina join usuarios on opina.cod_inquilino=usuarios.cod_usuario where usuarios.dni='$dni'";
+        $resultado=mysqli_query($con,$consulta);
+    
+        if(!$resultado){
+            mysqli_free_result($resultado);
+            mysqli_close($con);
+            return array("mensaje"=>"No se ha podido realizar la consulta".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+    
+                $opiniones=array();
+                $total=mysqli_num_rows($resultado);
+                while($fila=mysqli_fetch_assoc($resultado)){
+                    $opiniones[]=$fila;
+                }
+
+                mysqli_free_result($resultado);
+            
+            return array("opiniones"=>$opiniones,"total"=>$total);
+    
+        }
+    
+    }
+}
+
+function existe_usuario($dni){
+    $con=conectar();
+    if(!$con){
+        return array("mensaje"=>"No se ha podido conectar");
+    }else{
+        mysqli_set_charset($con,"utf8");
+    
+
+        $consulta="select * FROM usuarios where dni='$dni' and email is null";
+        $resultado=mysqli_query($con,$consulta);
+    
+        if(!$resultado){
+            mysqli_free_result($resultado);
+            mysqli_close($con);
+            return array("mensaje"=>"No se ha podido realizar la consulta".mysqli_error($con)."/".mysqli_errno($con));
+        }else{
+    
+
+                $fila=mysqli_fetch_assoc($resultado);
+                
+            if(mysqli_num_rows($resultado)>0){
+                mysqli_free_result($resultado);
+                return array("resultado"=>"Existe el usuario en la bd");
+            }else{
+                mysqli_free_result($resultado);
+                return array("sin_resultados"=>"No hay resultados");
+            }
+               
+            
+            
+    
+        }
+    
+    }
+}
 
 ?>

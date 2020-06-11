@@ -57,16 +57,16 @@ if(isset($_POST["acceder"])){
             <form action="index.php" method="post">
 
                 <p>
-                    <input type="email" name="email" id="email" value="<?php if(isset($_POST["acceder"])) echo $_POST["email"]; ?>" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["email"]=="") echo "Campo vacío"; else echo "Email"; ?>"/>
+                    <input  title="email" type="email" name="email" id="email" value="<?php if(isset($_POST["acceder"])) echo $_POST["email"]; ?>" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["email"]=="") echo "Campo vacío"; else echo "Email"; ?>"/>
                 </p>
 
                 <p>
-                    <input type="password" name="clave" id="clave" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["clave"]=="") echo "Campo vacío"; else echo "Contraseña" ?>"/>
+                    <input title="contrasenia" type="password" name="clave" id="clave" placeholder="<?php if(isset($_POST["acceder"]) && $_POST["clave"]=="") echo "Campo vacío"; else echo "Contraseña" ?>"/>
                 </p>
     
                 <p>
-                    <button type="submit" name="registro" formaction="registro.php">Registro</button>
-                    <input type="submit" name="acceder" value="Acceder"/>
+                    <button  title="registro" type="submit" name="registro" formaction="registro.php">Registro</button>
+                    <input title="acceder" type="submit" name="acceder" value="Acceder"/>
                 </p>
             </form>
         </section>
